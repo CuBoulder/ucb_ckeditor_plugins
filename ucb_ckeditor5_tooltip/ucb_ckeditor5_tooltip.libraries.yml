@@ -1,0 +1,18 @@
+# This adds the plugin JavaScript to the page.
+# cSpell:ignore tooltip demobox
+
+tooltip:
+  js:
+    js/build/tooltip.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/editor-layout.css: { }
+
+# Loaded in the text format configuration form to provide styling for the icon
+# used in toolbar config.
+admin:
+  css:
+    theme:
+      css/admin.css: { }
