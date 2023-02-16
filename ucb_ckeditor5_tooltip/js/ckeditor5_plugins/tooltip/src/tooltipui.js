@@ -21,7 +21,7 @@ export default class TooltipUI extends Plugin {
 
       		button.icon = icon;
 			button.tooltip = true;
-			button.withText = true;
+			button.withText = false;
 			
 			// Show the UI on button click.
 			this.listenTo( button, 'execute', () => {
