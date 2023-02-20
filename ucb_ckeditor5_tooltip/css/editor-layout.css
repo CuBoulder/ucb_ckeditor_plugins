@@ -22,3 +22,7 @@
 .ck.ck-tooltip-form .ck-button:nth-of-type(2) {
 	grid-area: 3 / 2 / 4 / 3;
 }
+
+abbr[title] {
+    text-decoration: revert!important;
+}

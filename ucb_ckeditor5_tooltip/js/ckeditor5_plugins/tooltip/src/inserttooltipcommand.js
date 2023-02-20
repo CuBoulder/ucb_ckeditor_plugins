@@ -12,10 +12,10 @@ export default class TooltipCommand extends Command {
   // When the selection is collapsed, the command has a value if the caret is in a tooltip.
   if ( firstRange.isCollapsed ) {
     if ( selection.hasAttribute( 'tooltip' ) ) {
-      const attributeValue = selection.getAttribute( 'tooltip' );
+      const attributeValue = selection.getAttribute( 'ucb-tooltip' );
 
       // Find the entire range containing the tooltip under the caret position.
-      const tooltipRange = findAttributeRange( selection.getFirstPosition(), 'tooltip', attributeValue, model );
+      const tooltipRange = findAttributeRange( selection.getFirstPosition(), 'ucb-tooltip', attributeValue, model );
 
       this.value = {
         abbr: getRangeText( tooltipRange ),
@@ -29,11 +29,11 @@ export default class TooltipCommand extends Command {
   // When the selection is not collapsed, the command has a value if the selection contains a subset of a single tooltip
   // or an entire tooltip.
   else {
-    if ( selection.hasAttribute( 'tooltip' ) ) {
-      const attributeValue = selection.getAttribute( 'tooltip' );
+    if ( selection.hasAttribute( 'ucb-tooltip' ) ) {
+      const attributeValue = selection.getAttribute( 'ucb-tooltip' );
 
       // Find the entire range containing the tooltip under the caret position.
-      const tooltipRange = findAttributeRange( selection.getFirstPosition(), 'tooltip', attributeValue, model );
+      const tooltipRange = findAttributeRange( selection.getFirstPosition(), 'ucb-tooltip', attributeValue, model );
 
       if ( tooltipRange.containsRange( firstRange, true ) ) {
         this.value = {
@@ -50,7 +50,7 @@ export default class TooltipCommand extends Command {
   }
 
   // The command is enabled when the "tooltip" attribute can be set on the current model selection.
-  this.isEnabled = model.schema.checkAttributeInSelection( selection, 'tooltip' );
+  this.isEnabled = model.schema.checkAttributeInSelection( selection, 'ucb-tooltip' );
 }
 
 execute( { abbr, title } ) {
@@ -79,7 +79,7 @@ execute( { abbr, title } ) {
         const attributes = toMap( selection.getAttributes() );
 
         // Put the new attribute to the map of attributes.
-        attributes.set( 'tooltip', title );
+        attributes.set( 'ucb-tooltip', title );
 
         // Inject the new text node with the tooltip text with all selection attributes.
         const { end: positionAfter } = model.insertContent( writer.createText( abbr, attributes ), firstPosition );
@@ -91,14 +91,14 @@ execute( { abbr, title } ) {
 
       // Remove the "tooltip" attribute attribute from the selection. It stops adding a new content into the tooltip
       // if the user starts to type.
-      writer.removeSelectionAttribute( 'tooltip' );
+      writer.removeSelectionAttribute( 'ucb-tooltip' );
     } else {
       // If the selection has non-collapsed ranges, change the attribute on nodes inside those ranges
       // omitting nodes where the "tooltip" attribute is disallowed.
-      const ranges = model.schema.getValidRanges( selection.getRanges(), 'tooltip' );
+      const ranges = model.schema.getValidRanges( selection.getRanges(), 'ucb-tooltip' );
 
       for ( const range of ranges ) {
-        writer.setAttribute( 'tooltip', title, range );
+        writer.setAttribute( 'ucb-tooltip', title, range );
       }
     }
   } );
