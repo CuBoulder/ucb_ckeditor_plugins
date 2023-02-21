@@ -7,6 +7,7 @@ Each folder is a separate module and plugin that will live in modules/custom
 - [CKEditor 5 Dev Tools for Drupal](https://www.drupal.org/project/ckeditor5_dev)
   - Necessary for building plugins
   - Demo plugin is provided within the module as well
+  - Read through the readmes of the demo plugin
 - [Drupal 10 launched: taking content editing to the next level with CKEditor 5](https://ckeditor.com/blog/drupal-10-launched-taking-content-editing-to-the-next-level-with-ckeditor-5/)
 - [USERS & EDITORS - CKEditor 5 in Drupal 10: what is there to be excited about? (31 minutes in)](https://youtu.be/SXFAxlHTbn8?t=1862)
   - This is a good video to watch. It gives the basic structural information behind CKEditor plugins
