@@ -16,3 +16,5 @@ Each folder is a separate module and plugin that will live in modules/custom
 - [webpack.config.js Loaders](https://github.com/ckeditor/ckeditor5/issues/139#issuecomment-286556558)
   - The SVG loader is needed for icon rendering. The CSS and JS loaders are only needed if you are using attempting CKEditor's built in CSS/SASS or JS functions
   - If used you will need to remove the 'include' lines as they break Drupal pathing
+- [Plugin Post Update Hook](https://www.drupal.org/docs/drupal-apis/ckeditor-5-api/overview#post-update)
+  - What we use to make sure that our plguins' tags are appended to the 'allowed_html' options of our wysiwyg editor format filter.
