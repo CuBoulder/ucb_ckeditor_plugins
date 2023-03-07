@@ -19,7 +19,8 @@ export default class TooltipUI extends Plugin {
 		editor.ui.componentFactory.add( 'tooltip', () => {
 			const button = new ButtonView();
 
-      		button.icon = icon;
+			button.label = 'Tooltip';
+			button.icon = icon;
 			button.tooltip = true;
 			button.withText = false;
 			
