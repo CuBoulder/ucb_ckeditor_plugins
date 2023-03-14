@@ -13,7 +13,11 @@ export default class TooltipEditing extends Plugin {
 	_defineSchema() {
 		const schema = this.editor.model.schema;
 
-    	// Extend the text node's schema to accept the tooltip attribute.
+		schema.register('ucb-tooltip', {
+			isContent: true,
+		  });
+
+    	// Extend the text node's schema to accept the abbr attribute.
 		schema.extend( '$text', {
 			allowAttributes: [ 'ucb-tooltip' ]
 		} );
@@ -30,7 +34,8 @@ export default class TooltipEditing extends Plugin {
 			view: ( modelAttributeValue, conversionApi ) => {
 				const { writer } = conversionApi;
 				return writer.createAttributeElement( 'abbr', {
-					title: modelAttributeValue
+					title: modelAttributeValue,
+					class: 'ucb_tooltip'
 				} );
 			}
 		} );
@@ -39,7 +44,8 @@ export default class TooltipEditing extends Plugin {
 		conversion.for( 'upcast' ).elementToAttribute( {
 			view: {
 				name: 'abbr',
-				attributes: [ 'title' ]
+				attributes: [ 'title' ],
+				classes: 'ucb_tooltip'
 			},
 			model: {
 				key: 'ucb-tooltip',
