@@ -4,9 +4,8 @@
 #   For information on using annotations to define plugins.
 # @see the CKEditor 5 module's README.md for more details regarding plugin
 #   configuration options.
-# cSpell:ignore tooltip
 
-ucb_ckeditor5_tooltip_tooltip:
+ucb_ckeditor_plugins_tooltip:
   # Use the provider: property for this plugin to depend on another module.
 
   # Configuration that will be sent to CKEditor 5 JavaScript plugins.
@@ -22,13 +21,13 @@ ucb_ckeditor5_tooltip_tooltip:
   drupal:
     label: Tooltip
     # The library loaded while using the editor.
-    library: ucb_ckeditor5_tooltip/tooltip
+    library: ucb_ckeditor_plugins/tooltip
     # The library loaded when configuring the text format using this plugin.
-    admin_library: ucb_ckeditor5_tooltip/admin
+    admin_library: ucb_ckeditor_plugins/admin.tooltip
     toolbar_items:
       # This should match the name of the corresponding plugin exported in the
       # plugin's index.js.
-      Tooltip:
+      tooltip:
         label: Tooltip
     # If the plugin does not provide elements, set this as
     # `elements: false`
@@ -38,6 +37,47 @@ ucb_ckeditor5_tooltip_tooltip:
       - <abbr>
       - <abbr title="">
       - <abbr class="ucb_tooltip">
+    # *Additional configuration properties*
+    # conditions: for setting additional criteria that must be met for the
+    #   plugin to be active.
+    # class: Optional PHP class that makes it possible for the plugin to provide
+    #   dynamic values, or a configuration UI.
+
+ucb_ckeditor_plugins_box:
+  # Use the provider: property for this plugin to depend on another module.
+
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - box.Box
+    # *Additional configuration properties*
+    # config: data sent to the constructor of any CKEditor 5 plugin
+    #   editorPluginName:
+    #     editorPluginProperty: editorPluginValue
+
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Box
+    # The library loaded while using the editor.
+    library: ucb_ckeditor_plugins/box
+    # The library loaded when configuring the text format using this plugin.
+    admin_library: ucb_ckeditor_plugins/admin.box
+    toolbar_items:
+      # This should match the name of the corresponding plugin exported in the
+      # plugin's index.js.
+      box:
+        label: Box
+    # If the plugin does not provide elements, set this as
+    # `elements: false`
+    elements:
+      # Note that it necessary for elements to separately provide both the tag
+      # (f.e. `<h2>`) and the attribute being added to the tag
+      # (f.e. `<h2 class="ucb-box-title">`).
+      - <div>
+      - <div class="ucb-box-title">
+      - <div class="ucb-box-description">
+      - <section>
+      - <section class="ucb-box">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

@@ -1,6 +1,6 @@
 {
-    "name": "cu-boulder/ucb_ck5_plugins",
-    "description": "Repository for CU Boulder custom CKEditor 5 Plugins.",
+    "name": "cu-boulder/ucb_ckeditor_plugins",
+    "description": "CU Boulder CKEditor 5 Plugin Collection",
     "license": "GPL-2.0-or-later",
     "type": "drupal-custom-module"
 }

@@ -35,7 +35,7 @@ export default class TooltipEditing extends Plugin {
 				const { writer } = conversionApi;
 				return writer.createAttributeElement( 'abbr', {
 					title: modelAttributeValue,
-					class: 'ucb_tooltip'
+					class: 'ucb-tooltip'
 				} );
 			}
 		} );
@@ -45,7 +45,7 @@ export default class TooltipEditing extends Plugin {
 			view: {
 				name: 'abbr',
 				attributes: [ 'title' ],
-				classes: 'ucb_tooltip'
+				classes: 'ucb-tooltip'
 			},
 			model: {
 				key: 'ucb-tooltip',
