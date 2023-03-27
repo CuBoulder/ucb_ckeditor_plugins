@@ -1,7 +1,7 @@
 {
   "name": "drupal-ckeditor5",
   "version": "1.0.0",
-  "description": "Drupal CKEditor 5 integration",
+  "description": "CU Boulder CKEditor 5 Plugin Collection",
   "author": "",
   "license": "GPL-2.0-or-later",
   "scripts": {

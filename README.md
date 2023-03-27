@@ -1,7 +1,5 @@
-# CU Boulder CKEditor Plugins
-A collection of CKEditor 5 plugins to help extend functionality to match and enhance what was available in webexpress
-
-Each folder is a separate module and plugin that will live in modules/custom
+# CU Boulder CKEditor 5 Plugin Collection
+This Drupal 9+ module contains a collection of CKEditor 5 plugins to add functionality to the WYSIWYG editor.
 
 ## Useful Plugin Development Links
 - [CKEditor 5 Dev Tools for Drupal](https://www.drupal.org/project/ckeditor5_dev)
