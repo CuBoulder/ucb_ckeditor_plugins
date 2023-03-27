@@ -1,25 +1,39 @@
-box:
+box.admin:
+  css:
+    theme:
+      css/box.admin.css: { }
+
+box.editor:
   js:
     js/build/box.js: { preprocess: false, minified: true }
   dependencies:
     - core/ckeditor5
 
-admin.box:
+invisible.admin:
   css:
     theme:
-      css/box.admin.css: { }
+      css/invisible.admin.css: { }
 
-tooltip:
+invisible.editor:
+  js:
+    js/build/invisible.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/invisible.editor.css: { }
+
+tooltip.admin:
+  css:
+    theme:
+      css/tooltip.admin.css: { }
+
+tooltip.editor:
   js:
     js/build/tooltip.js: { preprocess: false, minified: true }
   dependencies:
     - core/ckeditor5
   css:
     theme:
-      css/tooltip.form.css: { }
-      css/tooltip.theme.css: { }
-
-admin.tooltip:
-  css:
-    theme:
-      css/tooltip.admin.css: { }
+      css/tooltip.editor.css: { }
+      css/tooltip.css: { }

@@ -5,44 +5,6 @@
 # @see the CKEditor 5 module's README.md for more details regarding plugin
 #   configuration options.
 
-ucb_ckeditor_plugins_tooltip:
-  # Use the provider: property for this plugin to depend on another module.
-
-  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
-  ckeditor5:
-    plugins:
-      - tooltip.Tooltip
-    # *Additional configuration properties*
-    # config: data sent to the constructor of any CKEditor 5 plugin
-    #   editorPluginName:
-    #     editorPluginProperty: editorPluginValue
-
-  # Configuration that will be used directly by Drupal.
-  drupal:
-    label: Tooltip
-    # The library loaded while using the editor.
-    library: ucb_ckeditor_plugins/tooltip
-    # The library loaded when configuring the text format using this plugin.
-    admin_library: ucb_ckeditor_plugins/admin.tooltip
-    toolbar_items:
-      # This should match the name of the corresponding plugin exported in the
-      # plugin's index.js.
-      tooltip:
-        label: Tooltip
-    # If the plugin does not provide elements, set this as
-    # `elements: false`
-    elements:
-      # Note that it necessary for elements to separately provide both the tag
-      # <abbr> is used to make abbreviations which in essence is a tooltip.
-      - <abbr>
-      - <abbr title="">
-      - <abbr class="ucb_tooltip">
-    # *Additional configuration properties*
-    # conditions: for setting additional criteria that must be met for the
-    #   plugin to be active.
-    # class: Optional PHP class that makes it possible for the plugin to provide
-    #   dynamic values, or a configuration UI.
-
 ucb_ckeditor_plugins_box:
   # Use the provider: property for this plugin to depend on another module.
 
@@ -59,9 +21,9 @@ ucb_ckeditor_plugins_box:
   drupal:
     label: Box
     # The library loaded while using the editor.
-    library: ucb_ckeditor_plugins/box
+    library: ucb_ckeditor_plugins/box.editor
     # The library loaded when configuring the text format using this plugin.
-    admin_library: ucb_ckeditor_plugins/admin.box
+    admin_library: ucb_ckeditor_plugins/box.admin
     toolbar_items:
       # This should match the name of the corresponding plugin exported in the
       # plugin's index.js.
@@ -78,6 +40,79 @@ ucb_ckeditor_plugins_box:
       - <div class="ucb-box-description">
       - <section>
       - <section class="ucb-box">
+    # *Additional configuration properties*
+    # conditions: for setting additional criteria that must be met for the
+    #   plugin to be active.
+    # class: Optional PHP class that makes it possible for the plugin to provide
+    #   dynamic values, or a configuration UI.
+
+ucb_ckeditor_plugins_invisible:
+  # Use the provider: property for this plugin to depend on another module.
+
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - invisible.Invisible
+    # *Additional configuration properties*
+    # config: data sent to the constructor of any CKEditor 5 plugin
+    #   editorPluginName:
+    #     editorPluginProperty: editorPluginValue
+
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Invisible
+    # The library loaded while using the editor.
+    library: ucb_ckeditor_plugins/invisible.editor
+    # The library loaded when configuring the text format using this plugin.
+    admin_library: ucb_ckeditor_plugins/invisible.admin
+    toolbar_items:
+      # This should match the name of the corresponding plugin exported in the
+      # plugin's index.js.
+      Invisible:
+        label: Invisible
+    # If the plugin does not provide elements, set this as
+    # `elements: false`
+    elements:
+      - <span>
+      - <span class='sr-only'>
+    # *Additional configuration properties*
+    # conditions: for setting additional criteria that must be met for the
+    #   plugin to be active.
+    # class: Optional PHP class that makes it possible for the plugin to provide
+    #   dynamic values, or a configuration UI.
+
+ucb_ckeditor_plugins_tooltip:
+  # Use the provider: property for this plugin to depend on another module.
+
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - tooltip.Tooltip
+    # *Additional configuration properties*
+    # config: data sent to the constructor of any CKEditor 5 plugin
+    #   editorPluginName:
+    #     editorPluginProperty: editorPluginValue
+
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Tooltip
+    # The library loaded while using the editor.
+    library: ucb_ckeditor_plugins/tooltip.editor
+    # The library loaded when configuring the text format using this plugin.
+    admin_library: ucb_ckeditor_plugins/tooltip.admin
+    toolbar_items:
+      # This should match the name of the corresponding plugin exported in the
+      # plugin's index.js.
+      tooltip:
+        label: Tooltip
+    # If the plugin does not provide elements, set this as
+    # `elements: false`
+    elements:
+      # Note that it necessary for elements to separately provide both the tag
+      # <abbr> is used to make abbreviations which in essence is a tooltip.
+      - <abbr>
+      - <abbr title="">
+      - <abbr class="ucb_tooltip">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.
