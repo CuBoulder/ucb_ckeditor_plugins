@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### `invisible`: Adds icon to differentiate SR-only text from normal text
+  Resolves CuBoulder/ucb_ckeditor_plugins#1
+---
+
 - ### Adds `CHANGELOG.md` and workflows
   Resolves CuBoulder/ucb_ckeditor_plugins#3
 ---

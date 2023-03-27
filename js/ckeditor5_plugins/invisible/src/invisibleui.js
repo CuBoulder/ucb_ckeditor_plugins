@@ -13,7 +13,7 @@ export default class InvisibleUI extends Plugin {
 			const command = editor.commands.get('addInvisible')
 			const button = new ButtonView();
 
-			button.label = 'Invisible';
+			button.label = 'Screen-Reader Only';
 			button.icon = audioIcon;
 			button.tooltip = true;
 			button.withText = false;
