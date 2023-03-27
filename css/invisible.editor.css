@@ -27,3 +27,21 @@
 .ck.ck-content .ucb-invisible {
 	opacity: 0.5;
 }
+
+.ck.ck-content .ucb-invisible::before {
+	display: inline-block;
+	vertical-align: text-bottom;
+	width: 1.2rem;
+	height: 1.2rem;
+	background-color: currentColor;
+	mask-image: url(../icons/invisible.svg);
+	-webkit-mask-image: url(../icons/invisible.svg);
+	mask-position: center;
+	-webkit-mask-position: center;
+	mask-repeat: no-repeat;
+	-webkit-mask-size: 100% 100%;
+	mask-size: 100% 100%;
+	-webkit-mask-repeat: no-repeat;
+	margin-right: .333rem;
+	content: '';
+}
