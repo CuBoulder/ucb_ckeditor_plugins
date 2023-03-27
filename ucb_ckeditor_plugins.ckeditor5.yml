@@ -68,7 +68,7 @@ ucb_ckeditor_plugins_invisible:
     toolbar_items:
       # This should match the name of the corresponding plugin exported in the
       # plugin's index.js.
-      Invisible:
+      invisible:
         label: Invisible
     # If the plugin does not provide elements, set this as
     # `elements: false`
