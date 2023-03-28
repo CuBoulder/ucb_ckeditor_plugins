@@ -7,8 +7,8 @@
   "scripts": {
     "watch": "webpack --mode development --watch",
     "build": "webpack build",
-	"w": "read -p 'Enter a plugin name, or none for all: ' plugin_name; webpack --mode development --watch --env plugin=${plugin_name}",
-	"b": "read -p 'Enter a plugin name, or none for all: ' plugin_name; webpack --env plugin=${plugin_name}"
+	"w": "run(){ webpack --mode development --watch --env plugin=\"$1\"; }; run",
+	"b": "run(){ webpack --env plugin=\"$1\"; }; run"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-utils": "^30.0.0",
