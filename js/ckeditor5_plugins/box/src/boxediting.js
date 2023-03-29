@@ -3,6 +3,7 @@ import { toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertBoxCommand from './insertboxcommand';
 import { enablePlaceholder } from 'ckeditor5/src/engine';
+import AlignBoxCommand from './alignboxcommand';
 
 // cSpell:ignore box insertboxcommand
 
@@ -37,6 +38,10 @@ export default class BoxEditing extends Plugin {
     this.editor.commands.add(
       'insertBox',
       new InsertBoxCommand(this.editor),
+    );
+    this.editor.commands.add(
+      'alignBox',
+      new AlignBoxCommand(this.editor),
     );
   }
 

@@ -1,72 +1,49 @@
 import {
 	View,
-	LabeledFieldView,
-	createLabeledInputText,
 	ButtonView,
-	submitHandler
+	createDropdown,
+	addToolbarToDropdown
 } from 'ckeditor5/src/ui';
 import { icons } from 'ckeditor5/src/core';
 
 export default class BoxFormView extends View {
 	constructor(locale) {
 		super(locale);
-		// Create the save and cancel buttons.
-		this.saveButtonView = this._createButton(
-			'Save', icons.check, 'ck-button-save'
-		);
-		// Set the type to 'submit', which will trigger
-		// the submit event on entire form when clicked.
-		this.saveButtonView.type = 'submit';
-
-		this.cancelButtonView = this._createButton(
-			'Cancel', icons.cancel, 'ck-button-cancel'
-		);
-		this.childViews = this.createCollection([
-			// this.abbrInputView,
-			// this.titleInputView,
-			this.saveButtonView,
-			this.cancelButtonView
-		]);
-
 		this.setTemplate({
 			tag: 'form',
 			attributes: {
 				// Attributes of a form template.
 				// ...
 			},
-			children: this.childViews
+			children: [this._createAlignmentDropdown()]
 		});
 	}
 
-	render() {
-		super.render();
-
-		// Submit the form when the user clicked the save button
-		// or pressed enter in the input.
-		submitHandler({
-			view: this
+	_createAlignmentDropdown() {
+		const alignmentDropdownView = createDropdown(this.locale);
+		addToolbarToDropdown(
+			alignmentDropdownView,
+			[
+				this._createButton('Left', icons.objectLeft),
+				this._createButton('Full', icons.objectFullWidth),
+				this._createButton('Right', icons.objectRight)
+			]
+		);
+		alignmentDropdownView.buttonView.set({
+			label: 'Box alignment',
+			icon: icons.objectFullWidth,
+			tooltip: true
 		});
+		return alignmentDropdownView;
 	}
 
-	focus() {
-		this.childViews.first.focus();
+	_createButton(label, icon) {
+		const button = new ButtonView();
+		button.set({
+			label,
+			icon,
+			tooltip: true
+		});
+		return button;
 	}
-
-	_createInput(label) {
-		// Input initialization.
-		// ...
-	}
-
-    _createButton( label, icon, className ) {
-        const button = new ButtonView();
-
-        button.set( {
-            label,
-            icon,
-            tooltip: true,
-            class: className
-        } );
-
-        return button;
-    }
 }

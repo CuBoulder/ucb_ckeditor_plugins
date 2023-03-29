@@ -88,11 +88,10 @@ export default class BoxUI extends Plugin {
 		const editor = this.editor;
 		const viewDocument = editor.editing.view.document;
 		this.listenTo(viewDocument, 'click', () => {
-			const view = this.editor.editing.view;
+			const view = editor.editing.view;
 			const selection = view.document.selection;
-			const element = selection.getSelectedElement();
-			const box = element && element.hasClass('ucb-box') ? element : selection.focus.getAncestors()
-				.reverse()
+			const selectedElement = selection.getSelectedElement();
+			const box = selectedElement && selectedElement.hasClass('ucb-box') ? selectedElement : selection.focus.getAncestors()
 				.find((node) => node.is('element') && node.hasClass('ucb-box'));
 			if (box)
 				this._showUI(box);
