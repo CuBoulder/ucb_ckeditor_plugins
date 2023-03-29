@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds `w` and `b` scripts
+  Using `w` for `watch` or `b` for `build` allows a command-line argument to specify only а single plugin, e.g. `b box` to build the box plugin. `watch` and `build` function the same as before.
+  
+  Resolves CuBoulder/ucb_ckeditor_plugins#2
+---
+
 - ### `invisible`: Adds icon to differentiate SR-only text from normal text
   Resolves CuBoulder/ucb_ckeditor_plugins#1
 ---

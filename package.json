@@ -2,11 +2,13 @@
   "name": "drupal-ckeditor5",
   "version": "1.0.0",
   "description": "CU Boulder CKEditor 5 Plugin Collection",
-  "author": "",
+  "author": "University of Colorado Boulder",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "watch": "webpack --mode development --watch",
-    "build": "webpack"
+    "build": "webpack",
+    "w": "run(){ webpack --mode development --watch --env plugin=\"$1\"; }; run",
+    "b": "run(){ webpack --env plugin=\"$1\"; }; run"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-utils": "^30.0.0",
