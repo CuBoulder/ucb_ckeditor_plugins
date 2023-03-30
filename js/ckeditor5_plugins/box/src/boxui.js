@@ -2,19 +2,19 @@
  * @file registers the box toolbar button and binds functionality to it.
  */
 
-import { Plugin } from 'ckeditor5/src/core';
-import { ClickObserver } from 'ckeditor5/src/engine';
-import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
+import {
+	View,
+	ButtonView,
+	createDropdown,
+	addToolbarToDropdown
+} from 'ckeditor5/src/ui';
+import { Locale } from 'ckeditor5/src/utils';
+import { alignmentOptions } from './boxconfig';
+import { Plugin, icons, Command } from 'ckeditor5/src/core';
+import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import icon from '../../../../icons/box.svg';
-import BoxFormView from './boxformview';
 
 export default class BoxUI extends Plugin {
-	/**
-	 * The contextual balloon plugin instance.
-	 * @type {ContextualBalloon}
-	 */
-	_balloon
-
 	/**
 	 * The form view displayed inside the balloon.
 	 * @type {BoxFormView}
@@ -25,15 +25,11 @@ export default class BoxUI extends Plugin {
 	 * @inheritDoc
 	 */
 	static get requires() {
-		return [ContextualBalloon];
+		return [WidgetToolbarRepository];
 	}
 
 	init() {
 		const editor = this.editor;
-		editor.editing.view.addObserver(ClickObserver);
-		this._balloon = editor.plugins.get(ContextualBalloon);
-		this.formView = this._createFormView();
-		this._enableBalloonActivators();
 
 		// This will register the box toolbar button.
 		editor.ui.componentFactory.add('box', (locale) => {
@@ -57,56 +53,75 @@ export default class BoxUI extends Plugin {
 
 			return buttonView;
 		});
+
+		// Adds the alignment, style, and color options to the widget toolbar.
+		editor.ui.componentFactory.add('boxAlignment', locale => this._createAlignmentDropdown(locale));
 	}
 
-	_createFormView() {
+	afterInit() {
 		const editor = this.editor;
-		const formView = new BoxFormView(editor.locale);
-		// Hide the form view when clicking outside the balloon.
-		clickOutsideHandler({
-			emitter: formView,
-			activator: () => this._balloon.visibleView === formView,
-			contextElements: [this._balloon.view.element],
-			callback: () => this._hideUI()
-		});
-		return formView;
-	}
-
-	_showUI(box) {
-		this._balloon.add({
-			view: this.formView,
-			position: this._getBalloonPositionData(box)
+		const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
+		widgetToolbarRepository.register('box', {
+			items: ['boxAlignment'],
+			getRelatedElement: (selection) =>
+				selection.focus.getAncestors()
+					.find((node) => node.is('element') && node.hasClass('ucb-box'))
 		});
 	}
 
-	_hideUI() {
-		this.formView.element.reset();
-		this._balloon.remove(this.formView);
-	}
-
-	_enableBalloonActivators() {
-		const editor = this.editor;
-		const viewDocument = editor.editing.view.document;
-		this.listenTo(viewDocument, 'click', () => {
-			const view = editor.editing.view;
-			const selection = view.document.selection;
-			const selectedElement = selection.getSelectedElement();
-			const box = selectedElement && selectedElement.hasClass('ucb-box') ? selectedElement : selection.focus.getAncestors()
-				.find((node) => node.is('element') && node.hasClass('ucb-box'));
-			if (box)
-				this._showUI(box);
+	/**
+	 * @param {Locale} locale
+	 * @returns {View}
+	 *   The alignment dropdown view.
+	 */
+	_createAlignmentDropdown(locale) {
+		const editor = this.editor, command = editor.commands.get('alignBox'),
+			alignmentDropdownView = createDropdown(locale);
+		addToolbarToDropdown(
+			alignmentDropdownView,
+			Object.entries(alignmentOptions).map(([optionName, option]) => this._createButton(optionName, option.label, option.icon, command))
+		);
+		alignmentDropdownView.buttonView.set({
+			label: 'Box alignment',
+			icon: icons.objectFullWidth,
+			tooltip: true
 		});
+		// Change icon to reflect current selection.
+		alignmentDropdownView.buttonView.bind('icon').to(command, 'value', value => alignmentOptions[value] ? alignmentOptions[value].icon : icons.objectFullWidth); // not working?
+		// Change icon to reflect current selection's alignment.
+		alignmentDropdownView.bind('isEnabled').to(command, 'isEnabled'); // working
+		// Focus the editable after executing the command.
+		// Overrides a default behaviour where the focus is moved to the dropdown button (#12125).
+		this.listenTo(alignmentDropdownView, 'execute', () => {
+			editor.editing.view.focus();
+		});
+		return alignmentDropdownView;
 	}
 
-	_getBalloonPositionData(box) {
-		const view = this.editor.editing.view;
-		let target = null;
-
-		// Set a target position by converting view selection range to DOM.
-		target = () => view.domConverter.mapViewToDom(box) ;
-
-		return {
-			target
-		};
+	/**
+	 * @param {string} name
+	 * @param {string} label
+	 * @param {string} icon
+	 * @param {Command} command
+	 * @returns {ButtonView}
+	 *   A button with the specified parameters.
+	 */
+	_createButton(name, label, icon, command) {
+		const editor = this.editor, buttonView = new ButtonView();
+		buttonView.set({
+			label,
+			icon,
+			tooltip: true,
+			isToggleable: true
+		});
+		// Bind button model to command.
+		buttonView.bind('isEnabled').to(command); // working
+		buttonView.bind('isOn').to(command, 'value', value => value === name); // not working?
+		// Execute command.
+		this.listenTo(buttonView, 'execute', () => { // working
+			command.execute({ value: name });
+			editor.editing.view.focus();
+		});
+		return buttonView;
 	}
 }
