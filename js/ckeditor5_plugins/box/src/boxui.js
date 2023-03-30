@@ -87,14 +87,9 @@ export default class BoxUI extends Plugin {
 			tooltip: true
 		});
 		// Change icon to reflect current selection.
-		alignmentDropdownView.buttonView.bind('icon').to(command, 'value', value => alignmentOptions[value] ? alignmentOptions[value].icon : icons.objectFullWidth); // not working?
-		// Change icon to reflect current selection's alignment.
-		alignmentDropdownView.bind('isEnabled').to(command, 'isEnabled'); // working
-		// Focus the editable after executing the command.
-		// Overrides a default behaviour where the focus is moved to the dropdown button (#12125).
-		this.listenTo(alignmentDropdownView, 'execute', () => {
-			editor.editing.view.focus();
-		});
+		alignmentDropdownView.buttonView.bind('icon').to(command, 'value', value => alignmentOptions[value] ? alignmentOptions[value].icon : icons.objectFullWidth);
+		// Enable button if any of the buttons is enabled.
+		alignmentDropdownView.bind('isEnabled').to(command, 'isEnabled');
 		return alignmentDropdownView;
 	}
 
@@ -115,10 +110,10 @@ export default class BoxUI extends Plugin {
 			isToggleable: true
 		});
 		// Bind button model to command.
-		buttonView.bind('isEnabled').to(command); // working
-		buttonView.bind('isOn').to(command, 'value', value => value === name); // not working?
+		buttonView.bind('isEnabled').to(command);
+		buttonView.bind('isOn').to(command, 'value', value => value === name);
 		// Execute command.
-		this.listenTo(buttonView, 'execute', () => { // working
+		this.listenTo(buttonView, 'execute', () => {
 			command.execute({ value: name });
 			editor.editing.view.focus();
 		});
