@@ -120,7 +120,6 @@ ucb_ckeditor_plugins_tooltip:
     #   dynamic values, or a configuration UI.
 ucb_ckeditor_plugins_button:
   # Use the provider: property for this plugin to depend on another module.
-
   # Configuration that will be sent to CKEditor 5 JavaScript plugins.
   ckeditor5:
     plugins:
@@ -129,7 +128,6 @@ ucb_ckeditor_plugins_button:
     # config: data sent to the constructor of any CKEditor 5 plugin
     #   editorPluginName:
     #     editorPluginProperty: editorPluginValue
-
   # Configuration that will be used directly by Drupal.
   drupal:
     label: Button
@@ -146,7 +144,6 @@ ucb_ckeditor_plugins_button:
     # `elements: false`
     elements:
       - <a>
-      - <a class='sr-only'>
       - <a class="ucb-button-blue ucb-button-regular ucb-button-small">
       - <a class="ucb-button-blue ucb-button-regular ucb-button-medium">
       - <a class="ucb-button-blue ucb-button-regular ucb-button-large">
