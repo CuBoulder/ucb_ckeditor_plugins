@@ -1,32 +1,53 @@
-// Handles the admin side where youre adding buttons to toolbar
-// Also handles the format and display during editing
 import { Plugin } from 'ckeditor5/src/core';
-import { ButtonView } from 'ckeditor5/src/ui';
-import icon from '../../../../icons/hand-pointer-regular.svg'
+import MyButtonView from './mybuttonview';
+import icon from '../../../../icons/hand-pointer-regular.svg';
 
 export default class ButtonUI extends Plugin {
-	init() {
-		const editor = this.editor;
+    init() {
+        const editor = this.editor;
 
-		// Add strikethrough button to feature components.
-		editor.ui.componentFactory.add( 'button', () => {
-			const command = editor.commands.get('addButton')
-			const button = new ButtonView();
+        editor.ui.componentFactory.add( 'button', locale => {
+            const command = editor.commands.get( 'addButton' );
+            const button = new MyButtonView( locale );
 
-			button.label = 'Button';
-			button.icon = icon;
-			button.tooltip = true;
-			button.withText = true;
+            button.set( {
+                label: 'button',
+                icon: icon,
+                tooltip: true,
+                withText: true,
+            } );
 
+            button.bind( 'isEnabled' ).to( command );
+            button.bind( 'isOn' ).to( command, 'value', 'isEnabled' ).withDefaultValue( false );
 
-			button.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
-			// Execute the command when the button is clicked (executed).
-			this.listenTo(button, 'execute', () =>
-				editor.execute('addButton'),
-			);
+            this.listenTo( button, 'execute', () => {
+                const dialogDefinition = {
+                    title: 'Add Button',
+                    body: button.element,
+                    buttons: [
+                        {
+                            label: 'Save',
+                            type: 'submit',
+                            class: 'ck-button',
+                        },
+                        {
+                            label: 'Cancel',
+                            type: 'button',
+                            class: 'ck-button ck-button-secondary',
+                            onClick: () => {
+                                editor.editing.view.focus();
+                            }
+                        }
+                    ],
+                    focus: ( index, buttonCount ) => {
+                        button.focus();
+                    }
+                };
 
-			return button;
-		} );
-	}
+                editor.plugins.get( 'Dialog' ).open( dialogDefinition );
+            } );
+
+            return button;
+        } );
+    }
 }
-	

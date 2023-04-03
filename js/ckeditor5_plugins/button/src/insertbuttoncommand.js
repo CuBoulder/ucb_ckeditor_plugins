@@ -2,48 +2,78 @@
  * @file defines insertInvisibleCommand, which is executed when the Invisible
  * toolbar button is pressed.
  */
-// cSpell:ignore simpleboxeditingimport { Command } from 'ckeditor5/src/core';
 import { Command } from 'ckeditor5/src/core';
 
-
-// const selection = editor.model.document.selection;
-
-
 export default class ButtonCommand extends Command {
-  execute() {
+  execute({ color, style, size, href, classes }) {
     const model = this.editor.model;
     const selection = model.document.selection;
-
+  
     model.change(writer => {
-      // TODO
+      const button = addButton(writer, color, style, size, href, classes);
+      const position = selection.getFirstPosition();
+  
+      writer.insert(button, position);
+      writer.setSelection(button, 'on');
     });
   }
+  
 
-  refresh() {
-    const model = this.editor.model;
-    const selection = model.document.selection;
+refresh() {
+  const model = this.editor.model;
+  const selection = model.document.selection;
 
-    // Determine if the cursor (selection) is in a position where adding a
-    // Invisible is permitted. This is based on the schema of the model(s)
-    // currently containing the cursor.
-    const allowedIn = model.schema.findAllowedParent(
-      selection.getFirstPosition(),
-      'ucb-button'
-    );
+  const allowedIn = model.schema.findAllowedParent(
+    selection.getFirstPosition(),
+    'ucb-button'
+  );
 
-    // If the cursor is not in a location where a ucb-invisible can be added, return
-    // null so the addition doesn't happen.
-    this.isEnabled = allowedIn !== null;
+  this.isEnabled = allowedIn !== null;
+
+  const buttonElement = selection.getSelectedElement();
+  if (buttonElement && buttonElement.name === 'ucb-button') {
+    const attributes = buttonElement.getAttributes();
+
+    const color = model.getAttribute('color');
+    const style = model.getAttribute('style');
+    const size = model.getAttribute('size');
+    
+    const buttonClasses = [];
+    if (color) {
+      buttonClasses.push(`ucb-button-${color}`);
+    }
+    if (style) {
+      buttonClasses.push(`ucb-button-${style}`);
+    }
+    if (size) {
+      buttonClasses.push(`ucb-button-${size}`);
+    }
+    
+    const buttonClass = buttonClasses.join(' ');
+    
+    if (buttonClass !== attributes.class) {
+      model.change(writer => {
+        writer.setAttribute('class', buttonClass, buttonElement);
+      });
+    }
+
+    // Update the button href attribute to match the link value in the model
+    const link = model.getAttribute('link');
+    if (link !== attributes.href) {
+      model.change(writer => {
+        writer.setAttribute('href', link, buttonElement);
+      });
+    }
   }
 }
+}
 
-function addButton(writer, text) {
-  // Create instances of the element registered with the editor.
+function addButton(writer, color, style, size, href, classes) {
+  const button = writer.createElement('ucb-button', {
+    class: `ucb-button-${color} ucb-button-${style} ucb-button-${size} ${classes}`,
+    href: href
+  });
 
-  // Make the element
-  const button = writer.createElement('ucb-button');
-
-  // Return the element to be added to the editor.
   return button;
 }
 

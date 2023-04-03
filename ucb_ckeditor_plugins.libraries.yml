@@ -37,3 +37,14 @@ tooltip.editor:
     theme:
       css/tooltip.editor.css: { }
       css/tooltip.css: { }
+
+button.admin:
+  css:
+    theme:
+      css/button.admin.css: { }
+
+button.editor:
+  js:
+    js/build/button.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5      
