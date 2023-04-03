@@ -9,8 +9,8 @@ import {
 	addToolbarToDropdown
 } from 'ckeditor5/src/ui';
 import { Locale } from 'ckeditor5/src/utils';
-import { alignmentOptions } from './boxconfig';
-import { Plugin, icons, Command } from 'ckeditor5/src/core';
+import { alignmentOptions, alignmentDefault, styleOptions, styleDefault } from './boxconfig';
+import { Plugin, Command } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import icon from '../../../../icons/box.svg';
 
@@ -56,13 +56,14 @@ export default class BoxUI extends Plugin {
 
 		// Adds the alignment, style, and color options to the widget toolbar.
 		editor.ui.componentFactory.add('boxAlignment', locale => this._createAlignmentDropdown(locale));
+		editor.ui.componentFactory.add('boxStyle', locale => this._createStyleDropdown(locale));
 	}
 
 	afterInit() {
 		const editor = this.editor;
 		const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 		widgetToolbarRepository.register('box', {
-			items: ['boxAlignment'],
+			items: ['boxAlignment', 'boxStyle'],
 			getRelatedElement: (selection) =>
 				selection.focus.getAncestors()
 					.find((node) => node.is('element') && node.hasClass('ucb-box'))
@@ -83,14 +84,38 @@ export default class BoxUI extends Plugin {
 		);
 		alignmentDropdownView.buttonView.set({
 			label: 'Box alignment',
-			icon: icons.objectFullWidth,
+			icon: alignmentOptions[alignmentDefault].icon,
 			tooltip: true
 		});
 		// Change icon to reflect current selection.
-		alignmentDropdownView.buttonView.bind('icon').to(command, 'value', value => alignmentOptions[value] ? alignmentOptions[value].icon : icons.objectFullWidth);
+		alignmentDropdownView.buttonView.bind('icon').to(command, 'value', value => alignmentOptions[value] ? alignmentOptions[value].icon : alignmentOptions[alignmentDefault].icon);
 		// Enable button if any of the buttons is enabled.
 		alignmentDropdownView.bind('isEnabled').to(command, 'isEnabled');
 		return alignmentDropdownView;
+	}
+
+	/**
+	 * @param {Locale} locale
+	 * @returns {View}
+	 *   The style dropdown view.
+	 */
+	_createStyleDropdown(locale) {
+		const editor = this.editor, command = editor.commands.get('styleBox'),
+			styleDropdownView = createDropdown(locale);
+		addToolbarToDropdown(
+			styleDropdownView,
+			Object.entries(styleOptions).map(([optionName, option]) => this._createButton(optionName, option.label, option.icon, command))
+		);
+		styleDropdownView.buttonView.set({
+			label: 'Box style',
+			icon: styleOptions[styleDefault].icon,
+			tooltip: true
+		});
+		// Change icon to reflect current selection.
+		styleDropdownView.buttonView.bind('icon').to(command, 'value', value => styleOptions[value] ? styleOptions[value].icon : styleOptions[styleDefault].icon);
+		// Enable button if any of the buttons is enabled.
+		styleDropdownView.bind('isEnabled').to(command, 'isEnabled');
+		return styleDropdownView;
 	}
 
 	/**

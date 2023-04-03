@@ -3,8 +3,8 @@ import { toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertBoxCommand from './insertboxcommand';
 import { enablePlaceholder } from 'ckeditor5/src/engine';
-import AlignBoxCommand from './alignboxcommand';
-import { alignmentOptions } from './boxconfig';
+import ModifyBoxCommand from './modifyboxcommand';
+import { alignmentOptions, alignmentDefault, styleOptions, styleDefault } from './boxconfig';
 
 // cSpell:ignore box insertboxcommand
 
@@ -37,7 +37,8 @@ export default class BoxEditing extends Plugin {
 		this._defineSchema();
 		this._defineConverters();
 		this.editor.commands.add('insertBox', new InsertBoxCommand(this.editor));
-		this.editor.commands.add('alignBox', new AlignBoxCommand(this.editor));
+		this.editor.commands.add('alignBox', new ModifyBoxCommand(this.editor, 'boxAlignment', alignmentDefault));
+		this.editor.commands.add('styleBox', new ModifyBoxCommand(this.editor, 'boxStyle', styleDefault));
 	}
 
 	/*
@@ -60,7 +61,12 @@ export default class BoxEditing extends Plugin {
 			// Allow in places where other blocks are allowed (e.g. directly in the root).
 			allowWhere: '$block',
 			// Allow the attributes which control the box's alignment, style, and color.
-			allowAttributes: ['boxAlignment']
+			allowAttributes: ['boxAlignment', 'boxStyle']
+		});
+
+		schema.register('boxInner', {
+			isLimit: true,
+			allowIn: 'box'
 		});
 
 		schema.register('boxTitle', {
@@ -70,14 +76,14 @@ export default class BoxEditing extends Plugin {
 			// the box.
 			isLimit: true,
 			// This is only to be used within box.
-			allowIn: 'box',
+			allowIn: 'boxInner',
 			// Allow content that is allowed in blocks (e.g. text with attributes).
 			allowContentOf: '$block',
 		});
 
 		schema.register('boxDescription', {
 			isLimit: true,
-			allowIn: 'box',
+			allowIn: 'boxInner',
 			allowContentOf: '$root',
 		});
 
@@ -102,8 +108,16 @@ export default class BoxEditing extends Plugin {
 
 		// The alignment, style, and color attributes all convert to element class names.
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxAlignment', alignmentOptions));
-		// conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxStyle', styleOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxStyle', styleOptions));
 		// conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxColor', colorOptions));
+
+		conversion.for('upcast').elementToElement({
+			model: 'boxContainer',
+			view: {
+				name: 'div',
+				classes: 'ucb-box-container'
+			}
+		});
 
 		// Upcast Converters: determine how existing HTML is interpreted by the
 		// editor. These trigger when an editor instance loads.
@@ -116,6 +130,18 @@ export default class BoxEditing extends Plugin {
 			view: {
 				name: 'div',
 				classes: 'ucb-box'
+			}
+		});
+
+		// If <div class="ucb-box-inner"> is present in the existing markup
+		// processed by CKEditor, then CKEditor recognizes and loads it as a
+		// <boxInner> model, provided it is a child element of <box>,
+		// as required by the schema.
+		conversion.for('upcast').elementToElement({
+			model: 'boxInner',
+			view: {
+				name: 'div',
+				classes: 'ucb-box-inner'
 			}
 		});
 
@@ -139,7 +165,15 @@ export default class BoxEditing extends Plugin {
 			model: 'boxDescription',
 			view: {
 				name: 'div',
-				classes: 'ucb-box-description',
+				classes: 'ucb-box-description'
+			}
+		});
+
+		conversion.for('downcast').elementToElement({
+			model: 'boxContainer',
+			view: {
+				name: 'div',
+				classes: 'ucb-box-container'
 			}
 		});
 
@@ -151,6 +185,16 @@ export default class BoxEditing extends Plugin {
 		conversion.for('dataDowncast').elementToElement({
 			model: 'box',
 			view: (modelElement, { writer: viewWriter }) => createBoxView(modelElement, viewWriter)
+		});
+
+		// Instances of <boxInner> are saved as
+		// <div class="ucb-box-inner">{{inner content}}</div>.
+		conversion.for('dataDowncast').elementToElement({
+			model: 'boxInner',
+			view: {
+				name: 'div',
+				classes: 'ucb-box-inner'
+			}
 		});
 
 		// Instances of <boxTitle> are saved as
@@ -182,6 +226,12 @@ export default class BoxEditing extends Plugin {
 		conversion.for('editingDowncast').elementToElement({
 			model: 'box',
 			view: (modelElement, { writer: viewWriter }) => createBoxView(modelElement, viewWriter, true)
+		});
+
+		// Convert the <boxTitle> model into a container <div>.
+		conversion.for('editingDowncast').elementToElement({
+			model: 'boxInner',
+			view: (modelElement, { writer: viewWriter }) => viewWriter.createContainerElement('div', { class: 'ucb-box-inner' })
 		});
 
 		// Convert the <boxTitle> model into an editable <div> widget.
@@ -227,8 +277,6 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 }
 
 function createBoxView(modelElement, viewWriter, widget = false) {
-	const div = viewWriter.createContainerElement('div', {
-		class: 'ucb-box'
-	});
+	const div = viewWriter.createContainerElement('div', { class: 'ucb-box' });
 	return widget ? toWidget(div, viewWriter, { label: 'box widget' }) : div;
 }

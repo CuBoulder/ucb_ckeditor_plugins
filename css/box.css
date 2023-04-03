@@ -1,0 +1,54 @@
+/* Default styles */
+.ucb-box {
+	position: relative;
+	display: block;
+	clear: both;
+	width: 100%;
+	margin: .9em 0 1em 0;
+	--ucb-box-color: #EEEEEE;
+	--ucb-box-title-color: rgba(128, 128, 128, 0.15);
+}
+
+.ucb-box .ucb-box-inner {
+	position: relative;
+	display: block;
+}
+
+.ucb-box .ucb-box-title {
+	padding: 1em;
+}
+
+.ucb-box .ucb-box-description {
+	margin: 0 1em;
+}
+
+/* Box alignments */
+.ucb-box-alignment-left {
+	float: left;
+	clear: left;
+	max-width: calc(50% - 1em);
+	margin-right: 1em;
+}
+.ucb-box-alignment-right {
+	float: right;
+	clear: right;
+	max-width:calc(50% - 1em);
+	margin-left: 1em;
+}
+
+/* Box colors */
+/* TODO */
+
+/* Box styles */
+.ucb-box .ucb-box-inner {
+	background-color: var(--ucb-box-color);
+}
+.ucb-box .ucb-box-inner .ucb-box-title {
+	background-color: var(--ucb-box-title-color);
+}
+.ucb-box.ucb-box-style-outline .ucb-box-inner {
+	outline: 1px solid var(--ucb-box-color);
+}
+.ucb-box.ucb-box-style-outline .ucb-box-inner, .ucb-box.ucb-box-style-none .ucb-box-inner {
+	background-color: transparent;
+}

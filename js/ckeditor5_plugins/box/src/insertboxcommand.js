@@ -3,7 +3,7 @@
  * toolbar button is pressed.
  */
 // cSpell:ignore boxediting
-
+import { alignmentDefault, styleDefault } from './boxconfig';
 import { Command } from 'ckeditor5/src/core';
 
 export default class InsertBoxCommand extends Command {
@@ -38,14 +38,16 @@ export default class InsertBoxCommand extends Command {
 function createBox(writer) {
 	// Create instances of the three elements registered with the editor in
 	// boxediting.js.
-	const box = writer.createElement('box', { 'boxAlignment': 'none' });
+	const box = writer.createElement('box', { 'boxAlignment': alignmentDefault, 'boxStyle': styleDefault });
+	const boxInner = writer.createElement('boxInner');
 	const boxTitle = writer.createElement('boxTitle');
 	const boxDescription = writer.createElement('boxDescription');
 
 	// Append the title and description elements to the box, which matches
 	// the parent/child relationship as defined in their schemas.
-	writer.append(boxTitle, box);
-	writer.append(boxDescription, box);
+	writer.append(boxInner, box);
+	writer.append(boxTitle, boxInner);
+	writer.append(boxDescription, boxInner);
 
 	// The boxDescription text content will automatically be wrapped in a
 	// `<p>`.

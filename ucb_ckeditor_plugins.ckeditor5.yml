@@ -37,13 +37,15 @@ ucb_ckeditor_plugins_box:
       # (f.e. `<div class="ucb-box-title">`).
       - <div>
       - <div class="ucb-box">
+      - <div class="ucb-box-inner">
       - <div class="ucb-box-title">
       - <div class="ucb-box-description">
       - <div class="ucb-box-alignment-left">
       - <div class="ucb-box-alignment-none">
       - <div class="ucb-box-alignment-right">
       - <div class="ucb-box-style-fill">
-      - <div class="ucb-box-style-border">
+      - <div class="ucb-box-style-outline">
+      - <div class="ucb-box-style-none">
       - <div class="ucb-box-color-black">
       - <div class="ucb-box-color-darkgray">
       - <div class="ucb-box-color-lightgray">

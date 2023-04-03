@@ -3,6 +3,7 @@ import { DocumentSelection } from 'ckeditor5/src/engine';
 
 /**
  * @param {DocumentSelection} selection 
+ *   The document selection.
  * @returns {Element | null}
  *   The selected box widget, or null if there isn't one.
  */
