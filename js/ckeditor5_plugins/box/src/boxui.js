@@ -47,9 +47,7 @@ export default class BoxUI extends Plugin {
 			buttonView.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
 
 			// Execute the command when the button is clicked (executed).
-			this.listenTo(buttonView, 'execute', () =>
-				editor.execute('insertBox'),
-			);
+			this.listenTo(buttonView, 'execute', () => editor.execute('insertBox'));
 
 			return buttonView;
 		});

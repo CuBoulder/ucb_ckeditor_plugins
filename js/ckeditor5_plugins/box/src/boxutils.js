@@ -1,16 +1,24 @@
-import { Element } from 'ckeditor5/src/engine';
-import { DocumentSelection } from 'ckeditor5/src/engine';
+import { Element, DocumentSelection } from 'ckeditor5/src/engine';
 
 /**
  * @param {DocumentSelection} selection 
- *   The document selection.
+ *   The selection.
  * @returns {Element | null}
  *   The selected box widget, or null if there isn't one.
  */
 export function getSelectedBoxWidget(selection) {
-	const selectedElement = selection.getSelectedElement();
-	return selectedElement && isBoxWidget(selectedElement) ? selectedElement : selection.focus.getAncestors()
-		.find((node) => node.is('element') && isBoxWidget(node));
+	const selectionPosition = selection.getFirstPosition();
+	if (!selectionPosition)
+		return null;
+
+	let parent = selectionPosition.parent;
+	while (parent) {
+		if (parent.is('element') && isBoxWidget(parent))
+			return parent;
+		parent = parent.parent;
+	}
+
+	return null;
 }
 
 /**

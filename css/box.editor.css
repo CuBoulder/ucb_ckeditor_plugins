@@ -1,0 +1,8 @@
+.ck .ucb-box .ucb-box-title.ck-placeholder:before {
+	left: auto;
+	right: auto;
+}
+
+.ck.ck-editor__editable_inline > .ucb-box:first-child, .ck.ck-editor__editable_inline > .ucb-box:last-child {
+	margin-top: 1em;
+}

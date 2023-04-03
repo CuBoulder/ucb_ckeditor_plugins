@@ -4,7 +4,7 @@
 	display: block;
 	clear: both;
 	width: 100%;
-	margin: .9em 0 1em 0;
+	margin: 1em 0;
 	--ucb-box-color: #EEEEEE;
 	--ucb-box-title-color: rgba(128, 128, 128, 0.15);
 }
@@ -19,7 +19,14 @@
 }
 
 .ucb-box .ucb-box-description {
-	margin: 0 1em;
+	padding: 1em;
+}
+
+.ucb-box .ucb-box-description > *:first-child {
+	margin-top: 0;
+}
+.ucb-box .ucb-box-description > *:last-child {
+	margin-bottom: 0;
 }
 
 /* Box alignments */
@@ -29,10 +36,11 @@
 	max-width: calc(50% - 1em);
 	margin-right: 1em;
 }
+
 .ucb-box-alignment-right {
 	float: right;
 	clear: right;
-	max-width:calc(50% - 1em);
+	max-width: calc(50% - 1em);
 	margin-left: 1em;
 }
 
@@ -43,12 +51,17 @@
 .ucb-box .ucb-box-inner {
 	background-color: var(--ucb-box-color);
 }
+
 .ucb-box .ucb-box-inner .ucb-box-title {
 	background-color: var(--ucb-box-title-color);
 }
-.ucb-box.ucb-box-style-outline .ucb-box-inner {
-	outline: 1px solid var(--ucb-box-color);
+
+.ucb-box.ucb-box-style-outline .ucb-box-description {
+	border-left: 1px solid var(--ucb-box-color);
+	border-right: 1px solid var(--ucb-box-color);
+	border-bottom: 1px solid var(--ucb-box-color);
 }
+
 .ucb-box.ucb-box-style-outline .ucb-box-inner, .ucb-box.ucb-box-style-none .ucb-box-inner {
 	background-color: transparent;
 }

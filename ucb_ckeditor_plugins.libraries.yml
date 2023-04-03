@@ -1,4 +1,4 @@
-ckeditor-plugin-styles:
+ckeditor5-plugin-styles:
   css:
     theme:
       css/box: { }
@@ -14,6 +14,7 @@ box.editor:
     js/build/box.js: { preprocess: false, minified: true }
   css:
     theme:
+      css/box.editor.css: { }
       css/box.css: { }
   dependencies:
     - core/ckeditor5
