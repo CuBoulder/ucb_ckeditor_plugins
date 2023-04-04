@@ -1,4 +1,5 @@
 /* Default styles */
+
 .ucb-box {
 	position: relative;
 	display: block;
@@ -41,6 +42,7 @@
 }
 
 /* Box alignments */
+
 .ucb-box-alignment-left {
 	float: left;
 	clear: left;
@@ -56,6 +58,7 @@
 }
 
 /* Box styles */
+
 .ucb-box.ucb-box-style-outline .ucb-box-title, .ucb-box.ucb-box-style-outline .ucb-box-description {
 	border: 1px solid var(--ucb-box-theme-fill);
 }
@@ -65,6 +68,7 @@
 }
 
 /* Box themes */
+
 .ucb-box.ucb-box-theme-black {
 	--ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
 	--ucb-box-theme-fill: #000;

@@ -7,16 +7,12 @@
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
  */
 
-import {
-	ButtonView,
-	createDropdown,
-	addToolbarToDropdown
-} from 'ckeditor5/src/ui';
+import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
 import { alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions } from './boxconfig';
 import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
-import icon from '../../../../icons/box.svg';
-import boxThemeIcon from '../../../../icons/box-theme.svg';
+import boxIcon from '../../../../icons/box.svg';
+import themeIcon from '../../../../icons/theme.svg';
 
 export default class BoxUI extends Plugin {
 	/**
@@ -41,7 +37,7 @@ export default class BoxUI extends Plugin {
 			// Create the toolbar button.
 			buttonView.set({
 				label: editor.t('Box'),
-				icon,
+				icon: boxIcon,
 				tooltip: true
 			});
 
@@ -139,7 +135,7 @@ export default class BoxUI extends Plugin {
 		);
 		themeDropdownView.buttonView.set({
 			label: 'Box theme',
-			icon: boxThemeIcon,
+			icon: themeIcon,
 			tooltip: true
 		});
 		// Enable button if any of the buttons are enabled.
