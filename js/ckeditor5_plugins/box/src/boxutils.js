@@ -1,4 +1,9 @@
-import { Element, DocumentSelection } from 'ckeditor5/src/engine';
+/** 
+ * @file defines helper functions for the box plugin.
+ * 
+ * @typedef { import('ckeditor5/src/engine').Element } Element
+ * @typedef { import('ckeditor5/src/engine').DocumentSelection } DocumentSelection
+ */
 
 /**
  * @param {DocumentSelection} selection 
@@ -27,5 +32,5 @@ export function getSelectedBoxWidget(selection) {
  *   Whether the element is a box widget.
  */
 function isBoxWidget(element) {
-	return element.name == 'box';
+	return element.name === 'box';
 }

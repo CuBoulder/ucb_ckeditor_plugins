@@ -1,10 +1,17 @@
+/**
+ * @file defines schemas, converters, and commands for the box plugin.
+ * 
+ * @typedef { import('./boxconfig').SelectableOption } SelectableOption
+ */
+
 import { Plugin } from 'ckeditor5/src/core';
 import { toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertBoxCommand from './insertboxcommand';
 import { enablePlaceholder } from 'ckeditor5/src/engine';
 import ModifyBoxCommand from './modifyboxcommand';
-import { alignmentOptions, alignmentDefault, styleOptions, styleDefault } from './boxconfig';
+import ThemeBoxCommand from './themeboxcommand';
+import { alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions, themeDefault } from './boxconfig';
 
 // cSpell:ignore box insertboxcommand
 
@@ -29,16 +36,20 @@ import { alignmentOptions, alignmentDefault, styleOptions, styleDefault } from '
  * converted to standard DOM markup.
  */
 export default class BoxEditing extends Plugin {
+	/**
+	 * @inheritdoc
+	 */
 	static get requires() {
 		return [Widget];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	init() {
 		this._defineSchema();
 		this._defineConverters();
-		this.editor.commands.add('insertBox', new InsertBoxCommand(this.editor));
-		this.editor.commands.add('alignBox', new ModifyBoxCommand(this.editor, 'boxAlignment', alignmentDefault));
-		this.editor.commands.add('styleBox', new ModifyBoxCommand(this.editor, 'boxStyle', styleDefault));
+		this._defineCommands();
 	}
 
 	/*
@@ -60,8 +71,8 @@ export default class BoxEditing extends Plugin {
 			isObject: true,
 			// Allow in places where other blocks are allowed (e.g. directly in the root).
 			allowWhere: '$block',
-			// Allow the attributes which control the box's alignment, style, and color.
-			allowAttributes: ['boxAlignment', 'boxStyle']
+			// Allow the attributes which control the box's alignment, style, and theme.
+			allowAttributes: ['boxAlignment', 'boxStyle', 'boxTheme']
 		});
 
 		schema.register('boxInner', {
@@ -109,7 +120,7 @@ export default class BoxEditing extends Plugin {
 		// The alignment, style, and color attributes all convert to element class names.
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxAlignment', alignmentOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxStyle', styleOptions));
-		// conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxColor', colorOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxTheme', themeOptions));
 
 		conversion.for('upcast').elementToElement({
 			model: 'boxContainer',
@@ -261,8 +272,27 @@ export default class BoxEditing extends Plugin {
 			}
 		});
 	}
+
+	/**
+	 * Defines the commands for inserting or modifying the box.
+	 */
+	_defineCommands() {
+		const commands = this.editor.commands;
+		commands.add('insertBox', new InsertBoxCommand(this.editor));
+		commands.add('alignBox', new ModifyBoxCommand(this.editor, 'boxAlignment', alignmentDefault));
+		commands.add('styleBox', new ModifyBoxCommand(this.editor, 'boxStyle', styleDefault));
+		commands.add('themeBox', new ThemeBoxCommand(this.editor, 'boxTheme', themeDefault));
+	}
 }
 
+/**
+ * @param {string} attributeName 
+ *   The attribute name.
+ * @param {Object<string, SelectableOption>} attributeOptions
+ *   The options avaliable for the attribute.
+ * @returns 
+ *   The attribute to attribute definition of the specified attribute.
+ */
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 	const view = {};
 	for (const [name, option] of Object.entries(attributeOptions))

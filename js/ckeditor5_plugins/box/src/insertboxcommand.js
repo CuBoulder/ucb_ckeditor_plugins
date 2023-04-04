@@ -1,12 +1,17 @@
 /**
- * @file defines InsertBoxCommand, which is executed when the box
- * toolbar button is pressed.
+ * @file defines InsertBoxCommand, which is executed when the box toolbar button is pressed.
+ * 
+ * @typedef { import('ckeditor5/src/engine').Element } Element
+ * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/writer').default } Writer
  */
-// cSpell:ignore boxediting
+
 import { alignmentDefault, styleDefault } from './boxconfig';
 import { Command } from 'ckeditor5/src/core';
 
 export default class InsertBoxCommand extends Command {
+	/**
+	 * @inheritdoc
+	 */
 	execute() {
 		const { model } = this.editor;
 
@@ -17,6 +22,9 @@ export default class InsertBoxCommand extends Command {
 		});
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	refresh() {
 		const { model } = this.editor;
 		const { selection } = model.document;
@@ -35,9 +43,14 @@ export default class InsertBoxCommand extends Command {
 	}
 }
 
+/**
+ * @param {Writer} writer
+ *   The writer used to create and append elements.
+ * @returns {Element}
+ *   The box element with all required child elements to match the box schema.
+ */
 function createBox(writer) {
-	// Create instances of the three elements registered with the editor in
-	// boxediting.js.
+	// Create instances of the three elements registered with the editor in boxediting.js.
 	const box = writer.createElement('box', { 'boxAlignment': alignmentDefault, 'boxStyle': styleDefault });
 	const boxInner = writer.createElement('boxInner');
 	const boxTitle = writer.createElement('boxTitle');
@@ -49,8 +62,7 @@ function createBox(writer) {
 	writer.append(boxTitle, boxInner);
 	writer.append(boxDescription, boxInner);
 
-	// The boxDescription text content will automatically be wrapped in a
-	// `<p>`.
+	// The boxDescription text content will automatically be wrapped in a `<p>`.
 	writer.appendElement('paragraph', boxDescription);
 
 	// Return the element to be added to the editor.

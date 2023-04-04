@@ -46,10 +46,10 @@ ucb_ckeditor_plugins_box:
       - <div class="ucb-box-style-fill">
       - <div class="ucb-box-style-outline">
       - <div class="ucb-box-style-none">
-      - <div class="ucb-box-color-black">
-      - <div class="ucb-box-color-darkgray">
-      - <div class="ucb-box-color-lightgray">
-      - <div class="ucb-box-color-black">
+      - <div class="ucb-box-theme-black">
+      - <div class="ucb-box-theme-darkgray">
+      - <div class="ucb-box-theme-lightgray">
+      - <div class="ucb-box-theme-white">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.
