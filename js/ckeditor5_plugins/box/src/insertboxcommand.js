@@ -5,7 +5,7 @@
  * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/writer').default } Writer
  */
 
-import { alignmentDefault, styleDefault } from './boxconfig';
+import { titleDefault, alignmentDefault, styleDefault, themeDefault } from './boxconfig';
 import { Command } from 'ckeditor5/src/core';
 
 export default class InsertBoxCommand extends Command {
@@ -51,7 +51,7 @@ export default class InsertBoxCommand extends Command {
  */
 function createBox(writer) {
 	// Create instances of the three elements registered with the editor in boxediting.js.
-	const box = writer.createElement('box', { 'boxAlignment': alignmentDefault, 'boxStyle': styleDefault });
+	const box = writer.createElement('box', { 'boxTitle': titleDefault, 'boxAlignment': alignmentDefault, 'boxStyle': styleDefault, 'boxTheme': themeDefault });
 	const boxInner = writer.createElement('boxInner');
 	const boxTitle = writer.createElement('boxTitle');
 	const boxDescription = writer.createElement('boxDescription');
