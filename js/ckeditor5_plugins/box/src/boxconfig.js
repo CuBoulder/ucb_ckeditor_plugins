@@ -13,19 +13,45 @@ import boxStyleOutline from '../../../../icons/box-style-outline.svg';
 import boxStyleNone from '../../../../icons/box-style-none.svg';
 
 /** @type {Object<string, SelectableOption>} */
+export const titleOptions = {
+	left: {
+		label: 'Align left',
+		icon: icons.alignLeft,
+		className: 'ucb-box-title-left'
+	},
+	center: {
+		label: 'Align center',
+		icon: icons.alignCenter,
+		className: 'ucb-box-title-center'
+	},
+	right: {
+		label: 'Align right',
+		icon: icons.alignRight,
+		className: 'ucb-box-title-right'
+	},
+	hidden: {
+		label: 'Hide',
+		icon: icons.cancel,
+		className: 'ucb-box-title-hidden'
+	}
+};
+
+export const titleDefault = 'left';
+
+/** @type {Object<string, SelectableOption>} */
 export const alignmentOptions = {
 	left: {
-		label: 'Left',
+		label: 'Float left',
 		icon: icons.objectLeft,
 		className: 'ucb-box-alignment-left'
 	},
 	none: {
-		label: 'Full',
+		label: 'Fill width',
 		icon: icons.objectFullWidth,
 		className: 'ucb-box-alignment-none'
 	},
 	right: {
-		label: 'Right',
+		label: 'Float right',
 		icon: icons.objectRight,
 		className: 'ucb-box-alignment-right'
 	}

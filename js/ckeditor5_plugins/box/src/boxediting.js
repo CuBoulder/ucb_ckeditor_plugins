@@ -11,7 +11,7 @@ import InsertBoxCommand from './insertboxcommand';
 import { enablePlaceholder } from 'ckeditor5/src/engine';
 import ModifyBoxCommand from './modifyboxcommand';
 import ThemeBoxCommand from './themeboxcommand';
-import { alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions, themeDefault } from './boxconfig';
+import { titleOptions, titleDefault, alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions, themeDefault } from './boxconfig';
 
 // cSpell:ignore box insertboxcommand
 
@@ -72,7 +72,7 @@ export default class BoxEditing extends Plugin {
 			// Allow in places where other blocks are allowed (e.g. directly in the root).
 			allowWhere: '$block',
 			// Allow the attributes which control the box's alignment, style, and theme.
-			allowAttributes: ['boxAlignment', 'boxStyle', 'boxTheme']
+			allowAttributes: ['boxTitle', 'boxAlignment', 'boxStyle', 'boxTheme']
 		});
 
 		schema.register('boxInner', {
@@ -89,13 +89,13 @@ export default class BoxEditing extends Plugin {
 			// This is only to be used within box.
 			allowIn: 'boxInner',
 			// Allow content that is allowed in blocks (e.g. text with attributes).
-			allowContentOf: '$block',
+			allowContentOf: '$block'
 		});
 
 		schema.register('boxDescription', {
 			isLimit: true,
 			allowIn: 'boxInner',
-			allowContentOf: '$root',
+			allowContentOf: '$root'
 		});
 
 		schema.addChildCheck((context, childDefinition) => {
@@ -118,6 +118,7 @@ export default class BoxEditing extends Plugin {
 		const { conversion, editing } = this.editor;
 
 		// The alignment, style, and color attributes all convert to element class names.
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxTitle', titleOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxAlignment', alignmentOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxStyle', styleOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxTheme', themeOptions));
@@ -255,7 +256,7 @@ export default class BoxEditing extends Plugin {
 				enablePlaceholder({
 					view: editing.view,
 					element: div,
-					text: 'Title (Optional)'
+					text: 'Title'
 				});
 				return toWidgetEditable(div, viewWriter);
 			}
@@ -279,6 +280,7 @@ export default class BoxEditing extends Plugin {
 	_defineCommands() {
 		const commands = this.editor.commands;
 		commands.add('insertBox', new InsertBoxCommand(this.editor));
+		commands.add('modifyBoxTitle', new ModifyBoxCommand(this.editor, 'boxTitle', alignmentDefault));
 		commands.add('alignBox', new ModifyBoxCommand(this.editor, 'boxAlignment', alignmentDefault));
 		commands.add('styleBox', new ModifyBoxCommand(this.editor, 'boxStyle', styleDefault));
 		commands.add('themeBox', new ThemeBoxCommand(this.editor, 'boxTheme', themeDefault));

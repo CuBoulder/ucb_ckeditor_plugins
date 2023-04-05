@@ -5,10 +5,11 @@
  * @typedef { import('ckeditor5/src/core').Command } Command
  * @typedef { import('@types/ckeditor__ckeditor5-ui/src/dropdown/dropdownview').default } DropdownView
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
+ * @typedef { import('./boxconfig').SelectableOption } SelectableOption
  */
 
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
-import { alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions } from './boxconfig';
+import { titleOptions, titleDefault, alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions, themeDefault } from './boxconfig';
 import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import boxIcon from '../../../../icons/box.svg';
@@ -27,10 +28,12 @@ export default class BoxUI extends Plugin {
 	 */
 	init() {
 		/** @type {EditorWithUI} */
-		const editor = this.editor;
+		const editor = this.editor,
+			commands = editor.commands,
+			componentFactory = editor.ui.componentFactory;
 
 		// This will register the box toolbar button.
-		editor.ui.componentFactory.add('box', (locale) => {
+		componentFactory.add('box', (locale) => {
 			const command = editor.commands.get('insertBox');
 			const buttonView = new ButtonView(locale);
 
@@ -50,10 +53,15 @@ export default class BoxUI extends Plugin {
 			return buttonView;
 		});
 
-		// Makes alignment, style, and theme options avaliable to the widget toolbar.
-		editor.ui.componentFactory.add('boxAlignment', locale => this._createAlignmentDropdown(locale));
-		editor.ui.componentFactory.add('boxStyle', locale => this._createStyleDropdown(locale));
-		editor.ui.componentFactory.add('boxTheme', locale => this._createThemeDropdown(locale));
+		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
+		componentFactory.add('boxTitle', locale => 
+			this._createDropdown(locale, 'Box title text', null, commands.get('modifyBoxTitle'), titleOptions, titleDefault));
+		componentFactory.add('boxAlignment', locale => 
+			this._createDropdown(locale, 'Box alignment', alignmentOptions[alignmentDefault].icon, commands.get('alignBox'), alignmentOptions, alignmentDefault));
+		componentFactory.add('boxStyle', locale =>
+			this._createDropdown(locale, 'Box style', styleOptions[styleDefault].icon, commands.get('styleBox'), styleOptions, styleDefault));
+		componentFactory.add('boxTheme', locale =>
+			this._createDropdown(locale, 'Box theme', themeIcon, commands.get('themeBox'), themeOptions, themeDefault));
 	}
 
 	/**
@@ -63,84 +71,46 @@ export default class BoxUI extends Plugin {
 		const editor = this.editor;
 		const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 		widgetToolbarRepository.register('box', {
-			items: ['boxAlignment', 'boxStyle', 'boxTheme'],
+			items: ['boxTitle', 'boxAlignment', 'boxStyle', 'boxTheme'],
 			getRelatedElement: (selection) =>
 				selection.focus.getAncestors()
 					.find((node) => node.is('element') && node.hasClass('ucb-box'))
 		});
 	}
 
-	/**
-	 * @param {Locale} locale
-	 *   The locale.
-	 * @returns {DropdownView}
-	 *   The alignment dropdown view.
-	 */
-	_createAlignmentDropdown(locale) {
-		const editor = this.editor, command = editor.commands.get('alignBox'),
-			alignmentDropdownView = createDropdown(locale);
-		addToolbarToDropdown(
-			alignmentDropdownView,
-			Object.entries(alignmentOptions).map(([optionValue, option]) => this._createButton(option.label, option.icon, command, optionValue))
-		);
-		alignmentDropdownView.buttonView.set({
-			label: 'Box alignment',
-			icon: alignmentOptions[alignmentDefault].icon,
-			tooltip: true
-		});
-		// Change icon to reflect current selection.
-		alignmentDropdownView.buttonView.bind('icon').to(command, 'value', value => alignmentOptions[value] ? alignmentOptions[value].icon : alignmentOptions[alignmentDefault].icon);
-		// Enable button if any of the buttons are enabled.
-		alignmentDropdownView.bind('isEnabled').to(command, 'isEnabled');
-		return alignmentDropdownView;
-	}
 
 	/**
+	 * Creates a dropdown with multiple buttons for executing a command.
+	 * 
 	 * @param {Locale} locale
 	 *   The locale.
+	 * @param {string} label
+	 *   The dropdown's label.
+	 * @param {string | null} icon
+	 *   The dropdowns's icon (optional). If null, the dropdown will display as text.
+	 * @param {Command} command
+	 *   The command to execute when one of the buttons is pushed.
+	 * @param {Object<string, SelectableOption>} options
+	 *   The options for buttons in this dropdown view.
+	 * @param {string} defaultValue
+	 *   The default value of the command.
 	 * @returns {DropdownView}
-	 *   The style dropdown view.
+	 *   The dropdown.
 	 */
-	_createStyleDropdown(locale) {
-		const command = this.editor.commands.get('styleBox'),
-			styleDropdownView = createDropdown(locale);
-		addToolbarToDropdown(
-			styleDropdownView,
-			Object.entries(styleOptions).map(([optionValue, option]) => this._createButton(option.label, option.icon, command, optionValue))
-		);
-		styleDropdownView.buttonView.set({
-			label: 'Box style',
-			icon: styleOptions[styleDefault].icon,
-			tooltip: true
+	_createDropdown(locale, label, icon, command, options, defaultValue) {
+		const dropdownView = createDropdown(locale);
+		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createButton(option.label, option.icon, command, optionValue)));
+		dropdownView.buttonView.set({
+			label,
+			icon,
+			tooltip: true,
+			withText: !icon
 		});
-		// Change icon to reflect current selection.
-		styleDropdownView.buttonView.bind('icon').to(command, 'value', value => styleOptions[value] ? styleOptions[value].icon : styleOptions[styleDefault].icon);
+		if(icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
+			dropdownView.buttonView.bind('icon').to(command, 'value', value => options[value] ? options[value].icon : options[defaultValue].icon);
 		// Enable button if any of the buttons are enabled.
-		styleDropdownView.bind('isEnabled').to(command, 'isEnabled');
-		return styleDropdownView;
-	}
-
-	/**
-	 * @param {Locale} locale
-	 *   The locale.
-	 * @returns {DropdownView}
-	 *   The theme dropdown view.
-	 */
-	_createThemeDropdown(locale) {
-		const command = this.editor.commands.get('themeBox'),
-			themeDropdownView = createDropdown(locale);
-		addToolbarToDropdown(
-			themeDropdownView,
-			Object.entries(themeOptions).map(([optionValue, option]) => this._createButton(option.label, option.icon, command, optionValue))
-		);
-		themeDropdownView.buttonView.set({
-			label: 'Box theme',
-			icon: themeIcon,
-			tooltip: true
-		});
-		// Enable button if any of the buttons are enabled.
-		themeDropdownView.bind('isEnabled').to(command, 'isEnabled');
-		return themeDropdownView;
+		dropdownView.bind('isEnabled').to(command, 'isEnabled');
+		return dropdownView;		
 	}
 
 	/**

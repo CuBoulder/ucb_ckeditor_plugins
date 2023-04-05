@@ -24,6 +24,7 @@
 }
 
 .ucb-box .ucb-box-title {
+	font-weight: bold;
 	margin-bottom: -1px;
 	padding: 1em;
 }
@@ -41,16 +42,34 @@
 	margin-bottom: 0;
 }
 
+/* Box title */
+
+.ucb-box.ucb-box-title-left .ucb-box-title {
+	text-align: left;
+}
+
+.ucb-box.ucb-box-title-center .ucb-box-title {
+	text-align: center;
+}
+
+.ucb-box.ucb-box-title-right .ucb-box-title {
+	text-align: right;
+}
+
+.ucb-box.ucb-box-title-hidden .ucb-box-title {
+	display: none;
+}
+
 /* Box alignments */
 
-.ucb-box-alignment-left {
+.ucb-box.ucb-box-alignment-left {
 	float: left;
 	clear: left;
 	max-width: calc(40% - 1em);
 	margin-right: 1em;
 }
 
-.ucb-box-alignment-right {
+.ucb-box.ucb-box-alignment-right {
 	float: right;
 	clear: right;
 	max-width: calc(40% - 1em);
