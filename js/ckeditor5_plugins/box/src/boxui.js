@@ -55,7 +55,7 @@ export default class BoxUI extends Plugin {
 
 		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
 		componentFactory.add('boxTitle', locale => 
-			this._createDropdown(locale, 'Box title text', null, commands.get('modifyBoxTitle'), titleOptions, titleDefault));
+			this._createDropdown(locale, 'Box title', titleOptions[titleDefault].icon, commands.get('modifyBoxTitle'), titleOptions, titleDefault));
 		componentFactory.add('boxAlignment', locale => 
 			this._createDropdown(locale, 'Box alignment', alignmentOptions[alignmentDefault].icon, commands.get('alignBox'), alignmentOptions, alignmentDefault));
 		componentFactory.add('boxStyle', locale =>

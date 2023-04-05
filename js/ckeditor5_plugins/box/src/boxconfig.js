@@ -8,6 +8,10 @@
  */
 
 import { icons } from 'ckeditor5/src/core';
+import boxTitleLeft from '../../../../icons/box-title-left.svg';
+import boxTitleCenter from '../../../../icons/box-title-center.svg';
+import boxTitleRight from '../../../../icons/box-title-right.svg';
+import boxTitleHidden from '../../../../icons/box-title-hidden.svg';
 import boxStyleFill from '../../../../icons/box-style-fill.svg';
 import boxStyleOutline from '../../../../icons/box-style-outline.svg';
 import boxStyleNone from '../../../../icons/box-style-none.svg';
@@ -16,22 +20,22 @@ import boxStyleNone from '../../../../icons/box-style-none.svg';
 export const titleOptions = {
 	left: {
 		label: 'Align left',
-		icon: icons.alignLeft,
+		icon: boxTitleLeft,
 		className: 'ucb-box-title-left'
 	},
 	center: {
 		label: 'Align center',
-		icon: icons.alignCenter,
+		icon: boxTitleCenter,
 		className: 'ucb-box-title-center'
 	},
 	right: {
 		label: 'Align right',
-		icon: icons.alignRight,
+		icon: boxTitleRight,
 		className: 'ucb-box-title-right'
 	},
 	hidden: {
 		label: 'Hide',
-		icon: icons.cancel,
+		icon: boxTitleHidden,
 		className: 'ucb-box-title-hidden'
 	}
 };
