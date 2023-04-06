@@ -1,7 +1,3 @@
-/**
- * @file defines insertInvisibleCommand, which is executed when the Invisible
- * toolbar button is pressed.
- */
 import { Command } from 'ckeditor5/src/core';
 
 export default class ButtonCommand extends Command {

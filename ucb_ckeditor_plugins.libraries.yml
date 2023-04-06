@@ -55,7 +55,7 @@ button.admin:
 
 button.editor:
   js:
-    js/build/button.js: { preprocess: false, minified: false }
+    js/build/button.js: { preprocess: false, minified: true }
   dependencies:
     - core/ckeditor5
   css:
