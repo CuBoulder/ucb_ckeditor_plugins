@@ -54,16 +54,16 @@ function createBox(writer) {
 	const box = writer.createElement('box', { 'boxTitle': titleDefault, 'boxAlignment': alignmentDefault, 'boxStyle': styleDefault, 'boxTheme': themeDefault });
 	const boxInner = writer.createElement('boxInner');
 	const boxTitle = writer.createElement('boxTitle');
-	const boxDescription = writer.createElement('boxDescription');
+	const boxContent = writer.createElement('boxContent');
 
 	// Append the title and description elements to the box, which matches
 	// the parent/child relationship as defined in their schemas.
 	writer.append(boxInner, box);
 	writer.append(boxTitle, boxInner);
-	writer.append(boxDescription, boxInner);
+	writer.append(boxContent, boxInner);
 
 	// The boxDescription text content will automatically be wrapped in a `<p>`.
-	writer.appendElement('paragraph', boxDescription);
+	writer.appendElement('paragraph', boxContent);
 
 	// Return the element to be added to the editor.
 	return box;

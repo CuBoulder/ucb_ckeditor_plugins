@@ -1,4 +1,4 @@
-ckeditor5-plugin-styles:
+ckeditor-plugin-styles:
   css:
     theme:
       css/box: { }

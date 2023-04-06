@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Adds plugin styles to pages.
+ * Implements hook_preprocess_HOOK().
+ */
+function ucb_ckeditor_plugins_preprocess_field(array &$variables) {
+	$fieldType = $variables['field_type'];
+	if($variables['field_type'] == 'text_long' || $variables['field_type'] == 'text_with_summary')
+		$variables['#attached']['library'][] = 'ucb_ckeditor_plugins/ckeditor-plugin-styles';
+}
