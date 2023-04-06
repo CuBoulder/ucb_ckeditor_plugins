@@ -23,7 +23,7 @@
 	background-color: var(--ucb-box-title-theme-fill, rgba(128, 128, 128, 0.15));
 	font-weight: bold;
 	margin-bottom: -1px;
-	padding: 1em;
+	padding: 1em 1em .9em 1em;
 }
 
 .ucb-box .ucb-box-content {
