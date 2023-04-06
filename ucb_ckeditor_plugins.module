@@ -6,6 +6,6 @@
  */
 function ucb_ckeditor_plugins_preprocess_field(array &$variables) {
 	$fieldType = $variables['field_type'];
-	if($variables['field_type'] == 'text_long' || $variables['field_type'] == 'text_with_summary')
+	if($fieldType == 'text_long' || $fieldType == 'text_with_summary') // Indicates a rich text field
 		$variables['#attached']['library'][] = 'ucb_ckeditor_plugins/ckeditor-plugin-styles';
 }
