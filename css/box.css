@@ -27,6 +27,7 @@
 }
 
 .ucb-box .ucb-box-content {
+    overflow: auto;
 	padding: 1em;
 	padding-top: calc(1em + 1px);
 }
