@@ -33,13 +33,10 @@ ucb_ckeditor_plugins_box:
     # `elements: false`
     elements:
       # Note that it necessary for elements to separately provide both the tag
-      # (f.e. `<h2>`) and the attribute being added to the tag
-      # (f.e. `<h2 class="ucb-box-title">`).
+      # (f.e. `<div>`) and the attribute being added to the tag
+      # (f.e. `<div class>`).
       - <div>
-      - <div class="ucb-box-title">
-      - <div class="ucb-box-description">
-      - <section>
-      - <section class="ucb-box">
+      - <div class>
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.
@@ -111,8 +108,8 @@ ucb_ckeditor_plugins_tooltip:
       # Note that it necessary for elements to separately provide both the tag
       # <abbr> is used to make abbreviations which in essence is a tooltip.
       - <abbr>
-      - <abbr title="">
-      - <abbr class="ucb_tooltip">
+      - <abbr title>
+      - <abbr class="ucb-tooltip">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

@@ -1,0 +1,12 @@
+.ck .ucb-box .ucb-box-title.ck-placeholder:before {
+	margin: 0 1em;
+}
+
+.ck .ucb-box {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.ck .ucb-box .ck-editor__nested-editable:focus {
+	background-color: transparent;
+}

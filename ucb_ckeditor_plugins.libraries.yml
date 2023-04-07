@@ -1,3 +1,9 @@
+ckeditor-plugin-styles:
+  css:
+    theme:
+      css/box.css: { }
+      css/tooltip.css: { }
+
 box.admin:
   css:
     theme:
@@ -6,6 +12,10 @@ box.admin:
 box.editor:
   js:
     js/build/box.js: { preprocess: false, minified: true }
+  css:
+    theme:
+      css/box.editor.css: { }
+      css/box.css: { }
   dependencies:
     - core/ckeditor5
 

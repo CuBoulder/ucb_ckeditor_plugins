@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Box plugin: adds configuration toolbar and options
+  A toolbar appears when clicking inside a box and allows editing of the following options:
+  
+  Title:
+  - Align left (default)
+  - Align center
+  - Align right
+  - Hide
+  
+  Alignment:
+  - Float left
+  - Fill width (default)
+  - Float right
+  
+  Style:
+  - Fill (default)
+  - Outline
+  - None
+  
+  Theme:
+  - Black
+  - Dark Gray
+  - Light Gray (default)
+  - White
+  
+  Resolves CuBoulder/ucb_ckeditor_plugins#7
+  Resolves CuBoulder/tiamat-theme#250
+---
+
 - ### Adds `w` and `b` scripts
   Using `w` for `watch` or `b` for `build` allows a command-line argument to specify only а single plugin, e.g. `b box` to build the box plugin. `watch` and `build` function the same as before.
   
