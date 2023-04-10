@@ -48,7 +48,7 @@ export default class ButtonEditing extends Plugin {
       view: (buttonModelElement, { writer: viewWriter }) => {
         const href = buttonModelElement.getAttribute('href');
         const classes = buttonModelElement.getAttribute('class') || '';
-        const buttonViewElement = viewWriter.createContainerElement('button', {
+        const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
           href,
           class: `${classes}`,
         });
@@ -62,7 +62,7 @@ export default class ButtonEditing extends Plugin {
       view: (buttonModelElement, { writer: viewWriter }) => {
         const href = buttonModelElement.getAttribute('href');
         const classes = buttonModelElement.getAttribute('class') || '';
-        const buttonViewElement = viewWriter.createContainerElement('button', {
+        const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
           href,
           class: `${classes}`,
         });
