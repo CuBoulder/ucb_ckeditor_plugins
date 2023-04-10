@@ -19,7 +19,7 @@ This plugin is largely based on CKEditor 5's [block plugin widget tutorial](http
 <div class="ucb-box ucb-box-title-(left|center|right|hidden) ucb-box-alignment-(left|none|right) ucb-box-style-(fill|outline|none) ucb-box-theme-(black|darkgray|lightgray|white)">
 	<div class="ucb-box-inner">
 		<div class="ucb-box-title"> ... </div>
-		<div class="ucb-box-description"> ... </div>
+		<div class="ucb-box-content"> ... </div>
 	</div>
 </div>
 ```
