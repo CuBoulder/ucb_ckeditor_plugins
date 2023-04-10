@@ -15,18 +15,15 @@ export default class ButtonUI extends Plugin {
         this._balloon = this.editor.plugins.get(ContextualBalloon);
         // this.formView = this._createFormView();
 
-        editor.ui.componentFactory.add( 'ucb-button', () => {
+        editor.ui.componentFactory.add( 'button', () => {
             const command = editor.commands.get( 'addButton' );
             const button = new ButtonView();
 
             button.set( {
-                label: 'Add Button',
+                label: 'Button',
                 icon: icon,
                 tooltip: true,
             } );
-
-            button.bind( 'isEnabled' ).to( command );
-            button.bind( 'isOn' ).to( command, 'value', 'isEnabled' ).withDefaultValue( false );
 
             this.listenTo( button, 'execute', () => {
                 this._showUI();
