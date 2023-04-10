@@ -10,7 +10,7 @@ This plugin is largely based on CKEditor 5's [block plugin widget tutorial](http
 	<boxInner>
 		<boxTitle>{content of: $block}</boxTitle>
 		<boxContent>{content of: $root}</boxContent>
-	<boxInner>
+	</boxInner>
 </box>
 ```
 
