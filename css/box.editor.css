@@ -2,8 +2,9 @@
 	margin: 0 1em;
 }
 
-.ck.ck-editor__editable_inline > .ucb-box:first-child, .ck.ck-editor__editable_inline > .ucb-box:last-child {
+.ck .ucb-box {
 	margin-top: 1em;
+	margin-bottom: 1em;
 }
 
 .ck .ucb-box .ck-editor__nested-editable:focus {

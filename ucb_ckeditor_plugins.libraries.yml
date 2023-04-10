@@ -1,8 +1,8 @@
-ckeditor5-plugin-styles:
+ckeditor-plugin-styles:
   css:
     theme:
-      css/box: { }
-      css/tooltip: { }
+      css/box.css: { }
+      css/tooltip.css: { }
 
 box.admin:
   css:

@@ -34,22 +34,9 @@ ucb_ckeditor_plugins_box:
     elements:
       # Note that it necessary for elements to separately provide both the tag
       # (f.e. `<div>`) and the attribute being added to the tag
-      # (f.e. `<div class="ucb-box-title">`).
+      # (f.e. `<div class>`).
       - <div>
-      - <div class="ucb-box">
-      - <div class="ucb-box-inner">
-      - <div class="ucb-box-title">
-      - <div class="ucb-box-description">
-      - <div class="ucb-box-alignment-left">
-      - <div class="ucb-box-alignment-none">
-      - <div class="ucb-box-alignment-right">
-      - <div class="ucb-box-style-fill">
-      - <div class="ucb-box-style-outline">
-      - <div class="ucb-box-style-none">
-      - <div class="ucb-box-theme-black">
-      - <div class="ucb-box-theme-darkgray">
-      - <div class="ucb-box-theme-lightgray">
-      - <div class="ucb-box-theme-white">
+      - <div class>
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.
@@ -121,8 +108,8 @@ ucb_ckeditor_plugins_tooltip:
       # Note that it necessary for elements to separately provide both the tag
       # <abbr> is used to make abbreviations which in essence is a tooltip.
       - <abbr>
-      - <abbr title="">
-      - <abbr class="ucb_tooltip">
+      - <abbr title>
+      - <abbr class="ucb-tooltip">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

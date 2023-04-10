@@ -22,14 +22,18 @@ import { titleOptions, titleDefault, alignmentOptions, alignmentDefault, styleOp
  *
  * CKEditor 5 internally interacts with box as this model:
  * <box>
- *    <boxTitle></boxTitle>
- *    <boxDescription></boxDescription>
+ *    <boxInner>
+ *       <boxTitle></boxTitle>
+ *       <boxContent></boxContent>
+ *    <boxInner>
  * </box>
  *
  * Which is converted for the browser/user as this markup
  * <div class="ucb-box">
- *   <div class="ucb-box-title"></div>
- *   <div class="ucb-box-description"></div>
+ *   <div class="ucb-box-inner">
+ *       <div class="ucb-box-title"></div>
+ *       <div class="ucb-box-content"></div>
+ *   </div>
  * </div>
  *
  * This file has the logic for defining the box model, and for how it is
@@ -56,7 +60,7 @@ export default class BoxEditing extends Plugin {
 	 * This registers the structure that will be seen by CKEditor 5 as
 	 * <box>
 	 *    <boxTitle></boxTitle>
-	 *    <boxDescription></boxDescription>
+	 *    <boxContent></boxContent>
 	 * </box>
 	 *
 	 * The logic in _defineConverters() will determine how this is converted to
@@ -92,16 +96,16 @@ export default class BoxEditing extends Plugin {
 			allowContentOf: '$block'
 		});
 
-		schema.register('boxDescription', {
+		schema.register('boxContent', {
 			isLimit: true,
 			allowIn: 'boxInner',
 			allowContentOf: '$root'
 		});
 
 		schema.addChildCheck((context, childDefinition) => {
-			// Disallow box inside boxDescription.
+			// Disallow box inside boxContent.
 			if (
-				context.endsWith('boxDescription') &&
+				context.endsWith('boxContent') &&
 				childDefinition.name === 'box'
 			) {
 				return false;
@@ -169,15 +173,15 @@ export default class BoxEditing extends Plugin {
 			}
 		});
 
-		// If <div class="ucb-box-description"> is present in the existing markup
+		// If <div class="ucb-box-content"> is present in the existing markup
 		// processed by CKEditor, then CKEditor recognizes and loads it as a
-		// <boxDescription> model, provided it is a child element of
+		// <boxContent> model, provided it is a child element of
 		// <box>, as required by the schema.
 		conversion.for('upcast').elementToElement({
-			model: 'boxDescription',
+			model: 'boxContent',
 			view: {
 				name: 'div',
-				classes: 'ucb-box-description'
+				classes: 'ucb-box-content'
 			}
 		});
 
@@ -219,13 +223,13 @@ export default class BoxEditing extends Plugin {
 			}
 		});
 
-		// Instances of <boxDescription> are saved as
-		// <div class="ucb-box-description">{{inner content}}</div>.
+		// Instances of <boxContent> are saved as
+		// <div class="ucb-box-content">{{inner content}}</div>.
 		conversion.for('dataDowncast').elementToElement({
-			model: 'boxDescription',
+			model: 'boxContent',
 			view: {
 				name: 'div',
-				classes: 'ucb-box-description'
+				classes: 'ucb-box-content'
 			}
 		});
 
@@ -262,12 +266,12 @@ export default class BoxEditing extends Plugin {
 			}
 		});
 
-		// Convert the <boxDescription> model into an editable <div> widget.
+		// Convert the <boxContent> model into an editable <div> widget.
 		conversion.for('editingDowncast').elementToElement({
-			model: 'boxDescription',
+			model: 'boxContent',
 			view: (modelElement, { writer: viewWriter }) => {
 				const div = viewWriter.createEditableElement('div', {
-					class: 'ucb-box-description',
+					class: 'ucb-box-content',
 				});
 				return toWidgetEditable(div, viewWriter);
 			}
