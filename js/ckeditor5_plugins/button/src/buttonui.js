@@ -3,6 +3,7 @@ import FormView from './buttonview';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import icon from '../../../../icons/hand-pointer-regular.svg';
 import { ButtonView, ContextualBalloon } from 'ckeditor5/src/ui';
+import getRangeText from './buttonutils';
 
 export default class ButtonUI extends Plugin {
     static get requires() {
@@ -27,7 +28,7 @@ export default class ButtonUI extends Plugin {
 
             this.listenTo( button, 'execute', () => {
                 this._showUI();
-                editor.execute('addButton')
+                // editor.execute('addButton')
             });
 
             return button;
@@ -80,8 +81,7 @@ export default class ButtonUI extends Plugin {
 			position: this._getBalloonPositionData()
 		} );
 
-		// Disable the input when the selection is not collapsed.
-		this.formView.abbrInputView.isEnabled = selection.getFirstRange().isCollapsed;
+		console.log
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
