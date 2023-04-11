@@ -1,8 +1,13 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import FormView from './buttonview';
+
 import getRangeText from './buttonutils.js';
 import icon from '../../../../icons/hand-pointer-regular.svg';
+import { sizeOptions, styleOptions, colorOptions, defaultColor,defaultStyle,defaultSize} from './buttonconfig';
+import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
+
+import colorIcon from '../../../../icons/paint.svg'
 
 export default class ButtonUI extends Plugin {
 	static get requires() {
@@ -11,12 +16,15 @@ export default class ButtonUI extends Plugin {
 
 	init() {
 		const editor = this.editor;
+		const componentFactory = editor.ui.componentFactory;
+
 
         // Create the balloon and the form view.
 		this._balloon = this.editor.plugins.get( ContextualBalloon );
 		this.formView = this._createFormView();
 
-		editor.ui.componentFactory.add( 'button', () => {
+
+		componentFactory.add( 'button', () => {
 			const button = new ButtonView();
 
 			button.label = 'Button';
@@ -31,6 +39,26 @@ export default class ButtonUI extends Plugin {
 
 			return button;
 		} );
+
+		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
+			componentFactory.add('buttonColor', locale => 
+				this._createDropdown(locale, 'Button Color', colorIcon, commands.get('value'), colorOptions, defaultColor));
+			componentFactory.add('buttonStyle', locale => 
+				this._createDropdown(locale, 'Button Style', alignmentOptions[alignmentDefault].icon, commands.get('value'), styleOptions, defaultStyle));
+			componentFactory.add('buttonSize', locale =>
+				this._createDropdown(locale, 'Button Size', styleOptions[styleDefault].icon, commands.get('value'), styleOptions, defaultSize));
+
+	}
+
+	afterInit() {
+		const editor = this.editor;
+		const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
+		widgetToolbarRepository.register('button', {
+			items: ['buttonColor', 'buttonStyle', 'buttonSize'],
+			getRelatedElement: (selection) =>
+				selection.focus.getAncestors()
+					.find((node) => node.is('element') && node.hasClass('ucb-button'))
+		});
 	}
 
   
