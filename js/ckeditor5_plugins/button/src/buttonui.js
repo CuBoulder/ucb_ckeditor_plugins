@@ -40,14 +40,6 @@ export default class ButtonUI extends Plugin {
 			return button;
 		} );
 
-		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
-			componentFactory.add('buttonColor', locale => 
-				this._createDropdown(locale, 'Button Color', colorIcon, commands.get('value'), colorOptions, defaultColor));
-			componentFactory.add('buttonStyle', locale => 
-				this._createDropdown(locale, 'Button Style', alignmentOptions[alignmentDefault].icon, commands.get('value'), styleOptions, defaultStyle));
-			componentFactory.add('buttonSize', locale =>
-				this._createDropdown(locale, 'Button Size', styleOptions[styleDefault].icon, commands.get('value'), styleOptions, defaultSize));
-
 	}
 
 	afterInit() {
@@ -57,7 +49,7 @@ export default class ButtonUI extends Plugin {
 			items: ['buttonColor', 'buttonStyle', 'buttonSize'],
 			getRelatedElement: (selection) =>
 				selection.focus.getAncestors()
-					.find((node) => node.is('element') && node.hasClass('ucb-button'))
+					.find((node) => node.is('element') && node.hasClass('button'))
 		});
 	}
 
@@ -65,13 +57,16 @@ export default class ButtonUI extends Plugin {
 
 	_createFormView() {
 		const editor = this.editor;
-		const formView = new FormView( editor.locale );
+		const componentFactory = editor.ui.componentFactory;
+		const formView = new FormView( editor.locale, componentFactory);
+
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
 			// Grab values from the tool tip and title input fields.
 			const value = {
-				link: formView.linkInputView.fieldView.element.value
+				href: formView.linkInputView.fieldView.element.value,
+				innerText: formView.innerTextInputView.fieldView.element.value
 			};
 			editor.execute( 'addButton', value );
 
@@ -107,7 +102,7 @@ export default class ButtonUI extends Plugin {
 		} );
 
 		// Disable the input when the selection is not collapsed.
-		this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
+		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
@@ -118,7 +113,7 @@ export default class ButtonUI extends Plugin {
 		else {
 			const selectedText = getRangeText( selection.getFirstRange() );
 
-			this.formView.linkInputView.fieldView.value = selectedText;
+			this.formView.innerTextInputView.fieldView.value = selectedText;
 		}
 
 		this.formView.focus();
@@ -127,6 +122,7 @@ export default class ButtonUI extends Plugin {
 	_hideUI() {
 		// Clear the input field values and reset the form.
 		this.formView.linkInputView.fieldView.value = '';
+		this.formView.innerTextInputView.fieldView.value = '';
 		// this.formView.titleInputView.fieldView.value = '';
 		this.formView.element.reset();
 

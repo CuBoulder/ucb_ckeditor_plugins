@@ -10,14 +10,23 @@ import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
 import { icons } from 'ckeditor5/src/core';
 
 export default class FormView extends View {
-	constructor( locale ) {
-		super( locale );
-
+	constructor( locale, componentFactory) {
+		super( locale);
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();
 
+		console.log('componentF', componentFactory)
+
+		// TO DO -- appears to add to component factory? How to retrieve and add to UI
+		const color = componentFactory.add('buttonColor', locale => 
+			this._createDropdown(locale, 'Button Color', colorIcon, commands.get('value'), colorOptions, defaultColor));
+		const style = componentFactory.add('buttonStyle', locale => 
+			this._createDropdown(locale, 'Button Style', styleOptions[defaultStyle].icon, commands.get('value'), styleOptions, defaultStyle));
+		const size = componentFactory.add('buttonSize', locale =>
+			this._createDropdown(locale, 'Button Size', sizeOptions[defaultSize].icon, commands.get('value'), sizeOptions, defaultSize));
+
+		this.innerTextInputView = this._createInput( 'Button Text' );
 		this.linkInputView = this._createInput( 'Add Link' );
-		// TO DO -- add dropdowns for Color, Size, Style
 		
 
 		this.saveButtonView = this._createButton( 'Save', icons.check, 'ck-button-save' );
@@ -32,6 +41,7 @@ export default class FormView extends View {
 		this.cancelButtonView.delegate( 'execute' ).to( this, 'cancel' );
 
 		this.childViews = this.createCollection( [
+			this.innerTextInputView,
 			this.linkInputView,
 			this.saveButtonView,
 			this.cancelButtonView
