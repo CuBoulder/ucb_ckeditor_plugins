@@ -2,6 +2,8 @@
  * @file defines schemas, converters, and commands for the box plugin.
  * 
  * @typedef { import('./boxconfig').SelectableOption } SelectableOption
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').DowncastWriter } DowncastWriter
+ * @typedef { import('@types/ckeditor__ckeditor5-engine/src/view/containerelement').default } ContainerElement
  */
 
 import { Plugin } from 'ckeditor5/src/core';
@@ -59,8 +61,10 @@ export default class BoxEditing extends Plugin {
 	/*
 	 * This registers the structure that will be seen by CKEditor 5 as
 	 * <box>
-	 *    <boxTitle></boxTitle>
-	 *    <boxContent></boxContent>
+	 *    <boxInner>
+	 *       <boxTitle></boxTitle>
+	 *       <boxContent></boxContent>
+	 *    <boxInner>
 	 * </box>
 	 *
 	 * The logic in _defineConverters() will determine how this is converted to
@@ -127,14 +131,6 @@ export default class BoxEditing extends Plugin {
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxStyle', styleOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('boxTheme', themeOptions));
 
-		conversion.for('upcast').elementToElement({
-			model: 'boxContainer',
-			view: {
-				name: 'div',
-				classes: 'ucb-box-container'
-			}
-		});
-
 		// Upcast Converters: determine how existing HTML is interpreted by the
 		// editor. These trigger when an editor instance loads.
 		//
@@ -185,14 +181,6 @@ export default class BoxEditing extends Plugin {
 			}
 		});
 
-		conversion.for('downcast').elementToElement({
-			model: 'boxContainer',
-			view: {
-				name: 'div',
-				classes: 'ucb-box-container'
-			}
-		});
-
 		// Data Downcast Converters: converts stored model data into HTML.
 		// These trigger when content is saved.
 		//
@@ -200,7 +188,7 @@ export default class BoxEditing extends Plugin {
 		// <div class="ucb-box">{{inner content}}</section>.
 		conversion.for('dataDowncast').elementToElement({
 			model: 'box',
-			view: (modelElement, { writer: viewWriter }) => createBoxView(modelElement, viewWriter)
+			view: (modelElement, { writer: viewWriter }) => createBoxView(viewWriter)
 		});
 
 		// Instances of <boxInner> are saved as
@@ -241,7 +229,7 @@ export default class BoxEditing extends Plugin {
 		// Convert the <box> model into a container widget in the editor UI.
 		conversion.for('editingDowncast').elementToElement({
 			model: 'box',
-			view: (modelElement, { writer: viewWriter }) => createBoxView(modelElement, viewWriter, true)
+			view: (modelElement, { writer: viewWriter }) => createBoxView(viewWriter, true)
 		});
 
 		// Convert the <boxTitle> model into a container <div>.
@@ -284,7 +272,7 @@ export default class BoxEditing extends Plugin {
 	_defineCommands() {
 		const commands = this.editor.commands;
 		commands.add('insertBox', new InsertBoxCommand(this.editor));
-		commands.add('modifyBoxTitle', new ModifyBoxCommand(this.editor, 'boxTitle', alignmentDefault));
+		commands.add('modifyBoxTitle', new ModifyBoxCommand(this.editor, 'boxTitle', titleDefault));
 		commands.add('alignBox', new ModifyBoxCommand(this.editor, 'boxAlignment', alignmentDefault));
 		commands.add('styleBox', new ModifyBoxCommand(this.editor, 'boxStyle', styleDefault));
 		commands.add('themeBox', new ThemeBoxCommand(this.editor, 'boxTheme', themeDefault));
@@ -312,7 +300,15 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 	};
 }
 
-function createBoxView(modelElement, viewWriter, widget = false) {
+/**
+ * @param {DowncastWriter} viewWriter
+ *   The downcast writer.
+ * @param {boolean} [widget=false]
+ *   Whether or not to return a widget for editing. Defaults to `false`.
+ * @returns {ContainerElement}
+ *   The box container element or widget.
+ */
+function createBoxView(viewWriter, widget = false) {
 	const div = viewWriter.createContainerElement('div', { class: 'ucb-box' });
 	return widget ? toWidget(div, viewWriter, { label: 'box widget' }) : div;
 }

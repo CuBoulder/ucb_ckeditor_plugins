@@ -9,6 +9,4 @@
 
 import Box from './box';
 
-export default {
-  Box,
-};
+export default { Box }; // Only these plugins will be built when running `b box` or `w box`.

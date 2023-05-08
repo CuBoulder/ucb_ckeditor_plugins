@@ -1,8 +1,8 @@
 /**
  * @file registers the box toolbar button and binds functionality to it.
  * 
- * @typedef { import('ckeditor5/src/utils').Locale } Locale
- * @typedef { import('ckeditor5/src/core').Command } Command
+ * @typedef { import('@types/ckeditor__ckeditor5-utils').Locale } Locale
+ * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command
  * @typedef { import('@types/ckeditor__ckeditor5-ui/src/dropdown/dropdownview').default } DropdownView
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
  * @typedef { import('./boxconfig').SelectableOption } SelectableOption
@@ -39,7 +39,7 @@ export default class BoxUI extends Plugin {
 
 			// Create the toolbar button.
 			buttonView.set({
-				label: editor.t('Box'),
+				label: locale.t('Box'),
 				icon: boxIcon,
 				tooltip: true
 			});
@@ -54,9 +54,9 @@ export default class BoxUI extends Plugin {
 		});
 
 		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
-		componentFactory.add('boxTitle', locale => 
+		componentFactory.add('boxTitle', locale =>
 			this._createDropdown(locale, 'Box title', titleOptions[titleDefault].icon, commands.get('modifyBoxTitle'), titleOptions, titleDefault));
-		componentFactory.add('boxAlignment', locale => 
+		componentFactory.add('boxAlignment', locale =>
 			this._createDropdown(locale, 'Box alignment', alignmentOptions[alignmentDefault].icon, commands.get('alignBox'), alignmentOptions, alignmentDefault));
 		componentFactory.add('boxStyle', locale =>
 			this._createDropdown(locale, 'Box style', styleOptions[styleDefault].icon, commands.get('styleBox'), styleOptions, styleDefault));
@@ -87,7 +87,7 @@ export default class BoxUI extends Plugin {
 	 * @param {string} label
 	 *   The dropdown's label.
 	 * @param {string | null} icon
-	 *   The dropdowns's icon (optional). If null, the dropdown will display as text.
+	 *   The dropdowns's icon (optional). If `null`, the dropdown will display as text.
 	 * @param {Command} command
 	 *   The command to execute when one of the buttons is pushed.
 	 * @param {Object<string, SelectableOption>} options
@@ -99,25 +99,27 @@ export default class BoxUI extends Plugin {
 	 */
 	_createDropdown(locale, label, icon, command, options, defaultValue) {
 		const dropdownView = createDropdown(locale);
-		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createButton(option.label, option.icon, command, optionValue)));
+		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createButton(locale, option.label, option.icon, command, optionValue)));
 		dropdownView.buttonView.set({
-			label,
+			label: locale.t(label),
 			icon,
 			tooltip: true,
 			withText: !icon
 		});
-		if(icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
+		if (icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
 			dropdownView.buttonView.bind('icon').to(command, 'value', value => options[value] ? options[value].icon : options[defaultValue].icon);
 		// Enable button if any of the buttons are enabled.
 		dropdownView.bind('isEnabled').to(command, 'isEnabled');
-		return dropdownView;		
+		return dropdownView;
 	}
 
 	/**
+	 * @param {Locale} locale
+	 *   The locale.
 	 * @param {string} label
 	 *   The button's label.
 	 * @param {string | null} icon
-	 *   The button's icon (optional). If null, the button will display as text.
+	 *   The button's icon (optional). If `null`, the button will display as text.
 	 * @param {Command} command
 	 *   The command to execute when the button is pushed.
 	 * @param {string} value
@@ -125,10 +127,10 @@ export default class BoxUI extends Plugin {
 	 * @returns {ButtonView}
 	 *   A button with the specified parameters.
 	 */
-	_createButton(label, icon, command, value) {
+	_createButton(locale, label, icon, command, value) {
 		const editor = this.editor, buttonView = new ButtonView();
 		buttonView.set({
-			label,
+			label: locale.t(label),
 			icon,
 			tooltip: true, // Displays the tooltip on hover
 			isToggleable: true, // Allows the button with the command's current value to display as selected
