@@ -290,7 +290,7 @@ export default class BoxEditing extends Plugin {
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 	const view = {};
 	for (const [name, option] of Object.entries(attributeOptions))
-		view[name] = { key: 'class', value: option.className }
+		view[name] = { key: 'class', value: option.className };
 	return {
 		model: {
 			key: attributeName,

@@ -4,14 +4,14 @@
  * @typedef { import('@types/ckeditor__ckeditor5-utils').Locale } Locale
  * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
- * @typedef { import('./mapconfig').SelectableOption } SelectableOption
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').Element } Element
  */
 
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler, createDropdown, View } from 'ckeditor5/src/ui';
-import { sizeDefault, sizeOptions } from './mapconfig';
 import MapFormView from './mapformview';
 import mapIcon from '../../../../icons/map.svg';
+import { sizeOptions } from './mapconfig';
 
 export default class MapUI extends Plugin {
 	/**
@@ -28,6 +28,7 @@ export default class MapUI extends Plugin {
 		/** @type {EditorWithUI} */
 		const editor = this.editor,
 			commands = editor.commands,
+			viewDocument = editor.editing.view.document,
 			componentFactory = editor.ui.componentFactory;
 
 		// Create the balloon and the form view.
@@ -36,6 +37,7 @@ export default class MapUI extends Plugin {
 
 		// This will register the map toolbar button.
 		componentFactory.add('map', (locale) => {
+			const command = commands.get('insertBox');
 			const buttonView = new ButtonView(locale);
 
 			// Create the toolbar button.
@@ -45,15 +47,39 @@ export default class MapUI extends Plugin {
 				tooltip: true
 			});
 
-			// Show the UI on button click.
-			this.listenTo(buttonView, 'execute', () => this._showUI());
+			// Bind the state of the button to the command.
+			buttonView.bind('isEnabled').to(command, 'isEnabled');
+
+			// Shows the UI on "Map" toolbar button click.
+			this.listenTo(buttonView, 'execute', () => {
+				const selectedElement = viewDocument.selection.getSelectedElement();
+				if (selectedElement && selectedElement.hasClass('ucb-map')) this._showUI(selectedElement);
+				else this._showUI(null);
+			});
+
+			// Shows the UI on click of a map widget.
+			this.listenTo(viewDocument, 'click', () => {
+				const selectedElement = viewDocument.selection.getSelectedElement();
+				if (selectedElement && selectedElement.hasClass('ucb-map')) this._showUI(selectedElement);
+			});
 
 			return buttonView;
 		});
 	}
 
+	/**
+	 * @param {Locale} locale 
+	 * @returns {MapFormView}
+	 */
 	_createFormView(locale) {
+		const editor = this.editor;
 		const formView = new MapFormView(locale);
+
+		// Execute the command after clicking the "Save" button.
+		this.listenTo(formView, 'submit', () => {
+			editor.execute('insertMap', { value: '', size: formView.size });
+			this._hideUI();
+		});
 
 		// Hide the form view after clicking the "Cancel" button.
 		this.listenTo(formView, 'cancel', () => this._hideUI());
@@ -66,14 +92,28 @@ export default class MapUI extends Plugin {
 			callback: () => this._hideUI()
 		});
 
+		formView.reset(); // Ensures default values are set.
+
 		return formView;
 	}
 
-	_showUI() {
+	/**
+	 * @param {Element | null} selectedElement 
+	 */
+	_showUI(selectedElement) {
 		this._balloon.add({
 			view: this.formView,
 			position: this._getBalloonPositionData()
 		});
+		if (selectedElement) {
+			// TODO: Set value
+			for (const [value, option] of Object.entries(sizeOptions)) { // Sets the size to that of the selected map
+				if (selectedElement.hasClass(option.className)) {
+					this.formView.set('size', value);
+					break;
+				}
+			}
+		}
 		this.formView.focus();
 	}
 

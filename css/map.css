@@ -1,0 +1,15 @@
+.ucb-map {
+	background-color: #EEEEEE;
+}
+
+.ucb-map.ucb-map-size-small {
+	height: 450px;
+}
+
+.ucb-map.ucb-map-size-medium {
+	height: 550px;
+}
+
+.ucb-map.ucb-map-size-large {
+	height: 650px;
+}

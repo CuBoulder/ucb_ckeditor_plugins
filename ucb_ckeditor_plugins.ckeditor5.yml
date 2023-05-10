@@ -109,7 +109,11 @@ ucb_ckeditor_plugins_map:
       # (f.e. `<div>`) and the attribute being added to the tag
       # (f.e. `<div class>`).
       - <div>
-      - <div class>
+      - <div class="ucb-map">
+      - <div class="ucb-campus-map">
+      - <div class="ucb-map-size-small">
+      - <div class="ucb-map-size-medium">
+      - <div class="ucb-map-size-large">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

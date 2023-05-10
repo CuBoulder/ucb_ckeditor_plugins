@@ -11,6 +11,7 @@ import { toWidget } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import { enablePlaceholder } from 'ckeditor5/src/engine';
 import { sizeOptions } from './mapconfig';
+import InsertMapCommand from './insertmapcommand';
 
 // cSpell:ignore map insertmapcommand
 
@@ -121,7 +122,7 @@ export default class MapEditing extends Plugin {
 	 */
 	_defineCommands() {
 		const commands = this.editor.commands;
-		// TODO
+		commands.add('insertMap', new InsertMapCommand(this.editor));
 	}
 }
 
@@ -136,7 +137,7 @@ export default class MapEditing extends Plugin {
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 	const view = {};
 	for (const [name, option] of Object.entries(attributeOptions))
-		view[name] = { key: 'class', value: option.className }
+		view[name] = { key: 'class', value: option.className };
 	return {
 		model: {
 			key: attributeName,

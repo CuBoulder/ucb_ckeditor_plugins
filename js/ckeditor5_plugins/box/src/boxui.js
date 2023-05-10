@@ -34,7 +34,7 @@ export default class BoxUI extends Plugin {
 
 		// This will register the box toolbar button.
 		componentFactory.add('box', (locale) => {
-			const command = editor.commands.get('insertBox');
+			const command = commands.get('insertBox');
 			const buttonView = new ButtonView(locale);
 
 			// Create the toolbar button.

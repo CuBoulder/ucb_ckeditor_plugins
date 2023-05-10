@@ -80,7 +80,8 @@ export default class MapFormView extends View {
 
 	reset() {
 		this.set('size', sizeDefault);
-		this.element.reset();
+		const element = this.element;
+		if (element) element.reset();
 	}
 
 

@@ -1,10 +1,10 @@
-.ck.ck-map-form {
-	padding: var(--ck-spacing-large);
+.ck .ck.ck-map-form {
 	display: grid;
 	grid-template-columns: repeat(4, .25fr);
 	grid-template-rows: repeat(2, 1fr);
 	grid-column-gap: 0px;
 	grid-row-gap: var(--ck-spacing-standard);
+	padding: var(--ck-spacing-large);
 }
 
 .ck.ck-map-form .ck.ck-labeled-field-view {
