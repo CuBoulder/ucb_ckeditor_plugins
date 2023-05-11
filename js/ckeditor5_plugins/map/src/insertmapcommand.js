@@ -11,6 +11,17 @@ import { campusMapURLToLocation } from './maputils';
 
 export default class InsertMapCommand extends Command {
 	/**
+	 * Creates a new InsertMapCommand.
+	 * 
+	 * @param {Editor} editor 
+	 *   The editor.
+	 */
+	constructor(editor) {
+		super(editor);
+		this.set('existingMapSelected', false);
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	execute(options = { value: '', size: sizeDefault }) {
@@ -19,7 +30,7 @@ export default class InsertMapCommand extends Command {
 		if (!value) return;
 		const location = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a campus map
 		if (!location) return;
-		
+
 		model.change((writer) => {
 			// Insert <campusMap>*</campusMap> at the current selection position
 			// in a way that will result in creating a valid model structure.
@@ -45,6 +56,9 @@ export default class InsertMapCommand extends Command {
 		// If the cursor is not in a location where a map can be added, return
 		// null so the addition doesn't happen.
 		this.isEnabled = campusMapAllowedIn !== null;
+
+		// Adds a helpful attribute to know if an existing map is currently selected.
+		this.existingMapSelected = isMapElement(selection.getSelectedElement());
 	}
 }
 
@@ -61,4 +75,14 @@ export default class InsertMapCommand extends Command {
 function createCampusMap(writer, mapLocation, mapSize) {
 	const map = writer.createElement('campusMap', { mapLocation, mapSize });
 	return map;
+}
+
+
+/**
+ * @param {Element | null} element 
+ * @returns {boolean}
+ *   Whether or not `element` is a map element.
+ */
+function isMapElement(element) {
+	return element && element.name === 'campusMap';
 }

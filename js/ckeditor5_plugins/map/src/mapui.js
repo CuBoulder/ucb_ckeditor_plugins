@@ -45,11 +45,13 @@ export default class MapUI extends Plugin {
 			buttonView.set({
 				label: locale.t('Map'),
 				icon: mapIcon,
-				tooltip: true
+				tooltip: true,
+				isToggleable: true
 			});
 
 			// Bind the state of the button to the command.
 			buttonView.bind('isEnabled').to(command, 'isEnabled');
+			buttonView.bind('isOn').to(command, 'existingMapSelected');
 
 			// Shows the UI on "Map" toolbar button click.
 			this.listenTo(buttonView, 'execute', () => {

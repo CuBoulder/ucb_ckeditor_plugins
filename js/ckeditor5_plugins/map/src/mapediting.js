@@ -11,6 +11,7 @@ import { toWidget } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import { sizeOptions } from './mapconfig';
 import InsertMapCommand from './insertmapcommand';
+import { campusMapLocationToURL } from './maputils';
 
 // cSpell:ignore map insertmapcommand
 
@@ -114,7 +115,7 @@ export default class MapEditing extends Plugin {
 		// <div class="ucb-map ucb-campus-map">{{inner content}}</section>.
 		conversion.for('dataDowncast').elementToElement({
 			model: 'campusMap',
-			view: (modelElement, { writer: viewWriter }) => createCampusMapView(viewWriter)
+			view: (modelElement, { writer: viewWriter }) => createCampusMapView(modelElement, viewWriter)
 		});
 
 		// Editing Downcast Converters. These render the content to the user for
@@ -125,7 +126,7 @@ export default class MapEditing extends Plugin {
 		// Convert the <campusMap> model into a container widget in the editor UI.
 		conversion.for('editingDowncast').elementToElement({
 			model: 'campusMap',
-			view: (modelElement, { writer: viewWriter }) => createCampusMapView(viewWriter, true)
+			view: (modelElement, { writer: viewWriter }) => createCampusMapView(modelElement, viewWriter, true)
 		});
 	}
 
@@ -160,14 +161,30 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 }
 
 /**
- * @param {DowncastWriter} viewWriter
+ * @param {Element} modelElement
+ *   The element which contains the campusView model.
+ * @param {DowncastWriter} downcastWriter
  *   The downcast writer.
  * @param {boolean} [widget=false]
  *   Whether or not to return a widget for editing. Defaults to `false`.
  * @returns {ContainerElement}
  *   The map container element or widget.
  */
-function createCampusMapView(viewWriter, widget = false) {
-	const div = viewWriter.createContainerElement('div', { class: 'ucb-map ucb-campus-map' });
-	return widget ? toWidget(div, viewWriter, { label: 'map widget' }) : div;
+function createCampusMapView(modelElement, downcastWriter, widget = false) {
+	if (widget) {
+		const mapLocation = modelElement.getAttribute('mapLocation');
+		return toWidget(downcastWriter.createContainerElement('div',
+			{
+				class: 'ucb-map ucb-campus-map',
+				style: `background-image: url('https://staticmap.concept3d.com/map/static-map/?map=336&loc=${mapLocation}')`
+			}, [
+			downcastWriter.createRawElement('a', {
+				href: campusMapLocationToURL(mapLocation)
+			}, element => {
+				element.innerHTML = '<span>View location on the Campus Map</span>';
+				element.onclick = ev => ev.preventDefault(); // Prevents following the link when clicking the widget.
+			})
+		]), downcastWriter, { label: 'map widget' });
+	}
+	return downcastWriter.createContainerElement('div', { class: 'ucb-map ucb-campus-map' });
 }

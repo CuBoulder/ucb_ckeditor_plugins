@@ -23,12 +23,8 @@ export default class MapFormView extends View {
 	constructor(locale) {
 		super(locale);
 
-		// Creates the focus tracker and keystroke handler to use with the focus cycler.
-		this.focusTracker = new FocusTracker();
-		this.keystrokes = new KeystrokeHandler();
-
 		// Creates the main input field.
-		this.valueInputView = this._createInput(locale, 'Campus map link');
+		this.valueInputView = this._createInput(locale, 'Campus Map link');
 
 		// Creates the size selector.
 		this.sizeDropdownView = this._createSelectionDropdown(locale, 'Map size', null, 'size', sizeOptions, sizeDefault);
@@ -48,22 +44,7 @@ export default class MapFormView extends View {
 			this.cancelButtonView
 		]);
 
-		// Performs the "Select All" action automatically whenever the value input field is focused.
-		// Users typically won't need to edit the value but will instead replace the entire contents with a pasted URL or embed code.
-		this.focusTracker.on('change:focusedElement', (evt, data, focusedElement) => {
-			if (focusedElement === this.valueInputView.element)
-				this.valueInputView.fieldView.element.select();
-		});
-
-		this._focusCycler = new FocusCycler({
-			focusables: this.childViews,
-			focusTracker: this.focusTracker,
-			keystrokeHandler: this.keystrokes,
-			actions: {
-				focusPrevious: 'shift + tab', // Navigate form fields backwards using the Shift + Tab keystroke.
-				focusNext: 'tab' // Navigate form fields forwards using the Tab key.
-			}
-		});
+		this._enableFocusTracking();
 
 		this.setTemplate({
 			tag: 'form',
@@ -113,18 +94,24 @@ export default class MapFormView extends View {
 		this.keystrokes.destroy();
 	}
 
-	/** @returns {string | null} */
+	/** 
+	 * The value of the link or embed code user input field, or `null` if it does not exist.
+	 * 
+	 * @type {string?}
+	 */
 	get value() {
 		const element = this.valueInputView.fieldView.element;
 		return element ? element.value : null;
 	}
 
-	/** @param {string} value */
+	/** 
+	 * @param {string} value
+	 */
 	set value(value) {
 		const element = this.valueInputView.fieldView.element;
 		if (element)
 			element.value = value;
-		else throw new Error('Could not set the value of a non-existant MapFormView text field.')
+		else throw new Error('Could not set the value of a non-existant MapFormView text field.');
 	}
 
 
@@ -148,7 +135,7 @@ export default class MapFormView extends View {
 	 */
 	_createSelectionDropdown(locale, tooltip, icon, attribute, options, defaultValue) {
 		const dropdownView = createDropdown(locale), defaultOption = options[defaultValue];
-		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createSelectableButton(locale, option.label, option.icon, attribute, optionValue, defaultValue)));
+		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createSelectableButton(locale, option.label, option.icon, attribute, optionValue)));
 		dropdownView.buttonView.set({
 			icon,
 			tooltip: locale.t(tooltip),
@@ -171,12 +158,10 @@ export default class MapFormView extends View {
 	 *   The attribute to set when the button is pushed.
 	 * @param {string} value
 	 *   The value to set the attribute to when the button is pushed.
-	 * @param {string} defaultValue
-	 *   The default value of the attribute.
 	 * @returns {ButtonView}
 	 *   A selectable button with the specified parameters.
 	 */
-	_createSelectableButton(locale, label, icon, attribute, value, defaultValue) {
+	_createSelectableButton(locale, label, icon, attribute, value) {
 		const buttonView = new ButtonView();
 		buttonView.set({
 			label: locale.t(label),
@@ -229,5 +214,34 @@ export default class MapFormView extends View {
 		const labeledInput = new LabeledFieldView(locale, createLabeledInputText);
 		labeledInput.label = locale.t(label);
 		return labeledInput;
+	}
+
+	/**
+	 * Enables focus tracking / keyboard focus cycling.
+	 * 
+	 * @see https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/focus-tracking.html
+	 */
+	 _enableFocusTracking() {
+		// Creates the focus tracker and keystroke handler.
+		this.focusTracker = new FocusTracker();
+		this.keystrokes = new KeystrokeHandler();
+
+		// Performs the "Select All" action automatically whenever the value input field is focused.
+		// Users typically won't need to edit the value but will instead replace the entire contents with a pasted URL or embed code.
+		this.focusTracker.on('change:focusedElement', (evt, data, focusedElement) => {
+			if (focusedElement === this.valueInputView.element)
+				this.valueInputView.fieldView.element.select();
+		});
+
+		// Creates the keyboard focus cycler.
+		this.focusCycler = new FocusCycler({
+			focusables: this.childViews,
+			focusTracker: this.focusTracker,
+			keystrokeHandler: this.keystrokes,
+			actions: {
+				focusPrevious: 'shift + tab', // Navigate form fields backwards using the Shift + Tab keystroke.
+				focusNext: 'tab' // Navigate form fields forwards using the Tab key.
+			}
+		});
 	}
 }
