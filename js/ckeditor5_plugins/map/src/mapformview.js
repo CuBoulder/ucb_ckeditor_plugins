@@ -32,6 +32,7 @@ export default class MapFormView extends View {
 
 		// Creates the size selector.
 		this.sizeDropdownView = this._createSelectionDropdown(locale, 'Map size', null, 'size', sizeOptions, sizeDefault);
+		this.set('size', sizeDefault);
 
 		// Creates the save and cancel buttons.
 		this.saveButtonView = this._createActionButton(locale, 'Save', icons.check, 'ck-button-save');
@@ -46,6 +47,13 @@ export default class MapFormView extends View {
 			this.saveButtonView,
 			this.cancelButtonView
 		]);
+
+		// Performs the "Select All" action automatically whenever the value input field is focused.
+		// Users typically won't need to edit the value but will instead replace the entire contents with a pasted URL or embed code.
+		this.focusTracker.on('change:focusedElement', (evt, data, focusedElement) => {
+			if (focusedElement === this.valueInputView.element)
+				this.valueInputView.fieldView.element.select();
+		});
 
 		this._focusCycler = new FocusCycler({
 			focusables: this.childViews,
@@ -67,21 +75,56 @@ export default class MapFormView extends View {
 		});
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	render() {
 		super.render();
-		submitHandler({ // Submit the form when the user clicked the save button or pressed enter in the input.
+
+		// Registers the child elements to be tracked by the focus tracker instance.
+		for (const view of this.childViews)
+			this.focusTracker.add(view.element);
+
+		// Submit the form when the user clicked the save button or pressed enter in the input.
+		submitHandler({
 			view: this
 		});
+
+		// Start listening for the keystrokes coming from #element, which will allow the #focusCycler to handle the keyboard navigation.
+		this.keystrokes.listenTo(this.element);
 	}
 
 	focus() {
-		this.childViews.first.focus();
+		this.valueInputView.focus();
 	}
 
 	reset() {
-		this.set('size', sizeDefault);
-		const element = this.element;
-		if (element) element.reset();
+		this.value = '';
+		this.size = sizeDefault;
+		this.valueInputView.fieldView.element.blur(); // Fixes a bug where the value field focus event doesn't fire after dismissing with the Escape key.
+		this.element.reset();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	destroy() {
+		// Stop listening to all keystrokes when the view is destroyed.
+		this.keystrokes.destroy();
+	}
+
+	/** @returns {string | null} */
+	get value() {
+		const element = this.valueInputView.fieldView.element;
+		return element ? element.value : null;
+	}
+
+	/** @param {string} value */
+	set value(value) {
+		const element = this.valueInputView.fieldView.element;
+		if (element)
+			element.value = value;
+		else throw new Error('Could not set the value of a non-existant MapFormView text field.')
 	}
 
 
@@ -99,13 +142,13 @@ export default class MapFormView extends View {
 	 * @param {Object<string, SelectableOption>} options
 	 *   The options for buttons in this dropdown view.
 	 * @param {string} defaultValue
-	 *   The default value of the command.
+	 *   The default value of the attribute.
 	 * @returns {DropdownView}
 	 *   The dropdown.
 	 */
 	_createSelectionDropdown(locale, tooltip, icon, attribute, options, defaultValue) {
 		const dropdownView = createDropdown(locale), defaultOption = options[defaultValue];
-		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createSelectableButton(locale, option.label, option.icon, attribute, optionValue)));
+		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createSelectableButton(locale, option.label, option.icon, attribute, optionValue, defaultValue)));
 		dropdownView.buttonView.set({
 			icon,
 			tooltip: locale.t(tooltip),
@@ -127,11 +170,13 @@ export default class MapFormView extends View {
 	 * @param {string} attribute
 	 *   The attribute to set when the button is pushed.
 	 * @param {string} value
-	 *   The value to send to the command when the button is pushed.
+	 *   The value to set the attribute to when the button is pushed.
+	 * @param {string} defaultValue
+	 *   The default value of the attribute.
 	 * @returns {ButtonView}
 	 *   A selectable button with the specified parameters.
 	 */
-	_createSelectableButton(locale, label, icon, attribute, value) {
+	_createSelectableButton(locale, label, icon, attribute, value, defaultValue) {
 		const buttonView = new ButtonView();
 		buttonView.set({
 			label: locale.t(label),

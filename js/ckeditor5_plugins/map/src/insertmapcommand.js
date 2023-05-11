@@ -5,21 +5,25 @@
  * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/writer').default } Writer
  */
 
-import { sizeDefault } from './mapconfig';
 import { Command } from 'ckeditor5/src/core';
-import {getSelectedMapWidget } from './maputils';
+import { sizeDefault } from './mapconfig';
+import { campusMapURLToLocation } from './maputils';
 
 export default class InsertMapCommand extends Command {
 	/**
 	 * @inheritdoc
 	 */
 	execute(options = { value: '', size: sizeDefault }) {
-		const { model } = this.editor;
+		const value = options.value.trim(), model = this.editor.model;
 
+		if (!value) return;
+		const location = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a campus map
+		if (!location) return;
+		
 		model.change((writer) => {
 			// Insert <campusMap>*</campusMap> at the current selection position
 			// in a way that will result in creating a valid model structure.
-			model.insertContent(createCampusMap(writer, options.size));
+			model.insertContent(createCampusMap(writer, location, options.size));
 		});
 	}
 
@@ -47,12 +51,14 @@ export default class InsertMapCommand extends Command {
 /**
  * @param {Writer} writer
  *   The writer used to create and append elements.
+ * @param {string} location
+ *   The value of the location attribute of the map.
  * @param {string} size
  *   The value of the size attribute of the map.
  * @returns {Element}
  *   The map element with all required child elements to match the map schema.
  */
-function createCampusMap(writer, size) {
-	const map = writer.createElement('campusMap', { 'mapSize': size });
+function createCampusMap(writer, location, size) {
+	const map = writer.createElement('campusMap', {'mapLocation': location, 'mapSize': size });
 	return map;
 }

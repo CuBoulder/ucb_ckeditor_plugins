@@ -114,6 +114,7 @@ ucb_ckeditor_plugins_map:
       - <div class="ucb-map-size-small">
       - <div class="ucb-map-size-medium">
       - <div class="ucb-map-size-large">
+      - <div data-map-location>
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

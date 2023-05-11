@@ -2,7 +2,7 @@
 	background-color: #EEEEEE;
 }
 
-.ucb-map.ucb-map-size-small {
+.ucb-map, .ucb-map.ucb-map-size-small {
 	height: 450px;
 }
 

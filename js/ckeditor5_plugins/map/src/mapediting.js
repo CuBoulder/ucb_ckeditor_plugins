@@ -9,7 +9,6 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { toWidget } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
-import { enablePlaceholder } from 'ckeditor5/src/engine';
 import { sizeOptions } from './mapconfig';
 import InsertMapCommand from './insertmapcommand';
 
@@ -66,7 +65,7 @@ export default class MapEditing extends Plugin {
 			// Allow in places where other blocks are allowed (e.g. directly in the root).
 			allowWhere: '$block',
 			// Allow the attributes which control the map's alignment, style, and theme.
-			allowAttributes: ['mapSize']
+			allowAttributes: ['mapLocation', 'mapSize']
 		});
 	}
 
@@ -77,6 +76,19 @@ export default class MapEditing extends Plugin {
 	_defineConverters() {
 		// Converters are registered via the central editor object.
 		const conversion = this.editor.conversion;
+
+		// Specifies the location attribute for campus maps.
+		conversion.for('upcast').attributeToAttribute({
+			model: 'mapLocation',
+			view: {
+				key: 'data-map-location',
+				value: /\d+/
+			}
+		});
+		conversion.for('downcast').attributeToAttribute({
+			model: 'mapLocation',
+			view: 'data-map-location'
+		});
 
 		// The size attribute converts to element class names.
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('mapSize', sizeOptions));
@@ -101,7 +113,7 @@ export default class MapEditing extends Plugin {
 		// Instances of <campusMap> are saved as
 		// <div class="ucb-map ucb-campus-map">{{inner content}}</section>.
 		conversion.for('dataDowncast').elementToElement({
-			model: 'box',
+			model: 'campusMap',
 			view: (modelElement, { writer: viewWriter }) => createCampusMapView(viewWriter)
 		});
 
