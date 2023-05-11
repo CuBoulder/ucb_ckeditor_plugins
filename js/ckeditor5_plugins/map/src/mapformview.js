@@ -28,7 +28,7 @@ export default class MapFormView extends View {
 		this.keystrokes = new KeystrokeHandler();
 
 		// Creates the main input field.
-		this.valueInputView = this._createInput(locale, 'Campus map URL');
+		this.valueInputView = this._createInput(locale, 'Campus map link');
 
 		// Creates the size selector.
 		this.sizeDropdownView = this._createSelectionDropdown(locale, 'Map size', null, 'size', sizeOptions, sizeDefault);

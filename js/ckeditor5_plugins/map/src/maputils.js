@@ -15,7 +15,7 @@ export function campusMapURLToLocation(url) {
 	try {
 		urlified = new URL(url);
 	} catch(e) { return null; }
-	return (urlified.hostname === 'colorado.edu' || urlified.hostname === 'www.colorado.edu') && urlified.pathname == '/map/' ? urlified.hash.replace(/\D+/, '') : null;
+	return (urlified.hostname === 'colorado.edu' || urlified.hostname === 'www.colorado.edu') && urlified.pathname === '/map/' ? urlified.hash.replace(/\D+/, '') : null;
 }
 
 /**

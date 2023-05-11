@@ -51,14 +51,14 @@ export default class InsertMapCommand extends Command {
 /**
  * @param {Writer} writer
  *   The writer used to create and append elements.
- * @param {string} location
+ * @param {string} mapLocation
  *   The value of the location attribute of the map.
- * @param {string} size
+ * @param {string} mapSize
  *   The value of the size attribute of the map.
  * @returns {Element}
  *   The map element with all required child elements to match the map schema.
  */
-function createCampusMap(writer, location, size) {
-	const map = writer.createElement('campusMap', {'mapLocation': location, 'mapSize': size });
+function createCampusMap(writer, mapLocation, mapSize) {
+	const map = writer.createElement('campusMap', { mapLocation, mapSize });
 	return map;
 }
