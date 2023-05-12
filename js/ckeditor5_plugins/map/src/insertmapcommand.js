@@ -25,16 +25,16 @@ export default class InsertMapCommand extends Command {
 	 * @inheritdoc
 	 */
 	execute(options = { value: '', size: sizeDefault }) {
-		const value = options.value.trim(), model = this.editor.model;
+		const value = options.value.trim(), model = this.editor.model, mapSize = options.size;
 
 		if (!value) return;
-		const location = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a campus map
-		if (!location) return;
+		const mapLocation = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a campus map
+		if (!mapLocation) return;
 
 		model.change((writer) => {
 			// Insert <campusMap>*</campusMap> at the current selection position
 			// in a way that will result in creating a valid model structure.
-			model.insertContent(createCampusMap(writer, location, options.size));
+			model.insertContent(writer.createElement('campusMap', { mapLocation, mapSize }));
 		});
 	}
 
@@ -44,6 +44,7 @@ export default class InsertMapCommand extends Command {
 	refresh() {
 		const { model } = this.editor;
 		const { selection } = model.document;
+		const selectedElement = selection.getSelectedElement();
 
 		// Determine if the cursor (selection) is in a position where adding a
 		// map is permitted. This is based on the schema of the model(s)
@@ -57,26 +58,10 @@ export default class InsertMapCommand extends Command {
 		// null so the addition doesn't happen.
 		this.isEnabled = campusMapAllowedIn !== null;
 
-		// Adds a helpful attribute to know if an existing map is currently selected.
-		this.existingMapSelected = isMapElement(selection.getSelectedElement());
+		// Adds a helpful attribute to get an existing selected map element.
+		this.existingMapSelected = isMapElement(selectedElement) ? selectedElement : null;
 	}
 }
-
-/**
- * @param {Writer} writer
- *   The writer used to create and append elements.
- * @param {string} mapLocation
- *   The value of the location attribute of the map.
- * @param {string} mapSize
- *   The value of the size attribute of the map.
- * @returns {Element}
- *   The map element with all required child elements to match the map schema.
- */
-function createCampusMap(writer, mapLocation, mapSize) {
-	const map = writer.createElement('campusMap', { mapLocation, mapSize });
-	return map;
-}
-
 
 /**
  * @param {Element | null} element 

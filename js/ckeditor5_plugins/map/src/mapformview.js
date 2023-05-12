@@ -25,6 +25,8 @@ export default class MapFormView extends View {
 
 		// Creates the main input field.
 		this.valueInputView = this._createInput(locale, 'Campus Map link');
+		this.set('value', '');
+		this.valueInputView.fieldView.bind('value').to(this, 'value');
 
 		// Creates the size selector.
 		this.sizeDropdownView = this._createSelectionDropdown(locale, 'Map size', null, 'size', sizeOptions, sizeDefault);
@@ -92,26 +94,6 @@ export default class MapFormView extends View {
 	destroy() {
 		// Stop listening to all keystrokes when the view is destroyed.
 		this.keystrokes.destroy();
-	}
-
-	/** 
-	 * The value of the link or embed code user input field, or `null` if it does not exist.
-	 * 
-	 * @type {string?}
-	 */
-	get value() {
-		const element = this.valueInputView.fieldView.element;
-		return element ? element.value : null;
-	}
-
-	/** 
-	 * @param {string} value
-	 */
-	set value(value) {
-		const element = this.valueInputView.fieldView.element;
-		if (element)
-			element.value = value;
-		else throw new Error('Could not set the value of a non-existant MapFormView text field.');
 	}
 
 
@@ -221,7 +203,7 @@ export default class MapFormView extends View {
 	 * 
 	 * @see https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/ui/focus-tracking.html
 	 */
-	 _enableFocusTracking() {
+	_enableFocusTracking() {
 		// Creates the focus tracker and keystroke handler.
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();

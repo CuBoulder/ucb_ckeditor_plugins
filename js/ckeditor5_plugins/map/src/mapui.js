@@ -4,14 +4,14 @@
  * @typedef { import('@types/ckeditor__ckeditor5-utils').Locale } Locale
  * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
- * @typedef { import('@types/ckeditor__ckeditor5-engine/src/view/element').default } Element
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').Element } Element
+ * @typedef { import('./insertmapcommand').default } InsertMapCommand
  */
 
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import MapFormView from './mapformview';
 import mapIcon from '../../../../icons/map.svg';
-import { sizeOptions } from './mapconfig';
 import { campusMapLocationToURL } from './maputils';
 
 export default class MapUI extends Plugin {
@@ -27,10 +27,11 @@ export default class MapUI extends Plugin {
 	 */
 	init() {
 		/** @type {EditorWithUI} */
-		const editor = this.editor,
-			commands = editor.commands,
-			viewDocument = editor.editing.view.document,
-			componentFactory = editor.ui.componentFactory;
+		const editor = this.editor;
+		/** @type {InsertMapCommand} */
+		const insertMapCommand = editor.commands.get('insertMap');
+		const viewDocument = editor.editing.view.document;
+		const componentFactory = editor.ui.componentFactory;
 
 		// Create the balloon and the form view.
 		this._balloon = editor.plugins.get(ContextualBalloon);
@@ -38,7 +39,6 @@ export default class MapUI extends Plugin {
 
 		// This will register the map toolbar button.
 		componentFactory.add('map', (locale) => {
-			const command = commands.get('insertMap');
 			const buttonView = new ButtonView(locale);
 
 			// Create the toolbar button.
@@ -50,19 +50,18 @@ export default class MapUI extends Plugin {
 			});
 
 			// Bind the state of the button to the command.
-			buttonView.bind('isEnabled').to(command, 'isEnabled');
-			buttonView.bind('isOn').to(command, 'existingMapSelected');
+			buttonView.bind('isEnabled').to(insertMapCommand, 'isEnabled');
+			buttonView.bind('isOn').to(insertMapCommand, 'existingMapSelected');
 
 			// Shows the UI on "Map" toolbar button click.
 			this.listenTo(buttonView, 'execute', () => {
-				const selectedElement = viewDocument.selection.getSelectedElement();
-				this._showUI(isMapElement(selectedElement) ? selectedElement : null);
+				this._showUI(insertMapCommand.existingMapSelected);
 			});
 
 			// Shows the UI on click of a map widget.
 			this.listenTo(viewDocument, 'click', () => {
-				const selectedElement = viewDocument.selection.getSelectedElement();
-				if (isMapElement(selectedElement)) this._showUI(selectedElement);
+				if (insertMapCommand.existingMapSelected)
+					this._showUI(insertMapCommand.existingMapSelected);
 			});
 
 			return buttonView;
@@ -80,7 +79,7 @@ export default class MapUI extends Plugin {
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo(formView, 'submit', () => {
-			editor.execute('insertMap', { value: formView.value, size: formView.size });
+			editor.execute('insertMap', { value: formView.valueInputView.fieldView.element.value, size: formView.size });
 			this._hideUI();
 		});
 
@@ -113,15 +112,11 @@ export default class MapUI extends Plugin {
 			position: this._getBalloonPositionData()
 		});
 		if (selectedMap) {
-			const mapLocation = selectedMap.hasClass('ucb-campus-map') ? selectedMap.getAttribute('data-map-location') : null;
+			const mapLocation = selectedMap.name === 'campusMap' ? selectedMap.getAttribute('mapLocation') : null;
 			if (mapLocation)
 				this.formView.value = campusMapLocationToURL(mapLocation);
-			for (const [value, option] of Object.entries(sizeOptions)) { // Sets the size to that of the selected map
-				if (selectedMap.hasClass(option.className)) {
-					this.formView.set('size', value);
-					break;
-				}
-			}
+			this.formView.size = selectedMap.getAttribute('mapSize');
+			this.editor.model.change(writer => writer.setSelection(selectedMap, 'on')); // Fixes a bug which can cause another map to appear rather than the insert command replacing the existing one.
 		}
 		this.formView.focus();
 	}
@@ -143,13 +138,4 @@ export default class MapUI extends Plugin {
 
 		return { target };
 	}
-}
-
-/**
- * @param {Element | null} element 
- * @returns {boolean}
- *   Whether or not `element` is a map element.
- */
-function isMapElement(element) {
-	return element && element.hasClass('ucb-map');
 }
