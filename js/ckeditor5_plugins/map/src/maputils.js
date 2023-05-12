@@ -25,5 +25,5 @@ export function campusMapURLToLocation(url) {
  *   For example, passing the location `'432490'` returns `'https://www.colorado.edu/map/?id=336#!m/432490'`.
  */
 export function campusMapLocationToURL(location) {
-	return 'https://www.colorado.edu/map/?id=336#!m/' + location;
+	return 'https://www.colorado.edu/map/?id=336' + (location ? '#!m/' + location : '');
 }

@@ -108,13 +108,9 @@ ucb_ckeditor_plugins_map:
       # Note that it necessary for elements to separately provide both the tag
       # (f.e. `<div>`) and the attribute being added to the tag
       # (f.e. `<div class>`).
-      - <div>
-      - <div class="ucb-map">
-      - <div class="ucb-campus-map">
-      - <div class="ucb-map-size-small">
-      - <div class="ucb-map-size-medium">
-      - <div class="ucb-map-size-large">
-      - <div data-map-location>
+      - <ucb-map>
+      - <ucb-map class="ucb-map ucb-campus-map ucb-map-size-small ucb-map-size-medium ucb-map-size-large">
+      - <ucb-map data-map-location>
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

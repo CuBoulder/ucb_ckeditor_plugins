@@ -21,12 +21,10 @@ import { campusMapLocationToURL } from './maputils';
  * is inserted in the DOM.
  *
  * CKEditor 5 internally interacts with map as this model:
- * <campusMap>
- * </campusMap>
+ * <campusMap> </campusMap>
  *
  * Which is converted for the browser/user as this markup
- * <div class="ucb-map ucb-campus-map">
- * </div>
+ * <ucb-map class="ucb-map ucb-campus-map"> </ucb-map>
  *
  * This file has the logic for defining the map model, and for how it is
  * converted to standard DOM markup.
@@ -66,7 +64,9 @@ export default class MapEditing extends Plugin {
 			// Allow in places where other blocks are allowed (e.g. directly in the root).
 			allowWhere: '$block',
 			// Allow the attributes which control the map's alignment, style, and theme.
-			allowAttributes: ['mapLocation', 'mapSize']
+			allowAttributes: ['mapLocation', 'mapSize'],
+			// Disallows any child elements inside the <ucb-map> element.
+			allowChildren: false
 		});
 	}
 
@@ -97,13 +97,13 @@ export default class MapEditing extends Plugin {
 		// Upcast Converters: determine how existing HTML is interpreted by the
 		// editor. These trigger when an editor instance loads.
 		//
-		// If <div class="ucb-map ucb-campus-map"> is present in the existing markup
+		// If <ucb-map class="ucb-map ucb-campus-map"> is present in the existing markup
 		// processed by CKEditor, then CKEditor recognizes and loads it as a
 		// <campusMap> model.
 		conversion.for('upcast').elementToElement({
 			model: 'campusMap',
 			view: {
-				name: 'div',
+				name: 'ucb-map',
 				classes: ['ucb-map', 'ucb-campus-map']
 			}
 		});
@@ -112,7 +112,7 @@ export default class MapEditing extends Plugin {
 		// These trigger when content is saved.
 		//
 		// Instances of <campusMap> are saved as
-		// <div class="ucb-map ucb-campus-map">{{inner content}}</section>.
+		// <ucb-map class="ucb-map ucb-campus-map">{{inner content}}</section>.
 		conversion.for('dataDowncast').elementToElement({
 			model: 'campusMap',
 			view: (modelElement, { writer: viewWriter }) => createCampusMapView(modelElement, viewWriter)
@@ -186,5 +186,5 @@ function createCampusMapView(modelElement, downcastWriter, widget = false) {
 			})
 		]), downcastWriter, { label: 'map widget' });
 	}
-	return downcastWriter.createContainerElement('div', { class: 'ucb-map ucb-campus-map' });
+	return downcastWriter.createContainerElement('ucb-map', { class: 'ucb-map ucb-campus-map' });
 }

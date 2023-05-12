@@ -1,4 +1,6 @@
 .ucb-map {
+	position: relative;
+	display: block;
 	background-color: #EEEEEE;
 	background-position: center;
 	background-size: cover;
