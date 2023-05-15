@@ -9,5 +9,5 @@ The Map CKEditor plugin allows insertion of a University of Colorado Boulder Cam
 
 ## HTML
 ```html
-<campus-map class="ucb-map ucb-campus-map ucb-map-size-(small|medium|large)" data-map-location="{\d+}"></campus-map>
+<ucb-map class="ucb-map ucb-campus-map ucb-map-size-(small|medium|large)" data-map-location="{\d+}"></ucb-map>
 ```

@@ -3,6 +3,18 @@
  */
 
 /**
+ * @param {string} embedCode
+ * @returns {string | null}
+ *   The `src` of the embedded `<iframe>`, if applicable
+ */
+function embedCodeToURL(embedCode) {
+	const iframeElement = new DOMParser().parseFromString(embedCode, 'text/html').querySelector('iframe');
+	if (iframeElement)
+		return iframeElement.getAttribute('src');
+	return null;
+}
+
+/**
  * @param {string} url
  * @returns {string | null}
  *   Just the location part of the URL, or null if the URL isn't a valid campus map URL.
@@ -10,7 +22,10 @@
  *   while passing the URL `'https://www.colorado.edu/'` returns `null` as it doesn't link directly to a campus map.
  */
 export function campusMapURLToLocation(url) {
-	if (url[0] === '<') return null; // Returns null from a likely embed code.
+	if (url[0] === '<') {
+		url = embedCodeToURL(url); // Gets a URL from a likely embed code.
+		if (!url) return null;
+	}
 	let urlified;
 	try {
 		urlified = new URL(url);
