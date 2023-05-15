@@ -82,8 +82,14 @@ class MapEmbed extends FilterBase implements ContainerFactoryPluginInterface {
 			foreach ($node->attributes as $attribute)
 				$build['#attributes'][$attribute->nodeName] = $attribute->nodeValue;
 
-			if(isset($build['#attributes']['data-map-location']))
-				$build['#mapLocation'] = preg_replace('/\D+/', '', $build['#attributes']['data-map-location']);
+			if (isset($build['#attributes']['class'])) {
+				$classes = preg_split('/\s/', $build['#attributes']['class']);
+				if (in_array('ucb-map', $classes) && in_array('ucb-campus-map', $classes)) { // Classes must match exactly to be recognized as a map in the editor, applies the same rule here
+					$build['#theme'] = 'ucb_campus_map_embed';
+					if(isset($build['#attributes']['data-map-location']))
+						$build['#mapLocation'] = preg_replace('/\D+/', '', $build['#attributes']['data-map-location']);	
+				} else continue;
+			} else continue;
 
 			$this->renderIntoDomNode($build, $node, $result);
 		}
@@ -105,7 +111,6 @@ class MapEmbed extends FilterBase implements ContainerFactoryPluginInterface {
 	 *   bubbled during rendering.
 	 */
 	protected function renderIntoDomNode(array $build, \DOMNode $node, FilterProcessResult &$result) {
-		$build['#theme'] = 'ucb_campus_map_embed';
 		$markup = $this->renderer->executeInRenderContext(new RenderContext(), function () use (&$build) {
 			return $this->renderer->render($build);
 		});

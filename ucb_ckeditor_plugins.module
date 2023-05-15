@@ -11,6 +11,7 @@ function ucb_ckeditor_plugins_preprocess_field(array &$variables) {
 }
 
 /**
+ * Exposes embedded templates.
  * Implements hook_theme().
  */
 function ucb_ckeditor_plugins_theme() {
