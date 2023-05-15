@@ -211,7 +211,7 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
  */
 function createCampusMapView(modelElement, downcastWriter, widget = false) {
 	if (widget) {
-		const mapLocation = modelElement.getAttribute('mapLocation');
+		const mapLocation = (modelElement.getAttribute('mapLocation') || '').replace(/\D/g, '');
 		return toWidget(downcastWriter.createContainerElement('div',
 			{
 				class: 'ucb-map ucb-campus-map',
@@ -240,7 +240,7 @@ function createCampusMapView(modelElement, downcastWriter, widget = false) {
  */
  function createGoogleMapView(modelElement, downcastWriter, widget = false) {
 	if (widget) {
-		const mapLocation = modelElement.getAttribute('mapLocation');
+		const mapLocation = modelElement.getAttribute('mapLocation') || '';
 		return toWidget(downcastWriter.createContainerElement('div',
 			{
 				class: 'ucb-map ucb-google-map',
