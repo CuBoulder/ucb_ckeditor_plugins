@@ -9,3 +9,18 @@ function ucb_ckeditor_plugins_preprocess_field(array &$variables) {
 	if($fieldType == 'text_long' || $fieldType == 'text_with_summary') // Indicates a rich text field
 		$variables['#attached']['library'][] = 'ucb_ckeditor_plugins/ckeditor-plugin-styles';
 }
+
+/**
+ * Exposes embedded templates.
+ * Implements hook_theme().
+ */
+function ucb_ckeditor_plugins_theme() {
+	return [
+		'ucb_campus_map_embed' => [
+			'variables' => [
+				'attributes' => [],
+				'mapLocation' => ''
+			]
+		]
+	];
+}

@@ -6,19 +6,19 @@
  * I.e, this file's purpose is to integrate all the separate parts of the plugin
  * before it's made discoverable via index.js.
  */
-// cSpell:ignore boxediting boxui
+// cSpell:ignore mapediting mapui
 
-// The contents of BoxUI and Box editing could be included in this
+// The contents of MapUI and MapEditing could be included in this
 // file, but it is recommended to separate these concerns in different files.
-import BoxEditing from './boxediting';
-import BoxUI from './boxui';
+import MapEditing from './mapediting';
+import MapUI from './mapui';
 import { Plugin } from 'ckeditor5/src/core';
 
-export default class Box extends Plugin {
-	// Note that BoxEditing and BoxUI also extend `Plugin`, but these
+export default class Map extends Plugin {
+	// Note that MapEditing and MapUI also extend `Plugin`, but these
 	// are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
 	// discover the plugins explicitly exported in index.js.
 	static get requires() {
-		return [BoxEditing, BoxUI];
+		return [MapEditing, MapUI];
 	}
 }

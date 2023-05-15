@@ -2,6 +2,7 @@ ckeditor-plugin-styles:
   css:
     theme:
       css/box.css: { }
+      css/map.css: { }
       css/tooltip.css: { }
 
 box.admin:
@@ -32,6 +33,21 @@ invisible.editor:
   css:
     theme:
       css/invisible.editor.css: { }
+
+map.admin:
+  css:
+    theme:
+      css/map.admin.css: { }
+
+map.editor:
+  js:
+    js/build/map.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/map.editor.css: { }
+      css/map.css: { }
 
 tooltip.admin:
   css:

@@ -5,8 +5,8 @@
  *
  * I.e. this file's purpose is to make plugin(s) discoverable.
  */
-// cSpell:ignore box
+// cSpell:ignore map
 
-import Box from './box';
+import Map from './map';
 
-export default { Box }; // Only these plugins will be built when running `b box` or `w box`.
+export default { Map }; // Only these plugins will be built when running `b map` or `w map`.

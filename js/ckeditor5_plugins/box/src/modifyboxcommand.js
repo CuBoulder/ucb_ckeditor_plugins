@@ -1,7 +1,7 @@
 /** 
  * @file defines ModifyBoxCommand, which is executed to modify attributes of the box from the widget toolbar.
  * 
- * @typedef { import('ckeditor5/src/core').Editor } Editor
+ * @typedef { import('@types/ckeditor__ckeditor5-core').Editor } Editor
  */
 
 import { Command } from 'ckeditor5/src/core';
