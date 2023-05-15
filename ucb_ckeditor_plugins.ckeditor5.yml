@@ -93,7 +93,7 @@ ucb_ckeditor_plugins_map:
         label: Map
     elements:
       - <ucb-map>
-      - <ucb-map class="ucb-map ucb-campus-map ucb-map-size-small ucb-map-size-medium ucb-map-size-large">
+      - <ucb-map class="ucb-map ucb-campus-map ucb-google-map ucb-map-size-small ucb-map-size-medium ucb-map-size-large">
       - <ucb-map data-map-location>
     conditions:
       filter: filter_map_embed

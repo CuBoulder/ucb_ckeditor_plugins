@@ -7,7 +7,7 @@
 
 import { Command } from 'ckeditor5/src/core';
 import { sizeDefault } from './mapconfig';
-import { campusMapURLToLocation } from './maputils';
+import { campusMapURLToLocation, googleMapURLToLocation } from './maputils';
 
 export default class InsertMapCommand extends Command {
 	/**
@@ -28,14 +28,16 @@ export default class InsertMapCommand extends Command {
 		const value = options.value.trim(), model = this.editor.model, mapSize = options.size;
 
 		if (!value) return;
-		const mapLocation = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a campus map
+
+		let mapModel = 'campusMap';
+		let mapLocation = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a Campus Map.
+		if (!mapLocation) {
+			mapModel = 'googleMap';
+			mapLocation = googleMapURLToLocation(value); // Converts the user-supplied URL to a location for a Google Map.
+		}
 		if (!mapLocation) return;
 
-		model.change((writer) => {
-			// Insert <campusMap>*</campusMap> at the current selection position
-			// in a way that will result in creating a valid model structure.
-			model.insertContent(writer.createElement('campusMap', { mapLocation, mapSize }));
-		});
+		model.change((writer) => model.insertContent(writer.createElement(mapModel, { mapLocation, mapSize })));
 	}
 
 	/**
@@ -69,5 +71,5 @@ export default class InsertMapCommand extends Command {
  *   Whether or not `element` is a map element.
  */
 function isMapElement(element) {
-	return element && element.name === 'campusMap';
+	return element && (element.name === 'campusMap' || element.name === 'googleMap');
 }

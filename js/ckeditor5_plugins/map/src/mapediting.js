@@ -11,7 +11,7 @@ import { toWidget } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import { sizeOptions } from './mapconfig';
 import InsertMapCommand from './insertmapcommand';
-import { campusMapLocationToURL } from './maputils';
+import { campusMapLocationToURL, googleMapLocationToURL } from './maputils';
 
 // cSpell:ignore map insertmapcommand
 
@@ -68,6 +68,17 @@ export default class MapEditing extends Plugin {
 			// Disallows any child elements inside the <ucb-map> element.
 			allowChildren: false
 		});
+
+		schema.register('googleMap', {
+			// Behaves like a self-contained object (e.g. an image).
+			isObject: true,
+			// Allow in places where other blocks are allowed (e.g. directly in the root).
+			allowWhere: '$block',
+			// Allow the attributes which control the map's alignment, style, and theme.
+			allowAttributes: ['mapLocation', 'mapSize'],
+			// Disallows any child elements inside the <ucb-map> element.
+			allowChildren: false
+		});
 	}
 
 	/**
@@ -79,14 +90,7 @@ export default class MapEditing extends Plugin {
 		const conversion = this.editor.conversion;
 
 		// Specifies the location attribute for campus maps.
-		conversion.for('upcast').attributeToAttribute({
-			model: 'mapLocation',
-			view: {
-				key: 'data-map-location',
-				value: /\d+/
-			}
-		});
-		conversion.for('downcast').attributeToAttribute({
+		conversion.attributeToAttribute({
 			model: 'mapLocation',
 			view: 'data-map-location'
 		});
@@ -108,14 +112,38 @@ export default class MapEditing extends Plugin {
 			}
 		});
 
+		// Upcast Converters: determine how existing HTML is interpreted by the
+		// editor. These trigger when an editor instance loads.
+		//
+		// If <ucb-map class="ucb-map ucb-google-map"> is present in the existing markup
+		// processed by CKEditor, then CKEditor recognizes and loads it as a
+		// <googleMap> model.
+		conversion.for('upcast').elementToElement({
+			model: 'googleMap',
+			view: {
+				name: 'ucb-map',
+				classes: ['ucb-map', 'ucb-google-map']
+			}
+		});
+
 		// Data Downcast Converters: converts stored model data into HTML.
 		// These trigger when content is saved.
 		//
 		// Instances of <campusMap> are saved as
-		// <ucb-map class="ucb-map ucb-campus-map">{{inner content}}</section>.
+		// <ucb-map class="ucb-map ucb-campus-map"></ucb-map>.
 		conversion.for('dataDowncast').elementToElement({
 			model: 'campusMap',
 			view: (modelElement, { writer: viewWriter }) => createCampusMapView(modelElement, viewWriter)
+		});
+
+		// Data Downcast Converters: converts stored model data into HTML.
+		// These trigger when content is saved.
+		//
+		// Instances of <campusMap> are saved as
+		// <ucb-map class="ucb-map ucb-google-map"></ucb-map>.
+		conversion.for('dataDowncast').elementToElement({
+			model: 'googleMap',
+			view: (modelElement, { writer: viewWriter }) => createGoogleMapView(modelElement, viewWriter)
 		});
 
 		// Editing Downcast Converters. These render the content to the user for
@@ -127,6 +155,17 @@ export default class MapEditing extends Plugin {
 		conversion.for('editingDowncast').elementToElement({
 			model: 'campusMap',
 			view: (modelElement, { writer: viewWriter }) => createCampusMapView(modelElement, viewWriter, true)
+		});
+
+		// Editing Downcast Converters. These render the content to the user for
+		// editing, i.e. this determines what gets seen in the editor. These trigger
+		// after the Data Upcast Converters, and are re-triggered any time there
+		// are changes to any of the models' properties.
+		//
+		// Convert the <googleMap> model into a container widget in the editor UI.
+		conversion.for('editingDowncast').elementToElement({
+			model: 'googleMap',
+			view: (modelElement, { writer: viewWriter }) => createGoogleMapView(modelElement, viewWriter, true)
 		});
 	}
 
@@ -162,13 +201,13 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 
 /**
  * @param {Element} modelElement
- *   The element which contains the campusView model.
+ *   The element which contains the campusMap model.
  * @param {DowncastWriter} downcastWriter
  *   The downcast writer.
  * @param {boolean} [widget=false]
  *   Whether or not to return a widget for editing. Defaults to `false`.
  * @returns {ContainerElement}
- *   The map container element or widget.
+ *   The Campus Map element or widget.
  */
 function createCampusMapView(modelElement, downcastWriter, widget = false) {
 	if (widget) {
@@ -187,4 +226,34 @@ function createCampusMapView(modelElement, downcastWriter, widget = false) {
 		]), downcastWriter, { label: 'map widget' });
 	}
 	return downcastWriter.createContainerElement('ucb-map', { class: 'ucb-map ucb-campus-map' });
+}
+
+/**
+ * @param {Element} modelElement
+ *   The element which contains the googleMap model.
+ * @param {DowncastWriter} downcastWriter
+ *   The downcast writer.
+ * @param {boolean} [widget=false]
+ *   Whether or not to return a widget for editing. Defaults to `false`.
+ * @returns {ContainerElement}
+ *   The Google Maps element or widget.
+ */
+ function createGoogleMapView(modelElement, downcastWriter, widget = false) {
+	if (widget) {
+		const mapLocation = modelElement.getAttribute('mapLocation');
+		return toWidget(downcastWriter.createContainerElement('div',
+			{
+				class: 'ucb-map ucb-google-map',
+			}, [
+			downcastWriter.createEmptyElement('iframe', {
+				src: googleMapLocationToURL(mapLocation),
+				loading: 'lazy',
+				referrerpolicy: 'no-referrer'
+			}),
+			downcastWriter.createEmptyElement('div', {
+				class: 'ucb-map-editing-cover'
+			})
+		]), downcastWriter, { label: 'map widget' });
+	}
+	return downcastWriter.createContainerElement('ucb-map', { class: 'ucb-map ucb-google-map' });
 }

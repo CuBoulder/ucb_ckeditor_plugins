@@ -22,3 +22,12 @@
 .ck.ck-map-form .ck-button:nth-of-type(2) {
 	grid-area: 2 / 4 / 3 / 5;
 }
+
+.ucb-map.ucb-google-map .ucb-map-editing-cover {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}

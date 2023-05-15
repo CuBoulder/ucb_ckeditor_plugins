@@ -84,10 +84,16 @@ class MapEmbed extends FilterBase implements ContainerFactoryPluginInterface {
 
 			if (isset($build['#attributes']['class'])) {
 				$classes = preg_split('/\s/', $build['#attributes']['class']);
-				if (in_array('ucb-map', $classes) && in_array('ucb-campus-map', $classes)) { // Classes must match exactly to be recognized as a map in the editor, applies the same rule here
-					$build['#theme'] = 'ucb_campus_map_embed';
-					if(isset($build['#attributes']['data-map-location']))
-						$build['#mapLocation'] = preg_replace('/\D+/', '', $build['#attributes']['data-map-location']);	
+				if (in_array('ucb-map', $classes)) { // Classes must match exactly to be recognized as a map in the editor, the same rule applies here
+					if (in_array('ucb-campus-map', $classes)) { // Campus map
+						$build['#theme'] = 'ucb_campus_map_embed';
+						if(isset($build['#attributes']['data-map-location']))
+							$build['#mapLocation'] = preg_replace('/\D+/', '', $build['#attributes']['data-map-location']);		
+					} else if (in_array('ucb-google-map', $classes)) { // Google map
+						$build['#theme'] = 'ucb_google_map_embed';
+						if(isset($build['#attributes']['data-map-location']))
+							$build['#mapLocation'] = rawurlencode($build['#attributes']['data-map-location']);
+					} else continue;
 				} else continue;
 			} else continue;
 
