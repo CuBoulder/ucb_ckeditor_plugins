@@ -78,6 +78,26 @@ ucb_ckeditor_plugins_invisible:
     # class: Optional PHP class that makes it possible for the plugin to provide
     #   dynamic values, or a configuration UI.
 
+ucb_ckeditor_plugins_map:
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - map.Map
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Map
+    library: ucb_ckeditor_plugins/map.editor
+    admin_library: ucb_ckeditor_plugins/map.admin
+    toolbar_items:
+      map:
+        label: Map
+    elements:
+      - <ucb-map>
+      - <ucb-map class="ucb-map ucb-campus-map ucb-map-size-small ucb-map-size-medium ucb-map-size-large">
+      - <ucb-map data-map-location>
+    conditions:
+      filter: filter_map_embed
+
 ucb_ckeditor_plugins_tooltip:
   # Use the provider: property for this plugin to depend on another module.
 

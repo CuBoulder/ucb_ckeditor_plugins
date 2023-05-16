@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds Map plugin for embedding Campus Maps
+  This update adds the Map plugin to CKEditor, which allows a content editor to provide a link shared from the [CU Boulder Campus Map](https://www.colorado.edu/map/) and embeds a map widget on a page. Just as in the [CKEditor 4 Shortcode](https://websupport.colorado.edu/article/425-campus-map-shortcode) there are three size options to choose from for the widget. The Map plugin outputs web component-like syntax for easier migration and future changes (see `README.md` for the schemas). Resolves CuBoulder/ucb_ckeditor_plugins#13
+  
+  This update also includes a couple miscellaneous changes:
+  - Renames JavaScript package
+  - Refactors Box plugin (no changes to functionality)
+  
+  CuBoulder/tiamat-theme#258
+  
+  Sister PR in: [tiamat-profile](https://github.com/CuBoulder/tiamat-profile/pull/48), [tiamat10-profile](https://github.com/CuBoulder/tiamat10-profile/pull/8)
+  
+  <img width="952" alt="Screen Shot 2023-05-15 at 11 04 57 AM" src="https://github.com/CuBoulder/ucb_ckeditor_plugins/assets/22628823/4eb1f751-ae9f-4914-bb8e-cd769459f3d7">
+---
+
 - ### Box plugin: adds configuration toolbar and options
   A toolbar appears when clicking inside a box and allows editing of the following options:
   

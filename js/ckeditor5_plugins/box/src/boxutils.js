@@ -1,8 +1,8 @@
 /** 
  * @file defines helper functions for the box plugin.
  * 
- * @typedef { import('ckeditor5/src/engine').Element } Element
- * @typedef { import('ckeditor5/src/engine').DocumentSelection } DocumentSelection
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').Element } Element
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').DocumentSelection } DocumentSelection
  */
 
 /**

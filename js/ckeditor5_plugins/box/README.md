@@ -1,4 +1,4 @@
-# CKEditor 5 Plugin: Box 
+# CKEditor 5 Plugin: Box
 
 This plugin allows inserting a box with various configuration options avaliable via the box toolbar, including alignment, style, and theme. The box has fields for a title and content.
 

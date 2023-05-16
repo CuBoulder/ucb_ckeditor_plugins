@@ -1,7 +1,7 @@
 /**
  * @file defines InsertBoxCommand, which is executed when the box toolbar button is pressed.
  * 
- * @typedef { import('ckeditor5/src/engine').Element } Element
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').Element } Element
  * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/writer').default } Writer
  */
 
