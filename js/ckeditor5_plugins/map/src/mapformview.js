@@ -24,7 +24,7 @@ export default class MapFormView extends View {
 		super(locale);
 
 		// Creates the main input field.
-		this.valueInputView = this._createInput(locale, 'Campus Map link');
+		this.valueInputView = this._createInput(locale, 'Map embed');
 		this.set('value', '');
 		this.valueInputView.fieldView.bind('value').to(this, 'value');
 

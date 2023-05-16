@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds Google Maps support in Map CKEditor plugin
+  This update adds support for Google Maps embeds via an embed code taken from Google Maps.
+  
+  Resolves CuBoulder/tiamat-theme#258
+  
+  Resolves CuBoulder/ucb_ckeditor_plugins#14
+  
+  Sister PR in: [tiamat-profile](https://github.com/CuBoulder/tiamat-profile/pull/49), [tiamat10-profile](https://github.com/CuBoulder/tiamat10-profile/pull/9)
+---
+
 - ### Adds Map plugin for embedding Campus Maps
   This update adds the Map plugin to CKEditor, which allows a content editor to provide a link shared from the [CU Boulder Campus Map](https://www.colorado.edu/map/) and embeds a map widget on a page. Just as in the [CKEditor 4 Shortcode](https://websupport.colorado.edu/article/425-campus-map-shortcode) there are three size options to choose from for the widget. The Map plugin outputs web component-like syntax for easier migration and future changes (see `README.md` for the schemas). Resolves CuBoulder/ucb_ckeditor_plugins#13
   

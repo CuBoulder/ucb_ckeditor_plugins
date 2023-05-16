@@ -20,7 +20,7 @@
 	height: 650px;
 }
 
-.ucb-map.ucb-campus-map a {
+.ucb-map.ucb-campus-map a, .ucb-map.ucb-google-map iframe {
 	display: block;
 	width: 100%;
 	height: 100%;

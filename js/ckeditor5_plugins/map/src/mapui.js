@@ -12,7 +12,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import MapFormView from './mapformview';
 import mapIcon from '../../../../icons/map.svg';
-import { campusMapLocationToURL } from './maputils';
+import { campusMapLocationToURL, googleMapLocationToURL } from './maputils';
 
 export default class MapUI extends Plugin {
 	/**
@@ -112,9 +112,11 @@ export default class MapUI extends Plugin {
 			position: this._getBalloonPositionData()
 		});
 		if (selectedMap) {
-			const mapLocation = selectedMap.name === 'campusMap' ? selectedMap.getAttribute('mapLocation') : null;
-			if (mapLocation)
+			const mapLocation = selectedMap.getAttribute('mapLocation');
+			if (mapLocation && selectedMap.name === 'campusMap')
 				this.formView.value = campusMapLocationToURL(mapLocation);
+			else if (mapLocation && selectedMap.name === 'googleMap')
+				this.formView.value = googleMapLocationToURL(mapLocation);
 			this.formView.size = selectedMap.getAttribute('mapSize');
 			this.editor.model.change(writer => writer.setSelection(selectedMap, 'on')); // Fixes a bug which can cause another map to appear rather than the insert command replacing the existing one.
 		}
