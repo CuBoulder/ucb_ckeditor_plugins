@@ -21,6 +21,12 @@ function ucb_ckeditor_plugins_theme() {
 				'attributes' => [],
 				'mapLocation' => ''
 			]
+		],
+		'ucb_google_map_embed' => [
+			'variables' => [
+				'attributes' => [],
+				'mapLocation' => ''
+			]
 		]
 	];
 }
