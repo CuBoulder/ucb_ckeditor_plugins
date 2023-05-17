@@ -4,10 +4,7 @@ import FormView from './buttonview';
 
 import getRangeText from './buttonutils.js';
 import icon from '../../../../icons/hand-pointer-regular.svg';
-import { sizeOptions, styleOptions, colorOptions, defaultColor,defaultStyle,defaultSize} from './buttonconfig';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
-
-import colorIcon from '../../../../icons/paint.svg'
 
 export default class ButtonUI extends Plugin {
 	static get requires() {
@@ -39,15 +36,6 @@ export default class ButtonUI extends Plugin {
 
 			return button;
 		} );
-		// Makes color, style, style, and size options avaliable to the widget toolbar.
-				// TO DO -- appears to add to component factory? How to retrieve and add to UI
-			componentFactory.add('buttonColor', locale => 
-				this._createDropdown(locale, 'Button Color', colorIcon, commands.get('value'), colorOptions, defaultColor));
-			componentFactory.add('buttonStyle', locale => 
-				this._createDropdown(locale, 'Button Style', styleOptions[defaultStyle].icon, commands.get('value'), styleOptions, defaultStyle));
-			componentFactory.add('buttonSize', locale =>
-				this._createDropdown(locale, 'Button Size', sizeOptions[defaultSize].icon, commands.get('value'), sizeOptions, defaultSize));
-
 	}
 
 	afterInit() {
@@ -60,8 +48,6 @@ export default class ButtonUI extends Plugin {
 					.find((node) => node.is('element') && node.hasClass('ucb-button'))
 		});
 	}
-
-  
 
 	_createFormView(locale) {
 		const editor = this.editor;
@@ -152,42 +138,5 @@ export default class ButtonUI extends Plugin {
 		return {
 			target
 		};
-	}
-
-	_createDropdownButton(label, icon, command, value) {
-		const editor = this.editor;
-		const buttonView = new ButtonView();
-		buttonView.set({
-			label,
-			icon,
-			tooltip: true, // Displays the tooltip on hover
-			isToggleable: true, // Allows the button with the command's current value to display as selected
-			withText: !icon // Displays the button as text if the icon is falsey
-		});
-		// Disables the button if the command is disabled
-		buttonView.bind('isEnabled').to(command);
-		// Allows the button with the command's current value to display as selected
-		buttonView.bind('isOn').to(command, 'value', commandValue => commandValue === value);
-		// Executes the command with the button's value on click
-		this.listenTo(buttonView, 'execute', () => {
-			command.execute({ value });
-			editor.editing.view.focus();
-		});
-		return buttonView;
-	}
-
-
-	_createDropdown(locale, label, command, options) {
-		const dropdownView = createDropdown(locale);
-		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createDropdownButton(option.label, option.icon, command, optionValue)));
-		dropdownView.buttonView.set({
-			label,
-			icon,
-			tooltip: true,
-			withText: !icon
-		});
-		// Enable button if any of the buttons are enabled.
-		dropdownView.bind('isEnabled').to(command, 'isEnabled');
-		return dropdownView;		
 	}
 }
