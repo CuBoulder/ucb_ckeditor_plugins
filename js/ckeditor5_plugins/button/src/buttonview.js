@@ -4,10 +4,14 @@ import {
 	createLabeledInputText,
 	ButtonView,
 	submitHandler,
-	FocusCycler
+	FocusCycler,
+	createDropdown,
+	addToolbarToDropdown
 } from 'ckeditor5/src/ui';
 import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
 import { icons } from 'ckeditor5/src/core';
+import colorIcon from '../../../../icons/paint.svg'
+import { sizeOptions, styleOptions, colorOptions, defaultColor,defaultStyle,defaultSize} from './buttonconfig';
 
 export default class FormView extends View {
 	constructor( locale, componentFactory) {
@@ -15,16 +19,12 @@ export default class FormView extends View {
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();
 
-		console.log('componentF', componentFactory)
+		// Creates Dropdowns for Color, Size, Style
+		this.colorDropdown = this._createSelectionDropdown(locale, 'Color', colorIcon, 'color', colorOptions, defaultColor)
+		this.sizeDropdown = this._createSelectionDropdown(locale, 'Size', sizeOptions[defaultSize].icon, 'size', sizeOptions, defaultSize )
+		this.styleDropdown = this._createSelectionDropdown(locale, 'Style', styleOptions[defaultStyle].icon, 'style', styleOptions, defaultStyle)
 
-		// TO DO -- appears to add to component factory? How to retrieve and add to UI
-		const color = componentFactory.add('buttonColor', locale => 
-			this._createDropdown(locale, 'Button Color', colorIcon, commands.get('value'), colorOptions, defaultColor));
-		const style = componentFactory.add('buttonStyle', locale => 
-			this._createDropdown(locale, 'Button Style', styleOptions[defaultStyle].icon, commands.get('value'), styleOptions, defaultStyle));
-		const size = componentFactory.add('buttonSize', locale =>
-			this._createDropdown(locale, 'Button Size', sizeOptions[defaultSize].icon, commands.get('value'), sizeOptions, defaultSize));
-
+		// Creates the main input field.
 		this.innerTextInputView = this._createInput( 'Button Text' );
 		this.linkInputView = this._createInput( 'Add Link' );
 		
@@ -41,6 +41,9 @@ export default class FormView extends View {
 		this.cancelButtonView.delegate( 'execute' ).to( this, 'cancel' );
 
 		this.childViews = this.createCollection( [
+			this.colorDropdown,
+			this.sizeDropdown,
+			this.styleDropdown,
 			this.innerTextInputView,
 			this.linkInputView,
 			this.saveButtonView,
@@ -125,40 +128,35 @@ export default class FormView extends View {
 		return button;
 	}
 
-	_createDropdownButton(label, icon, command, value) {
-		const editor = this.editor;
-		const buttonView = new ButtonView();
-		buttonView.set({
-			label,
-			icon,
-			tooltip: true, // Displays the tooltip on hover
-			isToggleable: true, // Allows the button with the command's current value to display as selected
-			withText: !icon // Displays the button as text if the icon is falsey
-		});
-		// Disables the button if the command is disabled
-		buttonView.bind('isEnabled').to(command);
-		// Allows the button with the command's current value to display as selected
-		buttonView.bind('isOn').to(command, 'value', commandValue => commandValue === value);
-		// Executes the command with the button's value on click
-		this.listenTo(buttonView, 'execute', () => {
-			command.execute({ value });
-			editor.editing.view.focus();
-		});
-		return buttonView;
-	}
-
-
-	_createDropdown(locale, label, command, options) {
-		const dropdownView = createDropdown(locale);
-		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createDropdownButton(option.label, option.icon, command, optionValue)));
+	_createSelectionDropdown(locale, tooltip, icon, attribute, options, defaultValue) {
+		const dropdownView = createDropdown(locale), defaultOption = options[defaultValue];
+		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createSelectableButton(locale, option.label, option.icon, attribute, optionValue)));
 		dropdownView.buttonView.set({
-			label,
 			icon,
-			tooltip: true,
+			tooltip: locale.t(tooltip),
 			withText: !icon
 		});
-		// Enable button if any of the buttons are enabled.
-		dropdownView.bind('isEnabled').to(command, 'isEnabled');
-		return dropdownView;		
+		dropdownView.buttonView.bind('label').to(this, attribute, value => locale.t(options[value] ? options[value].label : defaultOption.label));
+		if (icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
+			dropdownView.buttonView.bind('icon').to(this, attribute, value => options[value] ? options[value].icon : defaultOption.icon);
+		return dropdownView;
+	}
+
+	_createSelectableButton(locale, label, icon, attribute, value) {
+		const buttonView = new ButtonView();
+		buttonView.set({
+			label: locale.t(label),
+			icon,
+			tooltip: !!icon, // Displays the tooltip on hover if there is an icon
+			isToggleable: true, // Allows the button with the attribute's current value to display as selected
+			withText: !icon // Displays the button as text if the icon is falsey
+		});
+		// Allows the button with the attribute's current value to display as selected
+		buttonView.bind('isOn').to(this, attribute, attributeValue => attributeValue === value);
+		// Sets the attribute to the button's value on click
+		this.listenTo(buttonView, 'execute', () => {
+			this.set(attribute, value);
+		});
+		return buttonView;
 	}
 }

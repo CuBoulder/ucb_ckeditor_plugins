@@ -21,9 +21,9 @@ export default class ButtonUI extends Plugin {
 
         // Create the balloon and the form view.
 		this._balloon = this.editor.plugins.get( ContextualBalloon );
-		this.formView = this._createFormView();
+		this.formView = this._createFormView(editor.locale);
 
-
+		// This will register the Button button to the toolbar
 		componentFactory.add( 'button', (locale) => {
 			const button = new ButtonView(locale);
 
@@ -63,15 +63,15 @@ export default class ButtonUI extends Plugin {
 
   
 
-	_createFormView() {
+	_createFormView(locale) {
 		const editor = this.editor;
 		const componentFactory = editor.ui.componentFactory;
-		const formView = new FormView( editor.locale, componentFactory);
+		const formView = new FormView( locale, componentFactory);
 
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
-			// Grab values from the tool tip and title input fields.
+			// Grab values from the Form and title input fields.
 			const value = {
 				href: formView.linkInputView.fieldView.element.value,
 				innerText: formView.innerTextInputView.fieldView.element.value
