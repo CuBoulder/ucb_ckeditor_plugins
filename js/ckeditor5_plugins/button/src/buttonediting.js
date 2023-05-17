@@ -1,6 +1,7 @@
 import { Plugin } from 'ckeditor5/src/core';
 import ButtonCommand from './insertbuttoncommand';
 import { Widget, toWidget } from 'ckeditor5/src/widget';
+import { sizeOptions, styleOptions, colorOptions, defaultColor,defaultStyle,defaultSize} from './buttonconfig';
 
 export default class ButtonEditing extends Plugin {
   static get requires() {
@@ -20,7 +21,7 @@ export default class ButtonEditing extends Plugin {
       isObject: true,
       allowWhere: '$block',
       allowContentOf: '$block',
-      allowAttributes: ['class', 'href'],
+      allowAttributes: ['color', 'style', 'size', 'href'],
       allowChildren: true
     });
   }
@@ -34,6 +35,10 @@ export default class ButtonEditing extends Plugin {
     		// Converters are registered via the central editor object.
     const { conversion } = this.editor;
 
+
+    conversion.attributeToAttribute(buildAttributeToAttributeDefinition('size', sizeOptions));
+    conversion.attributeToAttribute(buildAttributeToAttributeDefinition('color', colorOptions));
+    conversion.attributeToAttribute(buildAttributeToAttributeDefinition('style', styleOptions));
 
     /*
     If <div class="ucb-box"> is present in the existing markup,
@@ -53,13 +58,14 @@ export default class ButtonEditing extends Plugin {
 		// These trigger when content is saved.
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-button',
-      view: (modelElement, {writer: viewWriter}) => createButtonView(viewWriter, true)
+      view: (modelElement, {writer: viewWriter}) => createButtonView(modelElement, viewWriter, false)
     });
 
     // Convert the <ucb-button> model into an editable <a> widget.
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-button',
       view: (buttonModelElement, { writer: viewWriter }) => {
+        console.log(buttonModelElement)
         const href = buttonModelElement.getAttribute('href');
         const classes = buttonModelElement.getAttribute('class') || '';
         const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
@@ -82,7 +88,24 @@ export default class ButtonEditing extends Plugin {
  * @returns {ContainerElement}
  *   The box container element or widget.
  */
-function createButtonView(viewWriter, widget = false) {
+function createButtonView(modelElement, viewWriter, widget = false) {
+  const color = modelElement.getAttribute('color')
+  const style = modelElement.getAttribute('style')
+  const size = modelElement.getAttribute('size')
+  console.log('how a')
 	const button = viewWriter.createContainerElement('a', { class: 'ucb-button' });
 	return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
+}
+
+function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
+	const view = {};
+	for (const [name, option] of Object.entries(attributeOptions))
+		view[name] = { key: 'class', value: option.className };
+	return {
+		model: {
+			key: attributeName,
+			values: Object.keys(attributeOptions)
+		},
+		view
+	};
 }

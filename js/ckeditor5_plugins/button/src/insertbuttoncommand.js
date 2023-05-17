@@ -1,7 +1,8 @@
 import { Command } from 'ckeditor5/src/core';
+import { defaultColor, defaultSize, defaultStyle, sizeOptions, colorOptions, styleOptions } from './buttonconfig';
 
 export default class ButtonCommand extends Command {
-  execute({ color, style, size, href, classes }) {
+  execute({value = '', size = defaultSize, style = defaultStyle, color = defaultColor, href = '', classes = ''}) {
     const model = this.editor.model;
     const selection = model.document.selection;
 
@@ -14,23 +15,17 @@ export default class ButtonCommand extends Command {
     });
   }
 
+  refresh() {
+    const model = this.editor.model;
+    const selection = model.document.selection;
 
-refresh() {
-  const model = this.editor.model;
-  const selection = model.document.selection;
+    const allowedIn = model.schema.findAllowedParent(
+      selection.getFirstPosition(),
+      'ucb-button'
+    );
 
-  // Determine if the cursor (selection) is in a position where adding a
-	// button is permitted. This is based on the schema of the model(s)
-	// currently containing the cursor.
-  const allowedIn = model.schema.findAllowedParent(
-    selection.getFirstPosition(),
-    'ucb-button'
-  );
-
-  // If the cursor is not in a location where a button can be added, return
-		// null so the addition doesn't happen.
-  this.isEnabled = allowedIn !== null;
-}
+    this.isEnabled = allowedIn !== null;
+  }
 }
 
 /**
