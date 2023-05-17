@@ -1,6 +1,6 @@
 # CKEditor 5 Plugin: Map
 
-The Map CKEditor plugin allows insertion of a University of Colorado Boulder Campus Map using a URL generated from the [Campus Map](https://www.colorado.edu/map/?id=336) page.
+The Map CKEditor plugin allows insertion of a University of Colorado Boulder Campus Map using a URL generated from the [Campus Map](https://www.colorado.edu/map/?id=336) page. It also supports Google Maps embeds via an embed code generated in Google Maps.
 
 ## Model
 ```xml
