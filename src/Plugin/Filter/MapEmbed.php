@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\ucb_campus_news\Plugin\Filter\MapEmbed.
+ * Contains \Drupal\ucb_ckeditor_plugins\Plugin\Filter\MapEmbed.
  */
 
 namespace Drupal\ucb_ckeditor_plugins\Plugin\Filter;
@@ -21,7 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Filter(
  *   id = "filter_map_embed",
- *   title = @Translation("Embed Campus Map"),
+ *   title = @Translation("Embed maps"),
+ *   description = @Translation("Allows embedded maps from CU Boulder Campus Map or Google Maps to display correctly."),
  *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_IRREVERSIBLE,
  *   weight = 10
  * )
