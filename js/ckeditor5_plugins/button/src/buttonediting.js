@@ -65,10 +65,8 @@ export default class ButtonEditing extends Plugin {
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-button',
       view: (buttonModelElement, { writer: viewWriter }) => {
-        console.log(buttonModelElement)
         const href = buttonModelElement.getAttribute('href') || '';
         const classes = buttonModelElement.getAttribute('class') || '';
-        const color = buttonModelElement.getAttribute('color') || ''
         const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
           href,
           class: `${classes}`,

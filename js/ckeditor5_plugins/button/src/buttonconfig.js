@@ -47,11 +47,11 @@ export const styleOptions = {
 		icon: icons.objectFullWidth,
 		className: 'ucb-button-full'
 	},
-	regular: {
-		label: 'Regular',
+	default: {
+		label: 'Default',
 		icon: icons.objectCenter,
-		className: 'ucb-button-regular'
+		className: 'ucb-button-default'
 	},
 };
 
-export const defaultStyle = 'regular'
+export const defaultStyle = 'default'
