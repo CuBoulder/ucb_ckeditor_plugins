@@ -58,7 +58,7 @@ export default class ButtonEditing extends Plugin {
 		// These trigger when content is saved.
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-button',
-      view: (modelElement, {writer: viewWriter}) => createButtonView(modelElement, viewWriter, false)
+      view: (modelElement, {writer: viewWriter}) => createButtonView(modelElement, viewWriter, true)
     });
 
     // Convert the <ucb-button> model into an editable <a> widget.
@@ -66,8 +66,9 @@ export default class ButtonEditing extends Plugin {
       model: 'ucb-button',
       view: (buttonModelElement, { writer: viewWriter }) => {
         console.log(buttonModelElement)
-        const href = buttonModelElement.getAttribute('href');
+        const href = buttonModelElement.getAttribute('href') || '';
         const classes = buttonModelElement.getAttribute('class') || '';
+        const color = buttonModelElement.getAttribute('color') || ''
         const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
           href,
           class: `${classes}`,
@@ -92,8 +93,7 @@ function createButtonView(modelElement, viewWriter, widget = false) {
   const color = modelElement.getAttribute('color')
   const style = modelElement.getAttribute('style')
   const size = modelElement.getAttribute('size')
-  console.log('how a')
-	const button = viewWriter.createContainerElement('a', { class: 'ucb-button' });
+	const button = viewWriter.createContainerElement('a', { class: 'ucb-button', color, style, size });
 	return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
 }
 

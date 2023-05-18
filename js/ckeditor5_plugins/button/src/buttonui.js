@@ -58,9 +58,15 @@ export default class ButtonUI extends Plugin {
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
 			// Grab values from the Form and title input fields.
+			console.log(formView)
+			console.log('color test' , formView.color)
 			const value = {
 				href: formView.linkInputView.fieldView.element.value,
-				innerText: formView.innerTextInputView.fieldView.element.value
+				innerText: formView.innerTextInputView.fieldView.element.value,
+				color: formView.color,
+				size: formView.size,
+				style: formView.style
+
 			};
 			editor.execute( 'addButton', value );
 
@@ -100,7 +106,11 @@ export default class ButtonUI extends Plugin {
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
+			console.log('form',this.formView)
 			this.formView.linkInputView.fieldView.value = commandValue.link;
+			this.formView.colorDropdown.fieldView.value = commandValue.color;
+			this.formView.sizeDropdown.fieldView.value = commandValue.size;
+			this.formView.styleDropdown.fieldView.value = commandValue.style
 		}
 		// If the command has no value, put the currently selected text (not collapsed)
 		// in the first field and empty the second in that case.
