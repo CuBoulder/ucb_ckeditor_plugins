@@ -4,17 +4,17 @@ export const sizeOptions = {
 	large: {
 		label: 'Large',
 		icon: icons.large,
-		className: 'ucb-box-title-left'
+		className: 'ucb-button-large'
 	},
 	regular: {
 		label: 'Regular',
 		icon: icons.regular,
-		className: 'ucb-box-title-center'
+		className: 'ucb-button-regular'
 	},
 	small: {
 		label: 'Small',
 		icon: icons.small,
-		className: 'ucb-box-title-right'
+		className: 'ucb-button-small'
 	},
 };
 

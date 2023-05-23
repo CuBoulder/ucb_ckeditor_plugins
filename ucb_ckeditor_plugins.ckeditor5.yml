@@ -163,11 +163,12 @@ ucb_ckeditor_plugins_button:
     # If the plugin does not provide elements, set this as
     # `elements: false`
     elements:
-      - <a>
-      - <a class='ucb-button-blue'
-    # *Additional configuration properties*
-    # conditions: for setting additional criteria that must be met for the
-    #   plugin to be active.
-    # class: Optional PHP class that makes it possible for the plugin to provide
-    #   dynamic values, or a configuration UI.
-
+      - <a class='ucb-button-blue'>
+      - <a class='ucb-button-black'>
+      - <a class='ucb-button-grey'>
+      - <a class='ucb-button-white'>
+      - <a class='ucb-button-large'>
+      - <a class='ucb-button-regular'>
+      - <a class='ucb-button-small'>
+      - <a class='ucb-button-full'>
+      - <a class='ucb-button-default'>

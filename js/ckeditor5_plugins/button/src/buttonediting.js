@@ -58,9 +58,9 @@ export default class ButtonEditing extends Plugin {
 		// These trigger when content is saved.
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-button',
-      view: (modelElement, {writer: viewWriter}) => createButtonView(modelElement, viewWriter, true)
+      view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter),
     });
-
+    
     // Convert the <ucb-button> model into an editable <a> widget.
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-button',
@@ -88,12 +88,36 @@ export default class ButtonEditing extends Plugin {
  *   The box container element or widget.
  */
 function createButtonView(modelElement, viewWriter, widget = false) {
-  const color = modelElement.getAttribute('color')
-  const style = modelElement.getAttribute('style')
-  const size = modelElement.getAttribute('size')
-	const button = viewWriter.createContainerElement('a', { class: 'ucb-button', color, style, size });
-	return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
+  const color = modelElement.getAttribute('color');
+  const style = modelElement.getAttribute('style');
+  const size = modelElement.getAttribute('size');
+  const classes = modelElement.getAttribute('class');
+  const href = modelElement.getAttribute('href') || '';
+
+  const button = viewWriter.createContainerElement('a', {
+    class: `ucb-button${classes ? ' ' + classes : ''}`,
+    color,
+    style,
+    size,
+    href,
+  });
+
+  // Split the classes and add each one individually
+  if (classes) {
+    console.log(classes)
+    classes.split(' ').forEach(className => {
+      console.log(classes)
+      viewWriter.addClass(className, button);
+    });
+  }
+
+  return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
 }
+
+
+
+
+
 
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 	const view = {};
