@@ -7,7 +7,7 @@ export default class ButtonCommand extends Command {
     const selection = model.document.selection;
 
     model.change(writer => {
-      const button = addButton(writer, color, style, size, href, classes);
+      const button = addButton(writer, color, style, size, href, selection);
       const position = selection.getFirstPosition();
 
       writer.insert(button, position);
@@ -35,7 +35,9 @@ export default class ButtonCommand extends Command {
  *   The box element with all required child elements to match the box schema.
  */
 // TO DO -- is this where i pass class information?
-function addButton(writer, color, style, size, href, classes) {
+function addButton(writer, color, style, size, href, selection) {
+  const range = selection.getFirstRange();
+
   const button = writer.createElement('ucb-button', {
     class: 'ucb-button',
     href,
@@ -43,6 +45,10 @@ function addButton(writer, color, style, size, href, classes) {
     style,
     size
   });
+  for (const item of range.getItems()) {
+    const textNode = writer.createText(item.data)
+    writer.append(textNode, button)
+  } 
 
   return button;
 }
