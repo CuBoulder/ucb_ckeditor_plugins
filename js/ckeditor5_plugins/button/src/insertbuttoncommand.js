@@ -37,8 +37,11 @@ export default class ButtonCommand extends Command {
 // TO DO -- is this where i pass class information?
 function addButton(writer, color, style, size, href, classes) {
   const button = writer.createElement('ucb-button', {
-    class: `ucb-button-${color} ucb-button-${style} ucb-button-${size} ${classes}`,
-    href: href
+    class: 'ucb-button',
+    href,
+    color,
+    style,
+    size
   });
 
   return button;

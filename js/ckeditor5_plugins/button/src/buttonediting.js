@@ -67,9 +67,15 @@ export default class ButtonEditing extends Plugin {
       view: (buttonModelElement, { writer: viewWriter }) => {
         const href = buttonModelElement.getAttribute('href') || '';
         const classes = buttonModelElement.getAttribute('class') || '';
+        const color = buttonModelElement.getAttribute('color') || ''
+        const size = buttonModelElement.getAttribute('size') || '';
+        const style = buttonModelElement.getAttribute('style') || '';
         const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
           href,
-          class: `${classes}`,
+          color,
+          style,
+          size,
+          class:classes
         });
 
         return buttonViewElement;
@@ -95,22 +101,9 @@ function createButtonView(modelElement, viewWriter, widget = false) {
   const href = modelElement.getAttribute('href') || '';
 
   const button = viewWriter.createContainerElement('a', {
-    class: `ucb-button${classes ? ' ' + classes : ''}`,
-    color,
-    style,
-    size,
+    class: `${classes} ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
     href,
   });
-
-  // Split the classes and add each one individually
-  if (classes) {
-    console.log(classes)
-    classes.split(' ').forEach(className => {
-      console.log(classes)
-      viewWriter.addClass(className, button);
-    });
-  }
-
   return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
 }
 
