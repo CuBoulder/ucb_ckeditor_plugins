@@ -163,36 +163,4 @@ ucb_ckeditor_plugins_button:
     # If the plugin does not provide elements, set this as
     # `elements: false`
     elements:
-      - <a class='ucb-button-blue'>
-      - <a class='ucb-button-black'>
-      - <a class='ucb-button-grey'>
-      - <a class='ucb-button-white'>
-      - <a class='ucb-button-large'>
-      - <a class='ucb-button-regular'>
-      - <a class='ucb-button-small'>
-      - <a class='ucb-button-full'>
-      - <a class='ucb-button-default'>
-      - <a class='ucb-button-blue ucb-button-large ucb-button-full'>
-      - <a class='ucb-button-blue ucb-button-large ucb-button-default'>
-      - <a class='ucb-button-blue ucb-button-regular ucb-button-full'>
-      - <a class='ucb-button-blue ucb-button-regular ucb-button-default'>
-      - <a class='ucb-button-blue ucb-button-small ucb-button-full'>
-      - <a class='ucb-button-blue ucb-button-small ucb-button-default'>
-      - <a class='ucb-button-black ucb-button-large ucb-button-full'>
-      - <a class='ucb-button-black ucb-button-large ucb-button-default'>
-      - <a class='ucb-button-black ucb-button-regular ucb-button-full'>
-      - <a class='ucb-button-black ucb-button-regular ucb-button-default'>
-      - <a class='ucb-button-black ucb-button-small ucb-button-full'>
-      - <a class='ucb-button-black ucb-button-small ucb-button-default'>
-      - <a class='ucb-button-grey ucb-button-large ucb-button-full'>
-      - <a class='ucb-button-grey ucb-button-large ucb-button-default'>
-      - <a class='ucb-button-grey ucb-button-regular ucb-button-full'>
-      - <a class='ucb-button-grey ucb-button-regular ucb-button-default'>
-      - <a class='ucb-button-grey ucb-button-small ucb-button-full'>
-      - <a class='ucb-button-grey ucb-button-small ucb-button-default'>
-      - <a class='ucb-button-white ucb-button-large ucb-button-full'>
-      - <a class='ucb-button-white ucb-button-large ucb-button-default'>
-      - <a class='ucb-button-white ucb-button-regular ucb-button-full'>
-      - <a class='ucb-button-white ucb-button-regular ucb-button-default'>
-      - <a class='ucb-button-white ucb-button-small ucb-button-full'>
-      - <a class='ucb-button-white ucb-button-small ucb-button-default'>
+      - <a class='ucb-button-blue'><a class='ucb-button-black'><a class='ucb-button-grey'><a class='ucb-button-white'><a class='ucb-button-large'><a class='ucb-button-regular'><a class='ucb-button-small'><a class='ucb-button-full'><a class='ucb-button-default'><a class='ucb-button-blue ucb-button-large ucb-button-full'><a class='ucb-button-blue ucb-button-large ucb-button-default'><a class='ucb-button-blue ucb-button-regular ucb-button-full'><a class='ucb-button-blue ucb-button-regular ucb-button-default'><a class='ucb-button-blue ucb-button-small ucb-button-full'><a class='ucb-button-blue ucb-button-small ucb-button-default'><a class='ucb-button-black ucb-button-large ucb-button-full'><a class='ucb-button-black ucb-button-large ucb-button-default'><a class='ucb-button-black ucb-button-regular ucb-button-full'><a class='ucb-button-black ucb-button-regular ucb-button-default'><a class='ucb-button-black ucb-button-small ucb-button-full'><a class='ucb-button-black ucb-button-small ucb-button-default'><a class='ucb-button-grey ucb-button-large ucb-button-full'><a class='ucb-button-grey ucb-button-large ucb-button-default'><a class='ucb-button-grey ucb-button-regular ucb-button-full'><a class='ucb-button-grey ucb-button-regular ucb-button-default'><a class='ucb-button-grey ucb-button-small ucb-button-full'><a class='ucb-button-grey ucb-button-small ucb-button-default'><a class='ucb-button-white ucb-button-large ucb-button-full'><a class='ucb-button-white ucb-button-large ucb-button-default'><a class='ucb-button-white ucb-button-regular ucb-button-full'><a class='ucb-button-white ucb-button-regular ucb-button-default'><a class='ucb-button-white ucb-button-small ucb-button-full'><a class='ucb-button-white ucb-button-small ucb-button-default'>
