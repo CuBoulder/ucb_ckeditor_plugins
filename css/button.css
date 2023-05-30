@@ -1,0 +1,58 @@
+.ucb-button{
+    transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    text-decoration: none !important;
+    display: inline-block;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* Colors */
+.ucb-button-blue{
+    color: #fff !important;
+    background-color: #0277BD;
+}
+
+.ucb-button-black{
+    background-color: #000;
+    color: #fff !important;
+}
+
+.ucb-button-grey{
+    background-color: #EEEEEE;
+    color: #111111 !important;
+}
+
+.ucb-button-white{
+    background-color: #fff;
+    color: #111111 !important;
+}
+
+.ucb-button-gold{
+    background-color: #cfb87c;
+    color: #111111 !important;
+}
+
+/* Size */
+
+.ucb-button-large{
+    font-size: 125%;
+}
+
+.ucb-button-regular{
+    font-size: 100%;
+}
+
+.ucb-button-small{
+    font-size: 85%;
+    padding: 1px 6px;
+}
+
+/* Width */
+.ucb-button-full{
+    display: block;
+    text-align: center;
+}

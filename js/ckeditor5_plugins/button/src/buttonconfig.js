@@ -36,6 +36,10 @@ export const colorOptions = {
 	white: {
 		label: 'White',
 		className: 'ucb-button-white'
+	},
+	gold: {
+		label: 'Gold',
+		className: 'ucb-button-gold'
 	}
 };
 
