@@ -47,7 +47,7 @@ export default class ButtonEditing extends Plugin {
     */
   
 
-    //  TO DO -- need to fix upcast so it doesn't turn into a LINK model when returning to the editor
+//  TO DO -- need to fix upcast so it doesn't turn into a LINK model when returning to the editor
 conversion.for('upcast').elementToElement({
   view: {
     name: 'a',
@@ -127,11 +127,10 @@ function createButtonView(modelElement, viewWriter, widget = false) {
   const color = modelElement.getAttribute('color');
   const style = modelElement.getAttribute('style');
   const size = modelElement.getAttribute('size');
-  const classes = modelElement.getAttribute('class');
   const href = modelElement.getAttribute('href') || '';
 
   const button = viewWriter.createContainerElement('a', {
-    class: `${classes} ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
+    class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
     href,
   });
   return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
