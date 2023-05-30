@@ -48,13 +48,41 @@ export default class ButtonEditing extends Plugin {
   
 
     //  TO DO -- need to fix upcast so it doesn't turn into a LINK model when returning to the editor
-    conversion.for('upcast').elementToElement({
-      model: 'ucb-button',
-      view: {
-        name: 'a',
-        classes: 'ucb-button'
-      }
-    });
+conversion.for('upcast').elementToElement({
+  view: {
+    name: 'a',
+    class: 'ucb-button'
+  },
+  model: (viewElement, { writer: modelWriter }) => {
+    const modelElement = modelWriter.createElement('ucb-button');
+
+    const color = viewElement.getAttribute('color');
+    if (color) {
+      modelWriter.setAttribute('color', color, modelElement);
+    }
+
+    const style = viewElement.getAttribute('style');
+    if (style) {
+      modelWriter.setAttribute('style', style, modelElement);
+    }
+
+    const size = viewElement.getAttribute('size');
+    if (size) {
+      modelWriter.setAttribute('size', size, modelElement);
+    }
+
+    const href = viewElement.getAttribute('href');
+    if (href) {
+      modelWriter.setAttribute('href', href, modelElement);
+    }
+
+    return modelElement;
+  }
+});
+
+    
+    
+    
 
     // Data Downcast Converters: converts stored model data into HTML.
 		// These trigger when content is saved.
