@@ -4,6 +4,7 @@ ckeditor-plugin-styles:
       css/box.css: { }
       css/map.css: { }
       css/tooltip.css: { }
+      css/button.css: { }
 
 box.admin:
   css:
