@@ -41,11 +41,13 @@ export default class ButtonEditing extends Plugin {
     conversion.attributeToAttribute(buildAttributeToAttributeDefinition('style', styleOptions));
 
     /*
-    If <div class="ucb-box"> is present in the existing markup,
+    If <div class="ucb-button"> is present in the existing markup,
      processed by CKEditor, then CKEditor recognizes and loads it as a
 		<ucb-button> model.  
     */
   
+
+    //  TO DO -- need to fix upcast so it doesn't turn into a LINK model when returning to the editor
     conversion.for('upcast').elementToElement({
       model: 'ucb-button',
       view: {
