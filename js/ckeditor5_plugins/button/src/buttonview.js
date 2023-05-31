@@ -23,11 +23,18 @@ export default class FormView extends View {
 		this.colorDropdown = this._createSelectionDropdown(locale, 'Color', colorIcon, 'color', colorOptions, defaultColor)
 		this.sizeDropdown = this._createSelectionDropdown(locale, 'Size', sizeOptions[defaultSize].icon, 'size', sizeOptions, defaultSize )
 		this.styleDropdown = this._createSelectionDropdown(locale, 'Style', styleOptions[defaultStyle].icon, 'style', styleOptions, defaultStyle)
-
+		
 		// Creates the main input field.
 		this.innerTextInputView = this._createInput( 'Button Text' );
 		this.linkInputView = this._createInput( 'Add Link' );
 		
+		// Sets defaults
+		this.set('size', defaultSize)
+		this.set('color', defaultColor)
+		this.set('style', defaultStyle)
+		this.linkInputView.fieldView.bind('href').to(this, 'href');
+		this.set('href', '')
+
 
 		this.saveButtonView = this._createButton( 'Save', icons.check, 'ck-button-save' );
 

@@ -90,27 +90,31 @@ conversion.for('upcast').elementToElement({
       model: 'ucb-button',
       view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter),
     });
-    
-    // Convert the <ucb-button> model into an editable <a> widget.
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-button',
-      view: (buttonModelElement, { writer: viewWriter }) => {
-        const href = buttonModelElement.getAttribute('href') || '';
-        const classes = buttonModelElement.getAttribute('class') || '';
-        const color = buttonModelElement.getAttribute('color') || ''
-        const size = buttonModelElement.getAttribute('size') || '';
-        const style = buttonModelElement.getAttribute('style') || '';
-        const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
-          href,
-          color,
-          style,
-          size,
-          class:classes
-        });
-
-        return buttonViewElement;
-      },
+      view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter, true),
     });
+    
+    // Convert the <ucb-button> model into an editable <a> widget.
+    // conversion.for('editingDowncast').elementToElement({
+    //   model: 'ucb-button',
+    //   view: (buttonModelElement, { writer: viewWriter }) => {
+    //     const href = buttonModelElement.getAttribute('href') || '';
+    //     const classes = buttonModelElement.getAttribute('class') || '';
+    //     const color = buttonModelElement.getAttribute('color') || ''
+    //     const size = buttonModelElement.getAttribute('size') || '';
+    //     const style = buttonModelElement.getAttribute('style') || '';
+    //     const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
+    //       href,
+    //       color,
+    //       style,
+    //       size,
+    //       class:classes
+    //     });
+
+    //     return buttonViewElement;
+    //   },
+    // });
   }
 }
 
@@ -129,10 +133,20 @@ function createButtonView(modelElement, viewWriter, widget = false) {
   const size = modelElement.getAttribute('size');
   const href = modelElement.getAttribute('href') || '';
 
-  const button = viewWriter.createContainerElement('a', {
-    class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
-    href,
-  });
+  let button;
+  if(widget){
+    button = viewWriter.createContainerElement('a', {
+      class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
+      href,
+      onclick: 'event.preventDefault()' // Prevents following the link when clicking the widget.
+    },{renderUnsafeAttributes: ['onclick']});
+  } else {
+    button = viewWriter.createContainerElement('a', {
+      class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
+      href,
+    });
+  }
+
   return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
 }
 

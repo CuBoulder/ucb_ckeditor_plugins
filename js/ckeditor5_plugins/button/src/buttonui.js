@@ -14,7 +14,8 @@ export default class ButtonUI extends Plugin {
 	init() {
 		const editor = this.editor;
 		const componentFactory = editor.ui.componentFactory;
-
+		const insertButtonCommand = editor.commands.get('addButton')
+		const viewDocument = editor.editing.view.document;
 
         // Create the balloon and the form view.
 		this._balloon = this.editor.plugins.get( ContextualBalloon );
@@ -33,6 +34,14 @@ export default class ButtonUI extends Plugin {
 			this.listenTo( button, 'execute', () => {
 				this._showUI();
 			} );
+
+
+			// Shows the UI on click of a map widget.
+			this.listenTo(viewDocument, 'click', () => {
+				console.log('here',insertButtonCommand)
+				if (insertButtonCommand.existingButtonSelected)
+					this._showUI(insertButtonCommand.existingButtonSelected);
+			});
 
 			return button;
 		} );
@@ -88,7 +97,7 @@ export default class ButtonUI extends Plugin {
 		return formView;
 	}
 
-	_showUI() {
+	_showUI(selectedButton) {
 		const selection = this.editor.model.document.selection;
 
 		// Check the value of the command.
@@ -98,6 +107,20 @@ export default class ButtonUI extends Plugin {
 			view: this.formView,
 			position: this._getBalloonPositionData()
 		} );
+
+		if(selectedButton){
+			const size = selectedButton.getAttribute('size');
+			const color = selectedButton.getAttribute('color')
+			const style = selectedButton.getAttribute('style')
+			const href = selectedButton.getAttribute('href')
+
+			this.formView.href = href
+			this.formView.color = color
+			this.formView.style = style
+			this.formView.size = size
+
+			this.formView.focus();
+		}
 
 		// Disable the input when the selection is not collapsed.
 		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
