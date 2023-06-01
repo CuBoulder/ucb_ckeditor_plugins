@@ -38,7 +38,6 @@ export default class ButtonUI extends Plugin {
 
 			// Shows the UI on click of a map widget.
 			this.listenTo(viewDocument, 'click', () => {
-				console.log('here',insertButtonCommand)
 				if (insertButtonCommand.existingButtonSelected)
 					this._showUI(insertButtonCommand.existingButtonSelected);
 			});

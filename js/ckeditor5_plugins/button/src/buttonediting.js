@@ -46,8 +46,6 @@ export default class ButtonEditing extends Plugin {
 		<ucb-button> model.  
     */
   
-
-//  TO DO -- need to fix upcast so it doesn't turn into a LINK model when returning to the editor
 conversion.for('upcast').elementToElement({
   view: {
     name: 'a',
@@ -80,10 +78,6 @@ conversion.for('upcast').elementToElement({
   }
 });
 
-    
-    
-    
-
     // Data Downcast Converters: converts stored model data into HTML.
 		// These trigger when content is saved.
     conversion.for('dataDowncast').elementToElement({
@@ -94,27 +88,6 @@ conversion.for('upcast').elementToElement({
       model: 'ucb-button',
       view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter, true),
     });
-    
-    // Convert the <ucb-button> model into an editable <a> widget.
-    // conversion.for('editingDowncast').elementToElement({
-    //   model: 'ucb-button',
-    //   view: (buttonModelElement, { writer: viewWriter }) => {
-    //     const href = buttonModelElement.getAttribute('href') || '';
-    //     const classes = buttonModelElement.getAttribute('class') || '';
-    //     const color = buttonModelElement.getAttribute('color') || ''
-    //     const size = buttonModelElement.getAttribute('size') || '';
-    //     const style = buttonModelElement.getAttribute('style') || '';
-    //     const buttonViewElement = viewWriter.createContainerElement('ucb-button', {
-    //       href,
-    //       color,
-    //       style,
-    //       size,
-    //       class:classes
-    //     });
-
-    //     return buttonViewElement;
-    //   },
-    // });
   }
 }
 
