@@ -51,7 +51,7 @@ export default class ButtonEditing extends Plugin {
 conversion.for('upcast').elementToElement({
   view: {
     name: 'a',
-    class: 'ucb-button'
+    classes: 'ucb-button'
   },
   model: (viewElement, { writer: modelWriter }) => {
     const modelElement = modelWriter.createElement('ucb-button');
