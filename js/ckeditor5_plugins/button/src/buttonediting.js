@@ -17,10 +17,38 @@ export default class ButtonEditing extends Plugin {
   // Schemas are registered via the central `editor` object.
   _defineSchema() {
     const schema = this.editor.model.schema;
-    schema.register('ucb-button', {
-      isObject: true,
+    schema.addChildCheck( ( context, childDefinition ) => {
+    // Note that the context is automatically normalized to a SchemaContext instance and
+    // the child to its definition (SchemaCompiledItemDefinition).
+
+    // If checkChild() is called with a context that ends with linkHref and linkHref as a child
+    // to check, make the checkChild() method return false.
+    if ( context.endsWith( 'linkHref' ) && childDefinition.name == 'linkHref' ) {
+        return false;
+    }
+    schema.on( 'checkChild', ( evt, args ) => {
+	const context = args[ 0 ];
+	// const childDefinition = args[ 1 ];
+
+	if ( context.endsWith( 'linkHref' ) ) {
+		// Prevent next listeners from being called.
+		evt.stop();
+		// Set the checkChild()'s return value.
+		evt.return = false;
+	}
+    }, { priority: 'high' } );
+    } );
+
+
+    schema.register('buttonWrapper', {
       allowWhere: '$block',
-      allowContentOf: '$block',
+      isObject: true,
+			allowChildren: 'ucb-button'
+		});
+
+    schema.register('ucb-button', {
+      allowIn: 'buttonWrapper',
+      allowContentOf: '$text',
       allowAttributes: ['color', 'style', 'size', 'href'],
       allowChildren: true
     });
@@ -78,6 +106,14 @@ conversion.for('upcast').elementToElement({
   }
 });
 
+conversion.for('upcast').elementToElement({
+  model: 'buttonWrapper',
+  view: {
+    name: 'span',
+    classes: 'ucb-button-wrapper'
+  }
+});
+
     // Data Downcast Converters: converts stored model data into HTML.
 		// These trigger when content is saved.
     conversion.for('dataDowncast').elementToElement({
@@ -88,8 +124,23 @@ conversion.for('upcast').elementToElement({
       model: 'ucb-button',
       view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter, true),
     });
+
+    conversion.for('editingDowncast').elementToElement({
+			model: 'buttonWrapper',
+			view: (modelElement, { writer: viewWriter }) => viewWriter.createContainerElement('span', { class: 'ucb-button-wrapper' })
+		});
+
+    conversion.for('dataDowncast').elementToElement({
+			model: 'buttonWrapper',
+			view: {
+				name: 'span',
+				classes: 'ucb-button-wrapper'
+			}
+		});
   }
 }
+
+
 
 
 /**

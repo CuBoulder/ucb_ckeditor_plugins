@@ -45,6 +45,8 @@ export default class ButtonCommand extends Command {
 function addButton(writer, color, style, size, href, selection) {
   const range = selection.getFirstRange();
 
+  const buttonWrapper = writer.createElement('buttonWrapper')
+
   const button = writer.createElement('ucb-button', {
     class: 'ucb-button',
     href,
@@ -57,7 +59,9 @@ function addButton(writer, color, style, size, href, selection) {
     writer.append(textNode, button)
   } 
 
-  return button;
+  writer.append(button, buttonWrapper)
+
+  return buttonWrapper;
 }
 
 /**
