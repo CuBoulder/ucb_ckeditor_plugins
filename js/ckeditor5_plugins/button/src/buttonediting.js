@@ -1,169 +1,142 @@
 import { Plugin } from 'ckeditor5/src/core';
 import ButtonCommand from './insertbuttoncommand';
 import { Widget, toWidget } from 'ckeditor5/src/widget';
-import { sizeOptions, styleOptions, colorOptions, defaultColor,defaultStyle,defaultSize} from './buttonconfig';
+import { sizeOptions, styleOptions, colorOptions, defaultColor, defaultStyle, defaultSize } from './buttonconfig';
 
 export default class ButtonEditing extends Plugin {
-  static get requires() {
-    return [Widget];
-  }
+	static get requires() {
+		return [Widget];
+	}
 
-  init() {
-    this._defineSchema();
-    this._defineConverters();
-    this.editor.commands.add('addButton', new ButtonCommand(this.editor));
-  }
+	init() {
+		this._defineSchema();
+		this._defineConverters();
+		this.editor.commands.add('addButton', new ButtonCommand(this.editor));
+	}
 
-  // Schemas are registered via the central `editor` object.
-  _defineSchema() {
-    const schema = this.editor.model.schema;
-    schema.register('ucb-button', {
-      isObject: true,
-      allowWhere: '$block',
-      allowContentOf: '$block',
-      allowAttributes: ['href'],
-      allowChildren: true
-    });
+	// Schemas are registered via the central `editor` object.
+	_defineSchema() {
+		const schema = this.editor.model.schema;
+		schema.register('ucb-button', {
+			isObject: true,
+			allowWhere: '$block',
+			allowContentOf: '$block',
+			allowAttributes: ['href'],
+			allowChildren: true
+		});
 
-    schema.register('ucb-button-wrapper', {
-      allowWhere: '$block',
-      allowContentOf: '$block',
-      isObject: true,
-      allowAttributes: ['color', 'style', 'size'],
+		schema.register('ucb-button-wrapper', {
+			allowWhere: '$block',
+			allowContentOf: '$block',
+			isObject: true,
+			allowAttributes: ['color', 'style', 'size'],
 			allowChildren: 'ucb-button'
 		});
 
-  }
+	}
 
 
-  	/**
-	 * Converters determine how CKEditor 5 models are converted into markup and
-	 * vice-versa.
-	 */
-  _defineConverters() {
-    		// Converters are registered via the central editor object.
-    const { conversion } = this.editor;
+	/**
+ * Converters determine how CKEditor 5 models are converted into markup and
+ * vice-versa.
+ */
+	_defineConverters() {
+		// Converters are registered via the central editor object.
+		const { conversion } = this.editor;
 
 
-    conversion.attributeToAttribute(buildAttributeToAttributeDefinition('size', sizeOptions));
-    conversion.attributeToAttribute(buildAttributeToAttributeDefinition('color', colorOptions));
-    conversion.attributeToAttribute(buildAttributeToAttributeDefinition('style', styleOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('size', sizeOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('color', colorOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('style', styleOptions));
 
-    /*
-    If <div class="ucb-button"> is present in the existing markup,
-     processed by CKEditor, then CKEditor recognizes and loads it as a
-		<ucb-button> model.  
-    */
+		/*
+		If <div class="ucb-button"> is present in the existing markup,
+		 processed by CKEditor, then CKEditor recognizes and loads it as a
+			<ucb-button> model.  
+		*/
 
-    conversion.for('upcast').add(dispatcher => {
-      // A converter for links (<a>).
-      dispatcher.on('element:a', (evt, data, conversionApi) => {
-          if (conversionApi.consumable.consume(data.viewItem, { name: '$text', attributes: ['href'] })) {
-              // The <a> element is inline and is represented by an attribute in the model.
-              // This is why you need to convert only children.
-              const { modelRange } = conversionApi.convertChildren(data.viewItem, data.modelCursor);
-    
-              for (let item of modelRange.getItems()) {
-                  if (conversionApi.schema.getAttribute(item, 'linkHref')) {
-                      conversionApi.writer.removeAttribute('linkHref', item);
-                  }
-                 const modelElement = conversionApi.writer.createElement('ucb-button')
-                  const href = conversionApi.schema('linkHref');
-                  if (href) {
-                    conversionApi.writer.setAttribute('href', href, modelElement);
-                  }
+		conversion.for('upcast').add(dispatcher => {
+			// A converter for links (<a>).
+			dispatcher.on('element:a', (evt, data, conversionApi) => {
+				if (!data.viewItem.parent.hasClass('ucb-button-wrapper')) return;
 
-              }
-          }
-      });
-    });
-  
-conversion.for('upcast').elementToElement({
-  view: {
-    name: 'a',
-    classes: 'ucb-button'
-  },
-  model: (viewElement, { writer: modelWriter }) => {
-    const modelElement = modelWriter.createElement('ucb-button');
+				const nestedLink = conversionApi.writer.createElement('ucb-button');
 
-    // const color = viewElement.getAttribute('color');
-    // if (color) {
-    //   modelWriter.setAttribute('color', color, modelElement);
-    // }
+				// Try to safely insert a paragraph at the model cursor - it will find an allowed parent for the current element.
+				if (!conversionApi.safeInsert(nestedLink, data.modelCursor)) {
+					// When an element was not inserted, it means that you cannot insert a paragraph at this position.
+					return;
+				}
 
-    // const style = viewElement.getAttribute('style');
-    // if (style) {
-    //   modelWriter.setAttribute('style', style, modelElement);
-    // }
+				// Consume the inserted element.
+				conversionApi.consumable.consume(data.viewItem, { name: data.viewItem.name });
 
-    // const size = viewElement.getAttribute('size');
-    // if (size) {
-    //   modelWriter.setAttribute('size', size, modelElement);
-    // }
+				// Convert the children to a nestedLink.
+				const { modelRange } = conversionApi.convertChildren(data.viewItem, nestedLink);
 
-    const href = viewElement.getAttribute('href');
-    if (href) {
-      modelWriter.setAttribute('href', href, modelElement);
-    }
+				// Update `modelRange` and `modelCursor` in the `data` as a conversion result.
+				conversionApi.updateConversionResult(nestedLink, data);
 
-    return modelElement;
-  }
-});
+				for (let item of modelRange.getItems()) {
+					conversionApi.writer.removeAttribute('linkHref', item); // Doesn't work
+				}
+			});
+		});
 
-conversion.for('upcast').elementToElement({
-  model: 'ucb-button-wrapper',
-  view: {
-    name: 'span',
-    classes: 'ucb-button-wrapper'
-  },
-  model: (viewElement, { writer: modelWriter }) => {
-    const modelElement = modelWriter.createElement('ucb-button-wrapper');
+		conversion.for('upcast').elementToElement({
+			model: 'ucb-button-wrapper',
+			view: {
+				name: 'span',
+				classes: 'ucb-button-wrapper'
+			},
+			model: (viewElement, { writer: modelWriter }) => {
+				const modelElement = modelWriter.createElement('ucb-button-wrapper');
 
-    const color = viewElement.getAttribute('color');
-    if (color) {
-      modelWriter.setAttribute('color', color, modelElement);
-    }
+				const color = viewElement.getAttribute('color');
+				if (color) {
+					modelWriter.setAttribute('color', color, modelElement);
+				}
 
-    const style = viewElement.getAttribute('style');
-    if (style) {
-      modelWriter.setAttribute('style', style, modelElement);
-    }
+				const style = viewElement.getAttribute('style');
+				if (style) {
+					modelWriter.setAttribute('style', style, modelElement);
+				}
 
-    const size = viewElement.getAttribute('size');
-    if (size) {
-      modelWriter.setAttribute('size', size, modelElement);
-    }
+				const size = viewElement.getAttribute('size');
+				if (size) {
+					modelWriter.setAttribute('size', size, modelElement);
+				}
 
-    return modelElement;
-  }
-});
+				return modelElement;
+			}
+		});
 
 
 
-    // Data Downcast Converters: converts stored model data into HTML.
+		// Data Downcast Converters: converts stored model data into HTML.
 		// These trigger when content is saved.
-    conversion.for('dataDowncast').elementToElement({
-      model: 'ucb-button',
-      view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter),
-    });
-    conversion.for('editingDowncast').elementToElement({
-      model: 'ucb-button',
-      view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter, true),
-    });
+		conversion.for('dataDowncast').elementToElement({
+			model: 'ucb-button',
+			view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter),
+		});
+		conversion.for('editingDowncast').elementToElement({
+			model: 'ucb-button',
+			view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter, true),
+		});
 
-    conversion.for('editingDowncast').elementToElement({
+		conversion.for('editingDowncast').elementToElement({
 			model: 'ucb-button-wrapper',
 			view: (modelElement, { writer: viewWriter }) => viewWriter.createContainerElement('span', { class: 'ucb-button-wrapper' })
 		});
 
-    conversion.for('dataDowncast').elementToElement({
+		conversion.for('dataDowncast').elementToElement({
 			model: 'ucb-button-wrapper',
 			view: {
 				name: 'span',
 				classes: 'ucb-button-wrapper'
 			}
 		});
-  }
+	}
 }
 
 
@@ -176,26 +149,26 @@ conversion.for('upcast').elementToElement({
  *   The box container element or widget.
  */
 function createButtonView(modelElement, viewWriter, widget = false) {
-  const color = modelElement.getAttribute('color');
-  const style = modelElement.getAttribute('style');
-  const size = modelElement.getAttribute('size');
-  const href = modelElement.getAttribute('href') || '';
+	const color = modelElement.getAttribute('color');
+	const style = modelElement.getAttribute('style');
+	const size = modelElement.getAttribute('size');
+	const href = modelElement.getAttribute('href') || '';
 
-  let button;
-  if(widget){
-    button = viewWriter.createContainerElement('a', {
-      class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
-      href,
-      onclick: 'event.preventDefault()' // Prevents following the link when clicking the widget.
-    },{renderUnsafeAttributes: ['onclick']});
-  } else {
-    button = viewWriter.createContainerElement('a', {
-      class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
-      href,
-    });
-  }
+	let button;
+	if (widget) {
+		button = viewWriter.createContainerElement('a', {
+			class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
+			href,
+			onclick: 'event.preventDefault()' // Prevents following the link when clicking the widget.
+		}, { renderUnsafeAttributes: ['onclick'] });
+	} else {
+		button = viewWriter.createContainerElement('a', {
+			class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
+			href,
+		});
+	}
 
-  return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
+	return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
 }
 
 
