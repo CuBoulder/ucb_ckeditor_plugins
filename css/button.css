@@ -1,57 +1,57 @@
-.ucb-button > a{
-    transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    background-clip: padding-box;
-    border-radius: 3px;
-    margin-bottom: 5px;
-    text-decoration: none !important;
-    display: inline-block;
-    padding: 5px 10px;
-    font-weight: bold;
+.ucb-link-button {
+	transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	background-clip: padding-box;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	text-decoration: none !important;
+	display: inline-block;
+	padding: 5px 10px;
+	font-weight: bold;
 }
 
 /* Colors */
-.ucb-button-blue > a{
-    color: #fff !important;
-    background-color: #0277BD;
+.ucb-link-button.ucb-link-button-blue {
+	color: #fff !important;
+	background-color: #0277BD;
 }
 
-.ucb-button-black> a{
-    background-color: #000;
-    color: #fff !important;
+.ucb-link-button.ucb-link-button-black {
+	background-color: #000;
+	color: #fff !important;
 }
 
-.ucb-button-grey> a{
-    background-color: #EEEEEE;
-    color: #111111 !important;
+.ucb-link-button.ucb-link-button-grey {
+	background-color: #EEEEEE;
+	color: #111111 !important;
 }
 
-.ucb-button-white> a{
-    background-color: #fff;
-    color: #111111 !important;
+.ucb-link-button.ucb-link-button-white {
+	background-color: #fff;
+	color: #111111 !important;
 }
 
-.ucb-button-gold> a{
-    background-color: #cfb87c;
-    color: #111111 !important;
+.ucb-link-button.ucb-link-button-gold {
+	background-color: #cfb87c;
+	color: #111111 !important;
 }
 
 /* Size */
-.ucb-button-large> a{
-    font-size: 125%;
+.ucb-link-button.ucb-link-button-large {
+	font-size: 125%;
 }
 
-.ucb-button-regular> a{
-    font-size: 100%;
+.ucb-link-button.ucb-link-button-regular {
+	font-size: 100%;
 }
 
-.ucb-button-small> a{
-    font-size: 85%;
-    padding: 1px 6px;
+.ucb-link-button.ucb-link-button-small {
+	font-size: 85%;
+	padding: 1px 6px;
 }
 
 /* Width */
-.ucb-button-full> a{
-    display: block;
-    text-align: center;
+.ucb-link-button.ucb-link-button-full {
+	display: block;
+	text-align: center;
 }

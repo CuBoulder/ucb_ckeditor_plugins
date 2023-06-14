@@ -1,3 +1,10 @@
+/**
+ * @file defines schemas, converters, and commands for the button plugin.
+ * 
+ * @typedef { import('@types/ckeditor__ckeditor5-engine/src/conversion/downcastdispatcher').default } DowncastDispatcher
+ * @typedef { import('@types/ckeditor__ckeditor5-engine/src/view/containerelement').default } ContainerElement
+ */
+
 import { Plugin } from 'ckeditor5/src/core';
 import ButtonCommand from './insertbuttoncommand';
 import { Widget, toWidget } from 'ckeditor5/src/widget';
@@ -17,22 +24,12 @@ export default class ButtonEditing extends Plugin {
 	// Schemas are registered via the central `editor` object.
 	_defineSchema() {
 		const schema = this.editor.model.schema;
-		schema.register('ucb-button', {
-			isObject: true,
-			allowWhere: '$block',
-			allowContentOf: '$block',
-			allowAttributes: ['href'],
-			allowChildren: true
-		});
-
-		schema.register('ucb-button-wrapper', {
+		schema.register('linkButton', {
 			allowWhere: '$block',
 			allowContentOf: '$block',
 			isObject: true,
-			allowAttributes: ['color', 'style', 'size'],
-			allowChildren: 'ucb-button'
+			allowAttributes: ['linkButtonColor', 'linkButtonStyle', 'linkButtonSize', 'linkButtonHref']
 		});
-
 	}
 
 
@@ -45,9 +42,9 @@ export default class ButtonEditing extends Plugin {
 		const { conversion } = this.editor;
 
 
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('size', sizeOptions));
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('color', colorOptions));
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('style', styleOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('linkButtonColor', colorOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('linkButtonStyle', styleOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('linkButtonSize', sizeOptions));
 
 		/*
 		If <div class="ucb-button"> is present in the existing markup,
@@ -58,123 +55,85 @@ export default class ButtonEditing extends Plugin {
 		conversion.for('upcast').add(dispatcher => {
 			// A converter for links (<a>).
 			dispatcher.on('element:a', (evt, data, conversionApi) => {
-				if (!data.viewItem.parent.hasClass('ucb-button-wrapper')) return;
+				if (data.viewItem.hasClass('ucb-link-button') && conversionApi.consumable.consume(data.viewItem, { name: true, attributes: ['href'] })) {
+					// The <a> element is inline and is represented by an attribute in the model.
+					// This is why you need to convert only children.
+					const { modelRange } = conversionApi.convertChildren(data.viewItem, data.modelCursor);
 
-				const nestedLink = conversionApi.writer.createElement('ucb-button');
-
-				// Try to safely insert a paragraph at the model cursor - it will find an allowed parent for the current element.
-				if (!conversionApi.safeInsert(nestedLink, data.modelCursor)) {
-					// When an element was not inserted, it means that you cannot insert a paragraph at this position.
-					return;
-				}
-
-				// Consume the inserted element.
-				conversionApi.consumable.consume(data.viewItem, { name: data.viewItem.name });
-
-				// Convert the children to a nestedLink.
-				const { modelRange } = conversionApi.convertChildren(data.viewItem, nestedLink);
-
-				// Update `modelRange` and `modelCursor` in the `data` as a conversion result.
-				conversionApi.updateConversionResult(nestedLink, data);
-
-				for (let item of modelRange.getItems()) {
-					conversionApi.writer.removeAttribute('linkHref', item); // Doesn't work
+					for (let item of modelRange.getItems()) {
+						if (conversionApi.schema.checkAttribute(item, 'linkHref') && item.parent.is('element'))
+							conversionApi.writer.setAttribute('linkButtonHref', data.viewItem.getAttribute('href'), item.parent);
+					}
 				}
 			});
 		});
 
 		conversion.for('upcast').elementToElement({
-			model: 'ucb-button-wrapper',
+			model: 'linkButton',
 			view: {
 				name: 'span',
-				classes: 'ucb-button-wrapper'
+				classes: 'ucb-link-button-wrapper'
 			},
 			model: (viewElement, { writer: modelWriter }) => {
-				const modelElement = modelWriter.createElement('ucb-button-wrapper');
+				const modelElement = modelWriter.createElement('linkButton');
 
-				const color = viewElement.getAttribute('color');
+				const color = viewElement.getAttribute('linkButtonColor');
 				if (color) {
-					modelWriter.setAttribute('color', color, modelElement);
+					modelWriter.setAttribute('linkButtonColor', color, modelElement);
 				}
 
-				const style = viewElement.getAttribute('style');
+				const style = viewElement.getAttribute('linkButtonStyle');
 				if (style) {
-					modelWriter.setAttribute('style', style, modelElement);
+					modelWriter.setAttribute('linkButtonStyle', style, modelElement);
 				}
 
-				const size = viewElement.getAttribute('size');
+				const size = viewElement.getAttribute('linkButtonSize');
 				if (size) {
-					modelWriter.setAttribute('size', size, modelElement);
+					modelWriter.setAttribute('linkButtonSize', size, modelElement);
 				}
 
 				return modelElement;
 			}
 		});
 
-
-
-		// Data Downcast Converters: converts stored model data into HTML.
-		// These trigger when content is saved.
-		conversion.for('dataDowncast').elementToElement({
-			model: 'ucb-button',
-			view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter),
-		});
-		conversion.for('editingDowncast').elementToElement({
-			model: 'ucb-button',
-			view: (modelElement, { writer: viewWriter }) => createButtonView(modelElement, viewWriter, true),
-		});
-
-		conversion.for('editingDowncast').elementToElement({
-			model: 'ucb-button-wrapper',
-			view: (modelElement, { writer: viewWriter }) => viewWriter.createContainerElement('span', { class: 'ucb-button-wrapper' })
-		});
-
-		conversion.for('dataDowncast').elementToElement({
-			model: 'ucb-button-wrapper',
-			view: {
-				name: 'span',
-				classes: 'ucb-button-wrapper'
-			}
-		});
+		conversion.for('dataDowncast').add(dispatcher => addDowncastResponder(dispatcher));
+		conversion.for('editingDowncast').add(dispatcher => addDowncastResponder(dispatcher, true));
 	}
 }
 
-
 /**
- * @param {DowncastWriter} viewWriter
+ * @param {DowncastDispatcher} dispatcher
  *   The downcast writer.
  * @param {boolean} [widget=false]
  *   Whether or not to return a widget for editing. Defaults to `false`.
- * @returns {ContainerElement}
- *   The box container element or widget.
  */
-function createButtonView(modelElement, viewWriter, widget = false) {
-	const color = modelElement.getAttribute('color');
-	const style = modelElement.getAttribute('style');
-	const size = modelElement.getAttribute('size');
-	const href = modelElement.getAttribute('href') || '';
+function addDowncastResponder(dispatcher, widget = false) {
+	dispatcher.on('insert:linkButton', (evt, data, conversionApi) => {
+		const { consumable, mapper, writer } = conversionApi;
 
-	let button;
-	if (widget) {
-		button = viewWriter.createContainerElement('a', {
-			class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
-			href,
-			onclick: 'event.preventDefault()' // Prevents following the link when clicking the widget.
-		}, { renderUnsafeAttributes: ['onclick'] });
-	} else {
-		button = viewWriter.createContainerElement('a', {
-			class: `ucb-button ucb-button-${color} ucb-button-${style} ucb-button-${size}`,
-			href,
-		});
-	}
+		// Remember to check whether the change has not been consumed yet and consume it.
+		if (!consumable.consume(data.item, 'insert')) {
+			return;
+		}
 
-	return widget ? toWidget(button, viewWriter, { label: 'button widget' }) : button;
+		// Translate the position in the model to a position in the view.
+		const viewPosition = mapper.toViewPosition(data.range.start);
+
+		// Create the elements that will be inserted into the view at the `viewPosition`.
+		const
+			a = writer.createContainerElement('a', { class: 'ucb-link-button', href: data.item.getAttribute('linkButtonHref') }, { renderUnsafeAttributes: ['onclick'] }),
+			span = writer.createContainerElement('span', { class: 'ucb-link-button-wrapper' }, [a]);
+
+		if (widget)
+			writer.setAttribute('onclick', 'event.preventDefault()', a);
+
+		// Bind the newly created view element to the model element so positions will map accordingly in the future.
+		mapper.bindElements(data.item, a);
+
+		// Add the newly created view element to the view.
+		writer.insert(viewPosition, widget ? toWidget(a, writer, { label: 'button widget' }) : span);
+	});
 }
-
-
-
-
-
 
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 	const view = {};

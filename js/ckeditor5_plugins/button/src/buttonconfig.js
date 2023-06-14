@@ -4,17 +4,17 @@ export const sizeOptions = {
 	large: {
 		label: 'Large',
 		icon: icons.large,
-		className: 'ucb-button-large'
+		className: 'ucb-link-button-large'
 	},
 	regular: {
 		label: 'Regular',
 		icon: icons.regular,
-		className: 'ucb-button-regular'
+		className: 'ucb-link-button-regular'
 	},
 	small: {
 		label: 'Small',
 		icon: icons.small,
-		className: 'ucb-button-small'
+		className: 'ucb-link-button-small'
 	},
 };
 
@@ -23,23 +23,23 @@ export const defaultSize = 'regular'
 export const colorOptions = {
 	blue: {
 		label: 'Blue',
-		className: 'ucb-button-blue'
+		className: 'ucb-link-button-blue'
 	},
 	black: {
 		label: 'Black',
-		className: 'ucb-button-black'
+		className: 'ucb-link-button-black'
 	},
-	grey: {
-		label: 'Grey',
-		className: 'ucb-button-grey'
+	gray: {
+		label: 'Gray',
+		className: 'ucb-link-button-gray'
 	},
 	white: {
 		label: 'White',
-		className: 'ucb-button-white'
+		className: 'ucb-link-button-white'
 	},
 	gold: {
 		label: 'Gold',
-		className: 'ucb-button-gold'
+		className: 'ucb-link-button-gold'
 	}
 };
 
@@ -49,13 +49,13 @@ export const styleOptions = {
 	full: {
 		label: 'Full',
 		icon: icons.objectFullWidth,
-		className: 'ucb-button-full'
+		className: 'ucb-link-button-full'
 	},
 	default: {
 		label: 'Default',
 		icon: icons.objectCenter,
-		className: 'ucb-button-default'
+		className: 'ucb-link-button-default'
 	},
 };
 
-export const defaultStyle = 'default'
+export const defaultStyle = 'default';
