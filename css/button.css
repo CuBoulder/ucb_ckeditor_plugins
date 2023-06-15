@@ -21,7 +21,7 @@
 	background-color: #000;
 }
 
-.ucb-link-button.ucb-link-button-grey {
+.ucb-link-button.ucb-link-button-gray {
 	color: #111111;
 	background-color: #EEEEEE;
 }
@@ -35,8 +35,6 @@
 	color: #111111;
 	background-color: #cfb87c;
 }
-/* TODO: Hover and other link states */
-
 
 /* Size */
 .ucb-link-button.ucb-link-button-large {
@@ -58,3 +56,35 @@
 	display: block;
 	text-align: center;
 }
+
+/* Hover + Focus */
+.ucb-link-button:hover{
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3)
+
+}
+.ucb-link-button.ucb-link-button-blue:hover,.ucb-link-button.ucb-link-button-blue:focus {
+	color: #fff;
+	background-color: #026baa;
+}
+
+.ucb-link-button.ucb-link-button-black:hover,.ucb-link-button.ucb-link-button-black:focus {
+	color: #fff;
+	background-color: #333333;
+}
+
+.ucb-link-button.ucb-link-button-gray:hover,.ucb-link-button.ucb-link-button-gray:focus {
+	color: #111111;
+	background-color: #d6d6d6;
+}
+
+.ucb-link-button.ucb-link-button-white:hover,.ucb-link-button.ucb-link-button-white:focus {
+	color: #111111;
+	background-color: #e6e6e6;
+}
+
+.ucb-link-button.ucb-link-button-gold:hover,.ucb-link-button.ucb-link-button-gold:focus {
+	color: #111111;
+	background-color: #a6a6a6;
+}
+
+
