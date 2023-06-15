@@ -12,29 +12,31 @@
 
 /* Colors */
 .ucb-link-button.ucb-link-button-blue {
-	color: #fff !important;
+	color: #fff;
 	background-color: #0277BD;
 }
 
 .ucb-link-button.ucb-link-button-black {
+	color: #fff;
 	background-color: #000;
-	color: #fff !important;
 }
 
 .ucb-link-button.ucb-link-button-grey {
+	color: #111111;
 	background-color: #EEEEEE;
-	color: #111111 !important;
 }
 
 .ucb-link-button.ucb-link-button-white {
+	color: #111111;
 	background-color: #fff;
-	color: #111111 !important;
 }
 
 .ucb-link-button.ucb-link-button-gold {
+	color: #111111;
 	background-color: #cfb87c;
-	color: #111111 !important;
 }
+/* TODO: Hover and other link states */
+
 
 /* Size */
 .ucb-link-button.ucb-link-button-large {
@@ -49,6 +51,7 @@
 	font-size: 85%;
 	padding: 1px 6px;
 }
+
 
 /* Width */
 .ucb-link-button.ucb-link-button-full {
