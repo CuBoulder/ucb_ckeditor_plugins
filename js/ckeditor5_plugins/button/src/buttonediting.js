@@ -10,6 +10,23 @@ import ButtonCommand from './insertbuttoncommand';
 import { Widget, toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { sizeOptions, styleOptions, colorOptions } from './buttonconfig';
 
+/*
+ * The Link Button is based on a specific schema defined in this file.
+ * 
+ * Model (for the plugin's internal use only):
+ * <linkButton linkButtonColor="blue|black|gray|white|gold" linkButtonStyle="default|full" linkButtonSize="large|regular|small" linkButtonHref="{ ... }">
+ *    <linkButtonContents>
+ *       { contents of: $block }
+ *    </linkButtonContents>
+ * </linkButton>
+ * 
+ * View (the saved and interpreted plain HTML):
+ * <a class="ucb-link-button ucb-link-button-(blue|black|gray|white|gold) ucb-link-button-(default|full) ucb-link-button-(large|regular|small)" href="{ ... }">
+ *    <span class="ucb-link-button-contents">
+ *       { contents }
+ *    </span>
+ * </a>
+ */
 export default class ButtonEditing extends Plugin {
 	static get requires() {
 		return [Widget];
@@ -26,10 +43,14 @@ export default class ButtonEditing extends Plugin {
 		const schema = this.editor.model.schema;
 		schema.register('linkButton', {
 			allowWhere: '$text',
-			allowContentOf: '$block',
 			isObject: true,
 			isInline: true,
 			allowAttributes: ['linkButtonColor', 'linkButtonStyle', 'linkButtonSize', 'linkButtonHref']
+		});
+		schema.register('linkButtonContents', {
+			isLimit: true,
+			allowIn: 'linkButton',
+			allowContentOf: '$block'
 		});
 	}
 
@@ -41,10 +62,12 @@ export default class ButtonEditing extends Plugin {
 		// Converters are registered via the central editor object.
 		const { conversion } = this.editor;
 
+		// Attributes convertable to/from a class name need no separate upcast and downcast definitions
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('linkButtonColor', colorOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('linkButtonStyle', styleOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('linkButtonSize', sizeOptions));
 
+		// Element upcasts
 		conversion.for('upcast').add(dispatcher => {
 			// A custom upcast prevents the CKEditor 5 Link plugin from overriding via its `linkHref` attribute `$text` element.
 			dispatcher.on('element:a', (evt, data, conversionApi) => {
@@ -58,36 +81,46 @@ export default class ButtonEditing extends Plugin {
 				}
 			});
 		});
+		conversion.for('upcast').elementToElement({
+			model: 'linkButtonContents',
+			view: {
+				name: 'span',
+				classes: 'ucb-link-button-contents'
+			}
+		});
 
+		// Attribute downcasts
 		conversion.for('downcast').attributeToAttribute({ model: 'linkButtonHref', view: 'href' });
 
+		// Element downcasts – elements become widgets in the editor via `editingDowncast`
 		conversion.for('dataDowncast').elementToElement({
 			model: 'linkButton',
-			view: (modelElement, { writer: viewWriter }) => createLinkButtonView(viewWriter)
+			view: {
+				name: 'a',
+				classes: 'ucb-link-button'
+			}
 		});
-
+		conversion.for('dataDowncast').elementToElement({
+			model: 'linkButtonContents',
+			view: {
+				name: 'span',
+				classes: 'ucb-link-button-contents'
+			}
+		});
 		conversion.for('editingDowncast').elementToElement({
 			model: 'linkButton',
-			view: (modelElement, { writer: viewWriter }) => createLinkButtonView(viewWriter, true)
+			view: (modelElement, { writer: viewWriter }) =>
+				toWidget(
+					viewWriter.createContainerElement('a', { class: 'ucb-link-button', onclick: 'event.preventDefault()' }, { renderUnsafeAttributes: ['onclick'] }),
+					viewWriter, { label: 'button widget' }
+				)
+		});
+		conversion.for('editingDowncast').elementToElement({
+			model: 'linkButtonContents',
+			view: (modelElement, { writer: viewWriter }) =>
+				toWidgetEditable(viewWriter.createEditableElement('span', { class: 'ucb-link-button-contents' }), viewWriter, { label: 'button contents' })
 		});
 	}
-}
-
-/**
- * @param {DowncastWriter} downcastWriter
- *   The downcast writer.
- * @param {boolean} [widget=false]
- *   Whether or not to return a widget for editing. Defaults to `false`.
- * @returns {ContainerElement}
- *   The Link Button element or widget.
- */
- function createLinkButtonView(downcastWriter, widget = false) {
-	if (widget)
-		return toWidget(
-			downcastWriter.createContainerElement('a', { class: 'ucb-link-button', onclick: 'event.preventDefault()' }, { renderUnsafeAttributes: ['onclick'] }),
-			downcastWriter,
-			{ label: 'button widget' });
-	return downcastWriter.createContainerElement('a', { class: 'ucb-link-button' });
 }
 
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {

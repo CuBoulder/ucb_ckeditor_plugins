@@ -1,5 +1,12 @@
+/**
+ * @file defines InsertButtonCommand, which is executed when the button toolbar button is pressed.
+ * 
+ * @typedef { import('@types/ckeditor__ckeditor5-engine').Element } Element
+ * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/writer').default } Writer
+ */
+
 import { Command } from 'ckeditor5/src/core';
-import { defaultColor, defaultSize, defaultStyle, sizeOptions, colorOptions, styleOptions } from './buttonconfig';
+import { defaultColor, defaultSize, defaultStyle } from './buttonconfig';
 
 export default class ButtonCommand extends Command {
 	constructor(editor) {
@@ -43,19 +50,20 @@ export default class ButtonCommand extends Command {
  *   The box element with all required child elements to match the box schema.
  */
 function addButton(writer, color, style, size, href, selection) {
-	const range = selection.getFirstRange();
-
-	const linkButton = writer.createElement('linkButton', {
-		linkButtonColor: color,
-		linkButtonSize: size,
-		linkButtonStyle: style,
-		linkButtonHref: href
-	});
+	const range = selection.getFirstRange(),
+		linkButton = writer.createElement('linkButton', {
+			linkButtonColor: color,
+			linkButtonSize: size,
+			linkButtonStyle: style,
+			linkButtonHref: href
+		}),
+		linkButtonContents = writer.createElement('linkButtonContents');
 
 	for (const item of range.getItems()) {
 		const textNode = writer.createText(item.data);
-		writer.append(textNode, linkButton);
+		writer.append(textNode, linkButtonContents);
 	}
+	writer.append(linkButtonContents, linkButton);
 
 	return linkButton;
 }
