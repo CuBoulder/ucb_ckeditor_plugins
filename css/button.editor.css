@@ -1,3 +1,26 @@
 .ck .ucb-link-button-contents.ck-editor__nested-editable.ck-editor__nested-editable_focused, .ck .ucb-link-button-contents.ck-editor__nested-editable:focus {
 	color: var(--ck-color-text);
 }
+
+.ck .ck.ck-button-form {
+	display: grid;
+	grid-template-rows: auto auto auto;
+	grid-template-columns: repeat(3, 0.25fr);
+	gap: 5px;
+}
+  
+  .ck-button-form .ck-labeled-field-view {
+	grid-row: 2;
+	grid-column: auto
+  }
+  
+  .ck-button-form .ck-dropdown {
+	grid-row: 1;
+	align-items: center;
+	justify-items: center;
+  }
+  
+  .ck-button-form .ck-button {
+	grid-row: 2;
+	grid-column: auto;
+  }
