@@ -4,7 +4,6 @@ import FormView from './buttonview';
 
 import getRangeText from './buttonutils.js';
 import icon from '../../../../icons/hand-pointer-regular.svg';
-import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 
 export default class ButtonUI extends Plugin {
 	static get requires() {
@@ -42,19 +41,11 @@ export default class ButtonUI extends Plugin {
 					this._showUI(insertButtonCommand.existingButtonSelected);
 			});
 
+			// Bind the state of the button to the command.
+			button.bind('isOn', 'isEnabled').to(insertButtonCommand, 'value', 'isEnabled');
+
 			return button;
 		} );
-	}
-
-	afterInit() {
-		const editor = this.editor;
-		const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
-		widgetToolbarRepository.register('button', {
-			items: ['buttonColor', 'buttonStyle', 'buttonSize'],
-			getRelatedElement: (selection) =>
-				selection.focus.getAncestors()
-					.find((node) => node.is('element') && node.hasClass('ucb-button'))
-		});
 	}
 
 	_createFormView(locale) {

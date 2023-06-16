@@ -1,8 +1,5 @@
 /**
  * @file defines InsertButtonCommand, which is executed when the button toolbar button is pressed.
- * 
- * @typedef { import('@types/ckeditor__ckeditor5-engine').Element } Element
- * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/writer').default } Writer
  */
 
 import { Command } from 'ckeditor5/src/core';
@@ -18,11 +15,26 @@ export default class ButtonCommand extends Command {
 		const selection = model.document.selection;
 
 		model.change(writer => {
-			const button = addButton(writer, color, style, size, href, selection);
-			// const position = selection.getFirstPosition();
-
-			model.insertContent(button);
-			writer.setSelection(button, 'on');
+			const range = selection.getFirstRange(),
+				linkButton = writer.createElement('linkButton', {
+					linkButtonColor: color,
+					linkButtonSize: size,
+					linkButtonStyle: style,
+					linkButtonHref: href
+				}),
+				linkButtonContents = writer.createElement('linkButtonContents');
+			for (const item of range.getItems()) {
+				let element;
+				if (item.is('textProxy'))
+					element = writer.createText(item.data, item.textNode.getAttributes());
+				else if (item.is('element'))
+					element = writer.cloneElement(item);
+				if (element && model.schema.checkChild(linkButtonContents, element))
+					writer.append(element, linkButtonContents);
+			}
+			writer.append(linkButtonContents, linkButton);
+			model.insertContent(linkButton);
+			writer.setSelection(linkButtonContents, 'in');
 		});
 	}
 
@@ -39,33 +51,7 @@ export default class ButtonCommand extends Command {
 		this.isEnabled = allowedIn !== null;
 
 		this.existingButtonSelected = isButtonElement(selectedElement) ? selectedElement : null;
-
 	}
-}
-
-/**
- * @param {Writer} writer
- *   The writer used to create and append elements.
- * @returns {Element}
- *   The box element with all required child elements to match the box schema.
- */
-function addButton(writer, color, style, size, href, selection) {
-	const range = selection.getFirstRange(),
-		linkButton = writer.createElement('linkButton', {
-			linkButtonColor: color,
-			linkButtonSize: size,
-			linkButtonStyle: style,
-			linkButtonHref: href
-		}),
-		linkButtonContents = writer.createElement('linkButtonContents');
-
-	for (const item of range.getItems()) {
-		const textNode = writer.createText(item.data);
-		writer.append(textNode, linkButtonContents);
-	}
-	writer.append(linkButtonContents, linkButton);
-
-	return linkButton;
 }
 
 /**
@@ -76,4 +62,3 @@ function addButton(writer, color, style, size, href, selection) {
 function isButtonElement(element) {
 	return element && element.name === 'linkButton';
 }
-

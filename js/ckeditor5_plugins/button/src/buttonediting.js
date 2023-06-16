@@ -52,6 +52,11 @@ export default class ButtonEditing extends Plugin {
 			allowIn: 'linkButton',
 			allowContentOf: '$block'
 		});
+		schema.addChildCheck((context, childDefinition) => {
+			// Disallows adding a linkButton inside linkButtonContents.
+			if (context.endsWith('linkButtonContents') && childDefinition.name === 'linkButton')
+				return false;
+		});
 	}
 
 	/**
@@ -109,16 +114,16 @@ export default class ButtonEditing extends Plugin {
 		});
 		conversion.for('editingDowncast').elementToElement({
 			model: 'linkButton',
-			view: (modelElement, { writer: viewWriter }) =>
+			view: (modelElement, { writer }) =>
 				toWidget(
-					viewWriter.createContainerElement('a', { class: 'ucb-link-button', onclick: 'event.preventDefault()' }, { renderUnsafeAttributes: ['onclick'] }),
-					viewWriter, { label: 'button widget' }
+					writer.createContainerElement('a', { class: 'ucb-link-button', onclick: 'event.preventDefault()' }, { renderUnsafeAttributes: ['onclick'] }),
+					writer, { label: 'button widget' }
 				)
 		});
 		conversion.for('editingDowncast').elementToElement({
 			model: 'linkButtonContents',
-			view: (modelElement, { writer: viewWriter }) =>
-				toWidgetEditable(viewWriter.createEditableElement('span', { class: 'ucb-link-button-contents' }), viewWriter, { label: 'button contents' })
+			view: (modelElement, { writer }) =>
+				toWidgetEditable(writer.createEditableElement('span', { class: 'ucb-link-button-contents' }), writer)
 		});
 	}
 }
