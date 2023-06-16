@@ -59,7 +59,6 @@ export default class ButtonUI extends Plugin {
 			// Grab values from the Form and title input fields.
 			const value = {
 				href: formView.linkInputView.fieldView.element.value,
-				innerText: formView.innerTextInputView.fieldView.element.value,
 				color: formView.color,
 				size: formView.size,
 				style: formView.style
@@ -99,16 +98,16 @@ export default class ButtonUI extends Plugin {
 		} );
 
 		if(selectedButton){
-			const size = selectedButton.getAttribute('size');
-			const color = selectedButton.getAttribute('color')
-			const style = selectedButton.getAttribute('style')
-			const href = selectedButton.getAttribute('href')
+			const size = selectedButton.getAttribute('linkButtonSize');
+			const color = selectedButton.getAttribute('linkButtonColor')
+			const style = selectedButton.getAttribute('linkButtonStyle')
+			const href = selectedButton.getAttribute('linkButtonHref')
 
-			this.formView.href = href
 			this.formView.color = color
 			this.formView.style = style
 			this.formView.size = size
 
+			this.formView.linkInputView.fieldView.value = href
 			this.formView.focus();
 		}
 
@@ -121,16 +120,6 @@ export default class ButtonUI extends Plugin {
 			this.formView.colorDropdown.fieldView.value = commandValue.color;
 			this.formView.sizeDropdown.fieldView.value = commandValue.size;
 			this.formView.styleDropdown.fieldView.value = commandValue.style
-			const selectedText = getRangeText( selection.getFirstRange() );
-			this.formView.innerTextInputView.fieldView.value = selectedText;
-
-		}
-		// If the command has no value, put the currently selected text (not collapsed)
-		// in the first field and empty the second in that case.
-		else {
-			const selectedText = getRangeText( selection.getFirstRange() );
-
-			this.formView.innerTextInputView.fieldView.value = selectedText;
 		}
 
 		this.formView.focus();
@@ -138,9 +127,6 @@ export default class ButtonUI extends Plugin {
 
 	_hideUI() {
 		// Clear the input field values and reset the form.
-		this.formView.linkInputView.fieldView.value = '';
-		this.formView.innerTextInputView.fieldView.value = '';
-		// this.formView.titleInputView.fieldView.value = '';
 		this.formView.element.reset();
 
 		this._balloon.remove( this.formView );

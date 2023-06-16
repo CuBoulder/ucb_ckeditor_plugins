@@ -25,7 +25,7 @@ export default class FormView extends View {
 		this.styleDropdown = this._createSelectionDropdown(locale, 'Style', styleOptions[defaultStyle].icon, 'style', styleOptions, defaultStyle)
 		
 		// Creates the main input field.
-		this.innerTextInputView = this._createInput( 'Button Text' );
+		// this.innerTextInputView = this._createInput( 'Button Text' );
 		this.linkInputView = this._createInput( 'Add Link' );
 		
 		// Sets defaults
@@ -51,7 +51,7 @@ export default class FormView extends View {
 			this.colorDropdown,
 			this.sizeDropdown,
 			this.styleDropdown,
-			this.innerTextInputView,
+			// this.innerTextInputView,
 			this.linkInputView,
 			this.saveButtonView,
 			this.cancelButtonView
