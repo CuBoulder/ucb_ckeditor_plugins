@@ -6,7 +6,7 @@
 	display: grid;
 	grid-template-rows: auto auto auto;
 	grid-template-columns: repeat(3, 0.25fr);
-	gap: 5px;
+	gap: 2px;
 }
   
   .ck-button-form .ck-labeled-field-view {
