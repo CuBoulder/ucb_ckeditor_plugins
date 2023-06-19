@@ -48,8 +48,8 @@ export default class FormView extends View {
 		this.cancelButtonView.delegate( 'execute' ).to( this, 'cancel' );
 
 		this.childViews = this.createCollection( [
-			this.colorDropdown,
 			this.sizeDropdown,
+			this.colorDropdown,
 			this.styleDropdown,
 			// this.innerTextInputView,
 			this.linkInputView,
