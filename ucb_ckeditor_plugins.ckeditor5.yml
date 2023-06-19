@@ -135,3 +135,36 @@ ucb_ckeditor_plugins_tooltip:
     #   plugin to be active.
     # class: Optional PHP class that makes it possible for the plugin to provide
     #   dynamic values, or a configuration UI.
+
+ucb_ckeditor_plugins_button:
+  # Use the provider: property for this plugin to depend on another module.
+
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - button.Button
+    # *Additional configuration properties*
+    # config: data sent to the constructor of any CKEditor 5 plugin
+    #   editorPluginName:
+    #     editorPluginProperty: editorPluginValue
+
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Button
+    # The library loaded while using the editor.
+    library: ucb_ckeditor_plugins/button.editor
+    # The library loaded when configuring the text format using this plugin.
+    admin_library: ucb_ckeditor_plugins/button.admin
+    toolbar_items:
+      # This should match the name of the corresponding plugin exported in the
+      # plugin's index.js.
+      button:
+        label: Button
+    # If the plugin does not provide elements, set this as
+    # `elements: false`
+    elements:
+      - <a>
+      - <a href>
+      - <a class='ucb-link-button ucb-link-button-blue'><a class='ucb-link-button ucb-link-button-black'><a class='ucb-link-button ucb-link-button-gray'><a class='ucb-link-button ucb-link-button-white'><a class='ucb-link-button ucb-link-button-large'><a class='ucb-link-button ucb-link-button-regular'><a class='ucb-link-button ucb-link-button-small'><a class='ucb-link-button ucb-link-button-full'><a class='ucb-link-button ucb-link-button-default'><a class='ucb-link-button ucb-link-button-blue ucb-link-button-large ucb-link-button-full'><a class='ucb-link-button ucb-link-button-blue ucb-link-button-large ucb-link-button-default'><a class='ucb-link-button ucb-link-button-blue ucb-link-button-regular ucb-link-button-full'><a class='ucb-link-button ucb-link-button-blue ucb-link-button-regular ucb-link-button-default'><a class='ucb-link-button ucb-link-button-blue ucb-link-button-small ucb-link-button-full'><a class='ucb-link-button ucb-link-button-blue ucb-link-button-small ucb-link-button-default'><a class='ucb-link-button ucb-link-button-black ucb-link-button-large ucb-link-button-full'><a class='ucb-link-button ucb-link-button-black ucb-link-button-large ucb-link-button-default'><a class='ucb-link-button ucb-link-button-black ucb-link-button-regular ucb-link-button-full'><a class='ucb-link-button ucb-link-button-black ucb-link-button-regular ucb-link-button-default'><a class='ucb-link-button ucb-link-button-black ucb-link-button-small ucb-link-button-full'><a class='ucb-link-button ucb-link-button-black ucb-link-button-small ucb-link-button-default'><a class='ucb-link-button ucb-link-button-gray ucb-link-button-large ucb-link-button-full'><a class='ucb-link-button ucb-link-button-gray ucb-link-button-large ucb-link-button-default'><a class='ucb-link-button ucb-link-button-gray ucb-link-button-regular ucb-link-button-full'><a class='ucb-link-button ucb-link-button-gray ucb-link-button-regular ucb-link-button-default'><a class='ucb-link-button ucb-link-button-gray ucb-link-button-small ucb-link-button-full'><a class='ucb-link-button ucb-link-button-gray ucb-link-button-small ucb-link-button-default'><a class='ucb-link-button ucb-link-button-white ucb-link-button-large ucb-link-button-full'><a class='ucb-link-button ucb-link-button-white ucb-link-button-large ucb-link-button-default'><a class='ucb-link-button ucb-link-button-white ucb-link-button-regular ucb-link-button-full'><a class='ucb-link-button ucb-link-button-white ucb-link-button-regular ucb-link-button-default'><a class='ucb-link-button ucb-link-button-white ucb-link-button-small ucb-link-button-full'><a class='ucb-link-button ucb-link-button-white ucb-link-button-small ucb-link-button-default'><a class='ucb-link-button ucb-link-button-gold ucb-link-button-large ucb-link-button-full'><a class='ucb-link-button ucb-link-button-gold ucb-link-button-large ucb-link-button-default'><a class='ucb-link-button ucb-link-button-gold ucb-link-button-regular ucb-link-button-full'><a class='ucb-link-button ucb-link-button-gold ucb-link-button-regular ucb-link-button-default'><a class='ucb-link-button ucb-link-button-gold ucb-link-button-small ucb-link-button-full'><a class='ucb-link-button ucb-link-button-gold ucb-link-button-small ucb-link-button-default'>
+      - <span>
+      - <span class="ucb-link-button-contents">

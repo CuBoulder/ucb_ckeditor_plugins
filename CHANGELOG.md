@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds CKEditor 'Button' Plugin to CKEditor
+  Adds custom plugin 'Button' to CKEditor5, which allows site editors to choose color, size, and style and provide a link in order to add custom buttons to their pages using WYSIWYG and Full HTML using the toolbar button.
+  
+  Resolves https://github.com/CuBoulder/tiamat-theme/issues/297
+  
+  Includes:
+  - `tiamat-profile` => `issue/button`
+  - `ucb_ckeditor_plugins` => `issue/button-refactor`
+---
+
 - ### Adds Google Maps support in Map CKEditor plugin
   This update adds support for Google Maps embeds via an embed code taken from Google Maps.
   
