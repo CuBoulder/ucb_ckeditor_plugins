@@ -104,11 +104,11 @@ export default class FormView extends View {
 	}
 
 	focus() {
-		// If the abbreviation text field is enabled, focus it straight away to allow the user to type.
+		// If the link text field is enabled, focus it straight away to allow the user to type.
 		if ( this.linkInputView.isEnabled ) {
 			this.linkInputView.focus();
 		}
-		// Focus the tooltip title field if the former is disabled.
+		// Focus the link text field if the former is disabled.
 		else {
 			this.linkInputView.focus();
 		}

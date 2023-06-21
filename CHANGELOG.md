@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Fixes bug with Button links not persisting in UI upon return editing, before page save
+  Resolves #18 - Button link persists through multiple edits before the full page is saved. Previously the provided link would get removed from UI if needing to re-enter the editing UI before page save.
+  
+  Also swaps the 'watch' build for the final build version of button
+---
+
 - ### Adds CKEditor 'Button' Plugin to CKEditor
   Adds custom plugin 'Button' to CKEditor5, which allows site editors to choose color, size, and style and provide a link in order to add custom buttons to their pages using WYSIWYG and Full HTML using the toolbar button.
   

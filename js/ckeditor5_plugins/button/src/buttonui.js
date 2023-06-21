@@ -28,14 +28,13 @@ export default class ButtonUI extends Plugin {
 			button.icon = icon;
 			button.tooltip = true;
 			button.withText = false;
-			
 			// Show the UI on button click.
 			this.listenTo( button, 'execute', () => {
 				this._showUI();
 			} );
 
 
-			// Shows the UI on click of a map widget.
+			// Shows the UI on click of a button widget.
 			this.listenTo(viewDocument, 'click', () => {
 				if (insertButtonCommand.existingButtonSelected)
 					this._showUI(insertButtonCommand.existingButtonSelected);
@@ -97,19 +96,21 @@ export default class ButtonUI extends Plugin {
 			position: this._getBalloonPositionData()
 		} );
 
-		if(selectedButton){
+		if (selectedButton) {
 			const size = selectedButton.getAttribute('linkButtonSize');
-			const color = selectedButton.getAttribute('linkButtonColor')
-			const style = selectedButton.getAttribute('linkButtonStyle')
-			const href = selectedButton.getAttribute('linkButtonHref')
-
-			this.formView.color = color
-			this.formView.style = style
-			this.formView.size = size
-
-			this.formView.linkInputView.fieldView.value = href
+			const color = selectedButton.getAttribute('linkButtonColor');
+			const style = selectedButton.getAttribute('linkButtonStyle');
+			const href = selectedButton.getAttribute('linkButtonHref');
+		
+			this.formView.color = color;
+			this.formView.style = style;
+			this.formView.size = size;
+		
+			this.formView.linkInputView.fieldView.value = href;
+			this.formView.linkInputView.fieldView.element.value = href; // Update the input field value
+			this.formView.linkInputView.fieldView.set('value', href); // Update the input field value (alternative method)
 			this.formView.focus();
-		}
+		  }
 
 		// Disable the input when the selection is not collapsed.
 		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
