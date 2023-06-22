@@ -29,6 +29,7 @@ export default class ButtonUI extends Plugin {
 			button.icon = icon;
 			button.tooltip = true;
 			button.withText = false;
+			button.isToggleable = true;
 			// Show the UI on button click.
 			this.listenTo( button, 'execute', () => {
 				this._showUI();
@@ -36,7 +37,16 @@ export default class ButtonUI extends Plugin {
 
 			this.buttonView = button;
 
-
+			// Show the on/off in Toolbar if a button is already selected.
+			const updateButtonState = () => {
+				const linkButtonSelected = insertButtonCommand.existingButtonSelected;
+				button.isOn = !!linkButtonSelected;
+			};
+			  
+			 // Listen for changes in the linkButton selection.
+			this.listenTo(insertButtonCommand, 'change:value', updateButtonState);
+			this.listenTo(insertButtonCommand, 'change:existingButtonSelected', updateButtonState);
+			
 			// Shows the UI on click of a button widget.
 			this.listenTo(viewDocument, 'click', () => {
 				if (insertButtonCommand.existingButtonSelected)
@@ -94,6 +104,10 @@ export default class ButtonUI extends Plugin {
 
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
+		if(this.editor.commands.get('addButton').existingButtonSelected){
+			const existingButtonLink = this.editor.commands.get('addButton').existingButtonSelected._attrs.get('linkButtonHref') || ''
+			this.formView.linkInputView.fieldView.set('value', existingButtonLink);
+		}
 
 		this._balloon.add( {
 			view: this.formView,
