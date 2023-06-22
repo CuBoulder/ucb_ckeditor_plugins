@@ -32,7 +32,7 @@ export default class ButtonUI extends Plugin {
 			button.isToggleable = true;
 			// Show the UI on button click.
 			this.listenTo( button, 'execute', () => {
-				this._showUI();
+				this._showUI(insertButtonCommand.existingButtonSelected)
 			} );
 
 			this.buttonView = button;
@@ -101,13 +101,8 @@ export default class ButtonUI extends Plugin {
 	_showUI(selectedButton) {
 		const selection = this.editor.model.document.selection;
 		this.buttonView.isOn = true;
-
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
-		if(this.editor.commands.get('addButton').existingButtonSelected){
-			const existingButtonLink = this.editor.commands.get('addButton').existingButtonSelected._attrs.get('linkButtonHref') || ''
-			this.formView.linkInputView.fieldView.set('value', existingButtonLink);
-		}
 
 		this._balloon.add( {
 			view: this.formView,
@@ -135,6 +130,7 @@ export default class ButtonUI extends Plugin {
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
+			console.log('command value')
 			this.formView.linkInputView.fieldView.value = commandValue.link;
 			this.formView.colorDropdown.fieldView.value = commandValue.color;
 			this.formView.sizeDropdown.fieldView.value = commandValue.size;
