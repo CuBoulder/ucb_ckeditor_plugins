@@ -19,6 +19,7 @@ export default class ButtonUI extends Plugin {
         // Create the balloon and the form view.
 		this._balloon = this.editor.plugins.get( ContextualBalloon );
 		this.formView = this._createFormView(editor.locale);
+		this.buttonView = null;
 
 		// This will register the Button button to the toolbar
 		componentFactory.add( 'button', (locale) => {
@@ -32,6 +33,8 @@ export default class ButtonUI extends Plugin {
 			this.listenTo( button, 'execute', () => {
 				this._showUI();
 			} );
+
+			this.buttonView = button;
 
 
 			// Shows the UI on click of a button widget.
@@ -87,6 +90,7 @@ export default class ButtonUI extends Plugin {
 
 	_showUI(selectedButton) {
 		const selection = this.editor.model.document.selection;
+		this.buttonView.isOn = true;
 
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
@@ -129,6 +133,7 @@ export default class ButtonUI extends Plugin {
 	_hideUI() {
 		// Clear the input field values and reset the form.
 		this.formView.element.reset();
+		this.buttonView.isOn = false;
 
 		this._balloon.remove( this.formView );
 
