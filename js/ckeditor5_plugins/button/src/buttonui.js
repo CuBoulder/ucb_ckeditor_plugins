@@ -130,7 +130,6 @@ export default class ButtonUI extends Plugin {
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
-			console.log('command value')
 			this.formView.linkInputView.fieldView.value = commandValue.link;
 			this.formView.colorDropdown.fieldView.value = commandValue.color;
 			this.formView.sizeDropdown.fieldView.value = commandValue.size;
