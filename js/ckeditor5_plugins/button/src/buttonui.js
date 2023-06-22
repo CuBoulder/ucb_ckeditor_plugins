@@ -122,8 +122,7 @@ export default class ButtonUI extends Plugin {
 			this.formView.linkInputView.fieldView.value = href;
 			this.formView.linkInputView.fieldView.element.value = href; // Update the input field value
 			this.formView.linkInputView.fieldView.set('value', href); // Update the input field value (alternative method)
-			this.formView.focus();
-		  }
+		}
 
 		// Disable the input when the selection is not collapsed.
 		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
