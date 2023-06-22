@@ -7,7 +7,13 @@
 	display: inline-block;
 	padding: 5px 10px;
 	font-weight: bold;
+	line-height: 1.5em;
 }
+/* Button in Editor - slightly expands a button's clickable area in CK editor to make toggling button UI easier via button element click */
+.ck-content .ucb-link-button.ucb-link-button-small,.ck-content .ucb-link-button.ucb-link-button-regular,.ck-content .ucb-link-button.ucb-link-button-large{
+    padding: 5px 15px;
+}
+
 
 /* Colors */
 .ucb-link-button.ucb-link-button-blue {

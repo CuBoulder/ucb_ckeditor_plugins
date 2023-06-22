@@ -19,6 +19,7 @@ export default class ButtonUI extends Plugin {
         // Create the balloon and the form view.
 		this._balloon = this.editor.plugins.get( ContextualBalloon );
 		this.formView = this._createFormView(editor.locale);
+		this.buttonView = null;
 
 		// This will register the Button button to the toolbar
 		componentFactory.add( 'button', (locale) => {
@@ -28,12 +29,24 @@ export default class ButtonUI extends Plugin {
 			button.icon = icon;
 			button.tooltip = true;
 			button.withText = false;
+			button.isToggleable = true;
 			// Show the UI on button click.
 			this.listenTo( button, 'execute', () => {
-				this._showUI();
+				this._showUI(insertButtonCommand.existingButtonSelected)
 			} );
 
+			this.buttonView = button;
 
+			// Show the on/off in Toolbar if a button is already selected.
+			const updateButtonState = () => {
+				const linkButtonSelected = insertButtonCommand.existingButtonSelected;
+				button.isOn = !!linkButtonSelected;
+			};
+			  
+			 // Listen for changes in the linkButton selection.
+			this.listenTo(insertButtonCommand, 'change:value', updateButtonState);
+			this.listenTo(insertButtonCommand, 'change:existingButtonSelected', updateButtonState);
+			
 			// Shows the UI on click of a button widget.
 			this.listenTo(viewDocument, 'click', () => {
 				if (insertButtonCommand.existingButtonSelected)
@@ -87,7 +100,7 @@ export default class ButtonUI extends Plugin {
 
 	_showUI(selectedButton) {
 		const selection = this.editor.model.document.selection;
-
+		this.buttonView.isOn = true;
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
 
@@ -109,8 +122,7 @@ export default class ButtonUI extends Plugin {
 			this.formView.linkInputView.fieldView.value = href;
 			this.formView.linkInputView.fieldView.element.value = href; // Update the input field value
 			this.formView.linkInputView.fieldView.set('value', href); // Update the input field value (alternative method)
-			this.formView.focus();
-		  }
+		}
 
 		// Disable the input when the selection is not collapsed.
 		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
@@ -129,6 +141,7 @@ export default class ButtonUI extends Plugin {
 	_hideUI() {
 		// Clear the input field values and reset the form.
 		this.formView.element.reset();
+		this.buttonView.isOn = false;
 
 		this._balloon.remove( this.formView );
 

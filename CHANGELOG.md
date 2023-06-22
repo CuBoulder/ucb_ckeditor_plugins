@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Button: Additional Enhancements
+  Adds additional site editor enhancements to Button plugin including:
+  - Adding extra padding to expand the clickable area within CKEditor to allow easier click-to-edit on the button element within the editor view. Previously it was difficult to click-to-edit on small and regular button elements within the editor. Buttons rendered on page will have the traditional amount of padding.
+  - Button's toolbar icon toggles on/off when editing
+  
+  
+  Resolves #19 
+---
+
 - ### Fixes bug with Button links not persisting in UI upon return editing, before page save
   Resolves #18 - Button link persists through multiple edits before the full page is saved. Previously the provided link would get removed from UI if needing to re-enter the editing UI before page save.
   
