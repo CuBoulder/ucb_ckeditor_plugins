@@ -86,6 +86,12 @@ export default class ButtonUI extends Plugin {
 		this.listenTo( formView, 'cancel', () => {
 			this._hideUI();
 		} );
+		
+		// Close the panel on esc key press when the form has focus.
+		formView.keystrokes.set('Esc', (data, cancel) => {
+			this._hideUI();
+			cancel();
+		});
 
 		// Hide the form view when clicking outside the balloon.
 		clickOutsideHandler( {
