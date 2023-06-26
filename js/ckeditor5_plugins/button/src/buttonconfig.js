@@ -46,15 +46,15 @@ export const colorOptions = {
 export const defaultColor = 'black'
 
 export const styleOptions = {
-	full: {
-		label: 'Full',
-		icon: icons.objectFullWidth,
-		className: 'ucb-link-button-full'
-	},
 	default: {
 		label: 'Default',
 		icon: icons.objectCenter,
 		className: 'ucb-link-button-default'
+	},
+	full: {
+		label: 'Full',
+		icon: icons.objectFullWidth,
+		className: 'ucb-link-button-full'
 	},
 };
 

@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Button UI Changes: Esc key exits Button UI, Default button style listed first in 'Style Options'
+  Button UI Changes:
+  - ESC key will exit the Button UI
+  - Default (Regular) style selection listed first in 'Button Style' Dropdown
+  
+  Resolves #22 
+  
+---
+
 - ### Button: Additional Enhancements
   Adds additional site editor enhancements to Button plugin including:
   - Adding extra padding to expand the clickable area within CKEditor to allow easier click-to-edit on the button element within the editor view. Previously it was difficult to click-to-edit on small and regular button elements within the editor. Buttons rendered on page will have the traditional amount of padding.
