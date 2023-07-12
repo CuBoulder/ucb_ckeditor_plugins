@@ -128,6 +128,10 @@
 
 /* Overrides link color for dark boxes (CuBoulder/tiamat-theme#434) */
 
+.ucb-box.ucb-box-theme-lightgray.ucb-box-style-fill a:link:not(:hover, :active, :focus), .ucb-box.ucb-box-theme-lightgray.ucb-box-style-fill a:visited:not(:hover, :active, :focus) {
+	color: #01579B;
+}
+
 .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:link, .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:visited,
 .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:link, .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:visited {
 	color: #cfb87c;
