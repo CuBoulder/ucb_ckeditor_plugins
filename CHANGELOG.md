@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Changes link color in filled boxes
+  Links inside black, dark gray, and light gray filled boxes now change color to provide contrast with the darker background. Resolves CuBoulder/tiamat-theme#434
+---
+
 - ### Button UI Changes: Esc key exits Button UI, Default button style listed first in 'Style Options'
   Button UI Changes:
   - ESC key will exit the Button UI
