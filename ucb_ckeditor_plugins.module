@@ -27,6 +27,12 @@ function ucb_ckeditor_plugins_theme() {
 				'attributes' => [],
 				'mapLocation' => ''
 			]
+		],
+		'ucb_google_calendar_embed' => [
+			'variables' => [
+				'attributes' => [],
+				'queryString' => ''
+			]
 		]
 	];
 }

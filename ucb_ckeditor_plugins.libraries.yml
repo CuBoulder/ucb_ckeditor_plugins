@@ -3,6 +3,7 @@ ckeditor-plugin-styles:
     theme:
       css/box.css: { }
       css/map.css: { }
+      css/calendar.css: { }
       css/tooltip.css: { }
       css/button.css: { }
 
@@ -49,6 +50,21 @@ map.editor:
     theme:
       css/map.editor.css: { }
       css/map.css: { }
+
+calendar.admin:
+  css:
+    theme:
+      css/calendar.admin.css: { }
+
+calendar.editor:
+  js:
+    js/build/calendar.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/calendar.editor.css: { }
+      css/calendar.css: { }
 
 tooltip.admin:
   css:
