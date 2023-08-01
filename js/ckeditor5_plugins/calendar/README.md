@@ -1,17 +1,13 @@
-# CKEditor 5 Plugin: Map
+# CKEditor 5 Plugin: Calendar
 
-The Map CKEditor plugin allows insertion of a University of Colorado Boulder Campus Map using a URL generated from the [Campus Map](https://www.colorado.edu/map/?id=336) page. It also supports Google Maps embeds via an embed code generated in Google Maps.
+The Calendar CKEditor plugin allows insertion of a Google Calendar embed via an embed link or code code generated in Google Calendar.
 
 ## Model
 ```xml
-<campusMap mapSize="small|medium|large" mapLocation="{\d+}"></campusMap>
-
-<googleMap mapSize="small|medium|large" mapLocation="{ Google Maps embed `pb` parameter }"></googleMap>
+<googleCalendar calendarQueryString="{ The query string part of the Google Calendar embed URL }"></googleCalendar>
 ```
 
 ## HTML
 ```html
-<ucb-map class="ucb-map ucb-campus-map ucb-map-size-(small|medium|large)" data-map-location="{\d+}"></ucb-map>
-
-<ucb-map class="ucb-map ucb-google-map ucb-map-size-(small|medium|large)" data-map-location="{ Google Maps embed `pb` parameter }"></ucb-map>
+<ucb-calendar class="ucb-calendar ucb-google-calendar" data-query-string="{ The query string part of the Google Calendar embed URL }"></ucb-calendar>
 ```
