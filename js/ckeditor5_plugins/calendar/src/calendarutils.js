@@ -17,9 +17,9 @@ function embedCodeToURL(embedCode) {
 /**
  * @param {string} url
  * @returns {string | null}
- *   Just the quert string part of the URL, or null if the URL isn't a valid Google Calendar URL.
+ *   Just the query string part of the URL, or null if the URL isn't a valid Google Calendar URL.
  */
- export function googleCalendarURLToQueryString(url) {
+export function googleCalendarURLToQueryString(url) {
 	if (url[0] === '<') {
 		url = embedCodeToURL(url); // Gets a URL from a likely embed code.
 		if (!url) return null;
@@ -36,6 +36,6 @@ function embedCodeToURL(embedCode) {
  * @returns {string}
  *   The entire Google Calendar URL when given just the query string.
  */
- export function googleCalendarQueryStringToURL(queryString) {
+export function googleCalendarQueryStringToURL(queryString) {
 	return 'https://calendar.google.com/calendar/embed?' + queryString;
 }
