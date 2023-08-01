@@ -78,16 +78,11 @@ export default class CalendarEditing extends Plugin {
 		const conversion = this.editor.conversion;
 
 		// Specifies the query string attribute for calendars.
-		conversion.for('upcast').attributeToAttribute({
+		conversion.attributeToAttribute({
 			model: {
 				key: 'calendarQueryString',
 				value: viewElement => viewElement.getAttribute('data-query-string').replace(/&amp;/g, '&') // Fixes a bug which caused the `&` character in the query string to become `&amp;`.
 			},
-			view: 'data-query-string'
-		});
-
-		conversion.for('downcast').attributeToAttribute({
-			model: 'calendarQueryString',
 			view: 'data-query-string'
 		});
 
