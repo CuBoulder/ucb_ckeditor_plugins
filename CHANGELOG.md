@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds the "Calendar" CKEditor 5 plugin
+  This update adds a "Calendar" item to CKEditor 5, allowing insertion of Google Calendar embeds via an embed code taken from Google Calendar. Equivalent to the `[googlecalendar]` Shortcode in D7 Express.
+  
+  Resolves CuBoulder/tiamat-theme#256
+  
+  Sister PR in: [tiamat-profile](https://github.com/CuBoulder/tiamat-profile/pull/53), [tiamat10-profile](https://github.com/CuBoulder/tiamat10-profile/pull/16)
+---
+
 - ### Changes link color in filled boxes
   Links inside black, dark gray, and light gray filled boxes now change color to provide contrast with the darker background. Resolves CuBoulder/tiamat-theme#434
 ---

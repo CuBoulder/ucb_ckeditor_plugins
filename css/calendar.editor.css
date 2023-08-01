@@ -1,0 +1,33 @@
+.ck .ck.ck-calendar-form {
+	display: grid;
+	grid-template-columns: repeat(4, .25fr);
+	grid-template-rows: repeat(2, 1fr);
+	grid-column-gap: 0px;
+	grid-row-gap: var(--ck-spacing-standard);
+	padding: var(--ck-spacing-large);
+}
+
+.ck.ck-calendar-form .ck.ck-labeled-field-view {
+	grid-area: 1 / 1 / 2 / 4;
+}
+
+.ck.ck-calendar-form .ck.ck-dropdown {
+	grid-area: 2 / 1 / 3 / 3;
+}
+
+.ck.ck-calendar-form .ck-button:nth-of-type(1) {
+	grid-area: 2 / 3 / 3 / 4;
+}
+
+.ck.ck-calendar-form .ck-button:nth-of-type(2) {
+	grid-area: 2 / 4 / 3 / 5;
+}
+
+.ucb-calendar.ucb-google-calendar .ucb-calendar-editing-cover {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
