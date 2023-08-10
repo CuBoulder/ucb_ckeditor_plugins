@@ -1,17 +1,18 @@
+# === Display library (included on all pages with WYSIWYG content or editors) ===
+
 ckeditor-plugin-styles:
   css:
     theme:
       css/box.css: { }
-      css/map.css: { }
-      css/calendar.css: { }
-      css/tooltip.css: { }
       css/button.css: { }
+      css/calendar.css: { }
+      css/icon.css: { }
+      css/map.css: { }
+      css/tooltip.css: { }
 
-box.admin:
-  css:
-    theme:
-      css/box.admin.css: { }
+# === Admin / editing interface libraries ===
 
+box.admin: { css: { theme: { css/box.admin.css: { } } } }
 box.editor:
   js:
     js/build/box.js: { preprocess: false, minified: true }
@@ -22,40 +23,18 @@ box.editor:
   dependencies:
     - core/ckeditor5
 
-invisible.admin:
-  css:
-    theme:
-      css/invisible.admin.css: { }
-
-invisible.editor:
+button.admin: { css: { theme: { css/button.admin.css: { } } } }
+button.editor:
   js:
-    js/build/invisible.js: { preprocess: false, minified: true }
+    js/build/button.js: { preprocess: false, minified: true }
   dependencies:
     - core/ckeditor5
   css:
     theme:
-      css/invisible.editor.css: { }
+      css/button.editor.css: { }
+      css/button.css: { }
 
-map.admin:
-  css:
-    theme:
-      css/map.admin.css: { }
-
-map.editor:
-  js:
-    js/build/map.js: { preprocess: false, minified: true }
-  dependencies:
-    - core/ckeditor5
-  css:
-    theme:
-      css/map.editor.css: { }
-      css/map.css: { }
-
-calendar.admin:
-  css:
-    theme:
-      css/calendar.admin.css: { }
-
+calendar.admin: { css: { theme: { css/calendar.admin.css: { } } } }
 calendar.editor:
   js:
     js/build/calendar.js: { preprocess: false, minified: true }
@@ -66,11 +45,39 @@ calendar.editor:
       css/calendar.editor.css: { }
       css/calendar.css: { }
 
-tooltip.admin:
+icon.admin: { css: { theme: { css/icon.admin.css: { } } } }
+icon.editor:
+  js:
+    js/build/icon.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
   css:
     theme:
-      css/tooltip.admin.css: { }
+      css/icon.editor.css: { }
+      css/icon.css: { }
 
+invisible.admin: { css: { theme: { css/invisible.admin.css: { } } } }
+invisible.editor:
+  js:
+    js/build/invisible.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/invisible.editor.css: { }
+
+map.admin: { css: { theme: { css/map.admin.css: { } } } }
+map.editor:
+  js:
+    js/build/map.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/map.editor.css: { }
+      css/map.css: { }
+
+tooltip.admin: { css: { theme: { css/tooltip.admin.css: { } } } }
 tooltip.editor:
   js:
     js/build/tooltip.js: { preprocess: false, minified: true }
@@ -80,18 +87,3 @@ tooltip.editor:
     theme:
       css/tooltip.editor.css: { }
       css/tooltip.css: { }
-
-button.admin:
-  css:
-    theme:
-      css/button.admin.css: { }
-
-button.editor:
-  js:
-    js/build/button.js: { preprocess: false, minified: true }
-  dependencies:
-    - core/ckeditor5
-  css:
-    theme:
-      css/button.editor.css: { }
-      css/button.css: { }

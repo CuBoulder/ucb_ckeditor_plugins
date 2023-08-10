@@ -78,6 +78,23 @@ ucb_ckeditor_plugins_invisible:
     # class: Optional PHP class that makes it possible for the plugin to provide
     #   dynamic values, or a configuration UI.
 
+ucb_ckeditor_plugins_icon:
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - icon.Icon
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Icon
+    library: ucb_ckeditor_plugins/icon.editor
+    admin_library: ucb_ckeditor_plugins/icon.admin
+    toolbar_items:
+      icon:
+        label: Icon
+    elements:
+      - <i>
+      - <i class>
+
 ucb_ckeditor_plugins_map:
   # Configuration that will be sent to CKEditor 5 JavaScript plugins.
   ckeditor5:
