@@ -85,12 +85,12 @@ ucb_ckeditor_plugins_icon:
       - icon.Icon
   # Configuration that will be used directly by Drupal.
   drupal:
-    label: Icon
+    label: Icons
     library: ucb_ckeditor_plugins/icon.editor
     admin_library: ucb_ckeditor_plugins/icon.admin
     toolbar_items:
       icon:
-        label: Icon
+        label: Icons
     elements:
       - <i>
       - <i class>

@@ -5,17 +5,16 @@
  * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command
  * @typedef { import('@types/ckeditor__ckeditor5-ui/src/dropdown/dropdownview').default } DropdownView
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
- * @typedef { import('./iconconfig').SelectableOption } SelectableOption
+ * @typedef { import('../iconconfig').SelectableOption } SelectableOption
  */
 
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
-import { sizeOptions, sizeDefault, alignmentOptions, alignmentDefault, colorOptions, colorDefault, styleOptions, styleDefault } from './iconconfig';
-import { Plugin } from 'ckeditor5/src/core';
+import { sizeOptions, sizeDefault, alignmentOptions, alignmentDefault, colorOptions, colorDefault, styleOptions, styleDefault } from '../iconconfig';
+import { Plugin, icons } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
-import iconIcon from '../../../../icons/icon.svg';
-import themeIcon from '../../../../icons/theme.svg';
+import themeIcon from '../../../../../icons/theme.svg';
 
-export default class IconUI extends Plugin {
+export default class IconToolbar extends Plugin {
 	/**
 	 * @inheritdoc
 	 */
@@ -32,36 +31,15 @@ export default class IconUI extends Plugin {
 			commands = editor.commands,
 			componentFactory = editor.ui.componentFactory;
 
-		// This will register the icon toolbar button.
-		componentFactory.add('icon', (locale) => {
-			const command = commands.get('insertIcon');
-			const buttonView = new ButtonView(locale);
-
-			// Create the toolbar button.
-			buttonView.set({
-				label: locale.t('Icon'),
-				icon: iconIcon,
-				tooltip: true
-			});
-
-			// Bind the state of the button to the command.
-			buttonView.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
-
-			// Execute the command when the button is clicked (executed).
-			this.listenTo(buttonView, 'execute', () => editor.execute('insertIcon'));
-
-			return buttonView;
-		});
-
 		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
 		componentFactory.add('iconSize', locale =>
-			this._createDropdown(locale, 'Icon size', null, commands.get('sizeIcon'), sizeOptions, sizeDefault));
+			this._createDropdown(locale, 'Icon size', sizeOptions[sizeDefault].icon, icons.objectSizeFull, commands.get('sizeIcon'), sizeOptions, sizeDefault));
 		componentFactory.add('iconAlignment', locale =>
-			this._createDropdown(locale, 'Icon alignment', alignmentOptions[alignmentDefault].icon, commands.get('alignIcon'), alignmentOptions, alignmentDefault));
+			this._createDropdown(locale, 'Icon alignment', alignmentOptions[alignmentDefault].icon, null, commands.get('alignIcon'), alignmentOptions, alignmentDefault));
 		componentFactory.add('iconColor', locale =>
-			this._createDropdown(locale, 'Icon color', themeIcon, commands.get('colorIcon'), colorOptions, colorDefault));
+			this._createDropdown(locale, 'Icon color', themeIcon, null, commands.get('colorIcon'), colorOptions, colorDefault));
 		componentFactory.add('iconStyle', locale =>
-			this._createDropdown(locale, 'Icon style', styleOptions[styleDefault].icon, commands.get('styleIcon'), styleOptions, styleDefault));
+			this._createDropdown(locale, 'Icon style', styleOptions[styleDefault].icon, null, commands.get('styleIcon'), styleOptions, styleDefault));
 	}
 
 	/**
@@ -74,11 +52,10 @@ export default class IconUI extends Plugin {
 			items: ['iconSize', 'iconAlignment', 'iconColor', 'iconStyle'],
 			getRelatedElement: (selection) => {
 				const selectedElement = selection.getSelectedElement();
-				return selectedElement && selectedElement.is('element') && selectedElement.name === 'i' && selectedElement.hasClass('ucb-icon') ? selectedElement : null;
+				return selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-icon') ? selectedElement : null;
 			}
 		});
 	}
-
 
 	/**
 	 * Creates a dropdown with multiple buttons for executing a command.
@@ -89,6 +66,8 @@ export default class IconUI extends Plugin {
 	 *   The dropdown's label.
 	 * @param {string | null} icon
 	 *   The dropdowns's icon (optional). If `null`, the dropdown will display as text.
+	 * @param {string | null} fallbackIcon
+	 *   The dropdowns's fallback icon (optional).
 	 * @param {Command} command
 	 *   The command to execute when one of the buttons is pushed.
 	 * @param {Object<string, SelectableOption>} options
@@ -98,17 +77,20 @@ export default class IconUI extends Plugin {
 	 * @returns {DropdownView}
 	 *   The dropdown.
 	 */
-	_createDropdown(locale, label, icon, command, options, defaultValue) {
+	_createDropdown(locale, label, icon, fallbackIcon, command, options, defaultValue) {
 		const dropdownView = createDropdown(locale);
 		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createButton(locale, option.label, option.icon, command, optionValue)));
 		dropdownView.buttonView.set({
 			label: locale.t(label),
 			icon,
-			tooltip: true,
+			tooltip: locale.t(label),
 			withText: !icon
 		});
-		if (icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
-			dropdownView.buttonView.bind('icon').to(command, 'value', value => options[value] ? options[value].icon : options[defaultValue].icon);
+		if (icon === options[defaultValue].icon) { // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
+			dropdownView.buttonView.bind('label').to(command, 'value', value => locale.t((options[value] || options[defaultValue]).label));
+			dropdownView.buttonView.bind('icon').to(command, 'value', value => (options[value] || options[defaultValue]).icon || fallbackIcon);
+			dropdownView.buttonView.bind('withText').to(command, 'value', value => !(options[value] || options[defaultValue]).icon);
+		}
 		// Enable button if any of the buttons are enabled.
 		dropdownView.bind('isEnabled').to(command, 'isEnabled');
 		return dropdownView;
@@ -133,7 +115,7 @@ export default class IconUI extends Plugin {
 		buttonView.set({
 			label: locale.t(label),
 			icon,
-			tooltip: true, // Displays the tooltip on hover
+			tooltip: !!icon, // Displays the tooltip on hover
 			isToggleable: true, // Allows the button with the command's current value to display as selected
 			withText: !icon // Displays the button as text if the icon is falsey
 		});

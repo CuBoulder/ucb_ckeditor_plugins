@@ -11,7 +11,8 @@
 // The contents of IconUI and Icon editing could be included in this
 // file, but it is recommended to separate these concerns in different files.
 import IconEditing from './iconediting';
-import IconUI from './iconui';
+import IconPicker from './ui/iconpicker';
+import IconToolbar from './ui/icontoolbar';
 import { Plugin } from 'ckeditor5/src/core';
 
 export default class Icon extends Plugin {
@@ -19,6 +20,6 @@ export default class Icon extends Plugin {
 	// are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
 	// discover the plugins explicitly exported in index.js.
 	static get requires() {
-		return [IconEditing, IconUI];
+		return [IconEditing, IconPicker, IconToolbar];
 	}
 }

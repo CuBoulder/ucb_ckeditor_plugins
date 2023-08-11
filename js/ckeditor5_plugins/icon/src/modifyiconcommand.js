@@ -42,7 +42,7 @@ export default class ModifyIconCommand extends Command {
 		const model = this.editor.model, icon = getSelectedIconWidget(model.document.selection), attributeName = this.attributeName, defaultValue = this.defaultValue;
 		this.isEnabled = !!icon; // Disables any ModifyIconCommand if there is no selected icon
 		if (this.isEnabled)
-			this.value = icon.getAttribute(attributeName); // Sets the `value` of this ModifyIconCommand to the attribute of the selected icon
+			this.value = icon.hasAttribute(attributeName) ? icon.getAttribute(attributeName) : defaultValue; // Sets the `value` of this ModifyIconCommand to the attribute of the selected icon
 		else this.value = defaultValue;
 	}
 

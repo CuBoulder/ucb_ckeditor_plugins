@@ -3,6 +3,7 @@
  * 
  * @typedef { import('./iconconfig').SelectableOption } SelectableOption
  * @typedef { import('@types/ckeditor__ckeditor5-engine').DowncastWriter } DowncastWriter
+ * @typedef { import('@types/ckeditor__ckeditor5-engine/src/model/element').default } ModelElement
  * @typedef { import('@types/ckeditor__ckeditor5-engine/src/view/containerelement').default } ContainerElement
  */
 
@@ -104,7 +105,7 @@ export default class IconEditing extends Plugin {
 		// <i class="ucb-icon"></section>.
 		conversion.for('dataDowncast').elementToElement({
 			model: 'icon',
-			view: (modelElement, { writer: viewWriter }) => createIconView(viewWriter)
+			view: (modelElement, { writer: viewWriter }) => createIconView(modelElement, viewWriter)
 		});
 
 		// Editing Downcast Converters. These render the content to the user for
@@ -115,7 +116,7 @@ export default class IconEditing extends Plugin {
 		// Convert the <icon> model into a container widget in the editor UI.
 		conversion.for('editingDowncast').elementToElement({
 			model: 'icon',
-			view: (modelElement, { writer: viewWriter }) => createIconView(viewWriter, true)
+			view: (modelElement, { writer: viewWriter }) => createIconWidgetView(modelElement, viewWriter)
 		});
 	}
 
@@ -141,27 +142,43 @@ export default class IconEditing extends Plugin {
  *   The attribute to attribute definition of the specified attribute.
  */
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
-	const view = {};
-	for (const [name, option] of Object.entries(attributeOptions))
-		view[name] = { key: 'class', value: option.className };
+	const view = {}, values = [];
+	for (const [value, option] of Object.entries(attributeOptions)) {
+		if (!option.className) continue;
+		values.push(value);
+		view[value] = { key: 'class', value: option.className };
+	}
 	return {
 		model: {
 			key: attributeName,
-			values: Object.keys(attributeOptions)
+			values: values
 		},
 		view
 	};
 }
 
 /**
+ * @param {ModelElement} modelElement
+ *   The model element.
  * @param {DowncastWriter} viewWriter
  *   The downcast writer.
- * @param {boolean} [widget=false]
- *   Whether or not to return a widget for editing. Defaults to `false`.
  * @returns {ContainerElement}
  *   The icon container element or widget.
  */
-function createIconView(viewWriter, widget = false) {
-	const i = viewWriter.createContainerElement('i', { class: 'ucb-icon' });
-	return widget ? toWidget(i, viewWriter, { label: 'icon widget' }) : i;
+function createIconView(modelElement, viewWriter) {
+	return viewWriter.createContainerElement('i', { class: 'ucb-icon fa-solid fa-chess-rook' });
+}
+
+/**
+* @param {ModelElement} modelElement
+ *   The model element.
+ * @param {DowncastWriter} viewWriter
+ *   The downcast writer.
+ * @returns {ContainerElement}
+ *   The icon container element or widget.
+ */
+ function createIconWidgetView(modelElement, viewWriter) {
+	return toWidget(
+		viewWriter.createContainerElement('span', { class: 'ucb-icon' }, [ viewWriter.createRawElement('span', {}, element => element.innerHTML = '<i class="fa-solid fa-chess-rook"></i>') ]), viewWriter, { label: 'icon widget' }
+	);
 }

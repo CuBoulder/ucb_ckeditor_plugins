@@ -4,7 +4,7 @@
  * @typedef {Object} SelectableOption
  * @property {string} label
  * @property {string?} icon
- * @property {string} className
+ * @property {string?} className
  */
 
 import { icons } from 'ckeditor5/src/core';
@@ -15,29 +15,60 @@ import iconStyleCircle from '../../../../icons/icon-style-circle.svg';
 
 /** @type {Object<string, SelectableOption>} */
 export const sizeOptions = {
+	small: {
+		label: 'Small',
+		icon: icons.objectSizeSmall,
+		className: 'fa-sm'
+	},
 	regular: {
 		label: 'Regular',
-		className: 'ucb-icon-size-regular'
+		icon: icons.objectSizeMedium
 	},
 	large: {
 		label: 'Large',
-		className: 'ucb-icon-size-large'
+		icon: icons.objectSizeLarge,
+		className: 'fa-lg'
+	},
+	extraLarge: {
+		label: 'Extra large',
+		icon: icons.objectSizeFull,
+		className: 'fa-xl'
 	},
 	'2x': {
 		label: '2x',
-		className: 'ucb-icon-size-2x'
+		className: 'fa-2x'
 	},
 	'3x': {
 		label: '3x',
-		className: 'ucb-icon-size-3x'
+		className: 'fa-3x'
 	},
 	'4x': {
 		label: '4x',
-		className: 'ucb-icon-size-4x'
+		className: 'fa-4x'
 	},
 	'5x': {
 		label: '5x',
-		className: 'ucb-icon-size-5x'
+		className: 'fa-5x'
+	},
+	'6x': {
+		label: '6x',
+		className: 'fa-6x'
+	},
+	'7x': {
+		label: '7x',
+		className: 'fa-7x'
+	},
+	'8x': {
+		label: '8x',
+		className: 'fa-8x'
+	},
+	'9x': {
+		label: '9x',
+		className: 'fa-9x'
+	},
+	'10x': {
+		label: '10x',
+		className: 'fa-10x'
 	}
 };
 
@@ -47,8 +78,7 @@ export const sizeDefault = 'regular';
 export const alignmentOptions = {
 	none: {
 		label: 'With text',
-		icon: icons.alignJustify,
-		className: 'ucb-icon-alignment-none'
+		icon: icons.objectCenter
 	},
 	left: {
 		label: 'Float left',
@@ -67,8 +97,7 @@ export const alignmentDefault = 'none';
 /** @type {Object<string, SelectableOption>} */
 export const colorOptions = {
 	none: {
-		label: 'Same as text',
-		className: 'ucb-icon-color-none'
+		label: 'Same as text'
 	},
 	black: {
 		label: 'Black',
@@ -80,11 +109,11 @@ export const colorOptions = {
 	},
 	lightGray: {
 		label: 'Light Gray',
-		className: 'ucb-icon-color-light-gray'
+		className: 'ucb-icon-color-lightgray'
 	},
 	darkGray: {
 		label: 'Dark Gray',
-		className: 'ucb-icon-color-dark-gray'
+		className: 'ucb-icon-color-darkgray'
 	},
 	gold: {
 		label: 'Gold',
@@ -98,8 +127,7 @@ export const colorDefault = 'none';
 export const styleOptions = {
 	none: {
 		label: 'No style',
-		icon: iconStyleNone,
-		className: 'ucb-icon-style-none'
+		icon: iconStyleNone
 	},
 	square: {
 		label: 'Square',
