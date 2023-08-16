@@ -1,6 +1,7 @@
 .ucb-icon {
 	--ucb-icon-primary-color: currentColor;
 	--ucb-icon-secondary-color: currentColor;
+	--ucb-icon-filter: grayscale(100%) invert(100%) contrast(200%);
 	display: inline-block;
 	color: var(--ucb-icon-primary-color);
 	text-align: center;
@@ -27,26 +28,31 @@
 .ucb-icon.ucb-icon-color-black {
 	--ucb-icon-primary-color: #000;
 	--ucb-icon-secondary-color: #FFF;
+	--ucb-icon-filter: none;
 }
 
 .ucb-icon.ucb-icon-color-white {
 	--ucb-icon-primary-color: #FFF;
 	--ucb-icon-secondary-color: #000;
+	--ucb-icon-filter: none;
 }
 
 .ucb-icon.ucb-icon-color-lightgray {
 	--ucb-icon-primary-color: #ccc;
 	--ucb-icon-secondary-color: #000;
+	--ucb-icon-filter: none;
 }
 
 .ucb-icon.ucb-icon-color-darkgray {
 	--ucb-icon-primary-color: #444;
 	--ucb-icon-secondary-color: #FFF;
+	--ucb-icon-filter: none;
 }
 
 .ucb-icon.ucb-icon-color-gold {
 	--ucb-icon-primary-color: #cfb87c;
 	--ucb-icon-secondary-color: #000;
+	--ucb-icon-filter: none;
 }
 
 .ucb-icon.ucb-icon-style-square, .ucb-icon.ucb-icon-style-square-rounded, .ucb-icon.ucb-icon-style-circle {
@@ -61,14 +67,12 @@
 	display: inline-block;
 }
 
-.ucb-icon.ucb-icon-style-square path, .ucb-icon.ucb-icon-style-square-rounded path, .ucb-icon.ucb-icon-style-circle path {
+.ucb-icon.ucb-icon-style-square path, .ucb-icon.ucb-icon-style-square-rounded path, .ucb-icon.ucb-icon-style-circle path,
+.ucb-icon.ucb-icon-style-square:before, .ucb-icon.ucb-icon-style-square-rounded:before, .ucb-icon.ucb-icon-style-circle:before,
+.ucb-icon.ucb-icon-style-square i:before, .ucb-icon.ucb-icon-style-square-rounded i:before, .ucb-icon.ucb-icon-style-circle i:before {
 	color: var(--ucb-icon-secondary-color);
-}
-.ucb-icon:not(.ucb-icon-color-black, .ucb-icon-color-white, .ucb-icon-color-lightgray, .ucb-icon-color-darkgray, .ucb-icon-color-gold).ucb-icon-style-square path,
-.ucb-icon:not(.ucb-icon-color-black, .ucb-icon-color-white, .ucb-icon-color-lightgray, .ucb-icon-color-darkgray, .ucb-icon-color-gold).ucb-icon-style-square-rounded path,
-.ucb-icon:not(.ucb-icon-color-black, .ucb-icon-color-white, .ucb-icon-color-lightgray, .ucb-icon-color-darkgray, .ucb-icon-color-gold).ucb-icon-style-circle path {
-	-webkit-filter: grayscale(100%) invert(100%) contrast(200%);
-	filter: grayscale(100%) invert(100%) contrast(200%);
+	-webkit-filter: var(--ucb-icon-filter);
+	filter: var(--ucb-icon-filter);
 }
 
 .ucb-icon.ucb-icon-style-square svg, .ucb-icon.ucb-icon-style-square-rounded svg, .ucb-icon.ucb-icon-style-circle svg

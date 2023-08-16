@@ -1,0 +1,28 @@
+.ck .ucb-icon-picker-header .ck-dropdown__panel .ck-list {
+	max-height: 256px;
+	overflow-y: auto;
+}
+
+.ck .ucb-icon-picker-footer {
+	align-items: baseline;
+}
+
+.ck .ucb-icon-picker-footer i.ucb-icon-fa {
+	line-height: 2em;
+}
+
+.ck .ucb-icon-picker-footer i.ucb-icon-fa:before {
+	font-size: 2em;
+}
+
+.ck i.ck.ck-icon.ucb-icon-fa {
+	text-align: center;
+}
+
+/** Needed to fix CKEditor overriding Font Awesome styles */
+.ck i.ck.ck-icon.ucb-icon-fa.fa-solid, .ck i.ck.ck-icon.ucb-icon-fa.fa-classic, .ck i.ck.ck-icon.ucb-icon-fa.fa-regular {
+	font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free';
+}
+.ck i.ck.ck-icon.ucb-icon-fa.fa-brands {
+	font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+}

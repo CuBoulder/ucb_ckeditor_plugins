@@ -1,5 +1,5 @@
 /**
- * @file registers the icon toolbar button and binds functionality to it.
+ * @file registers the icon toolbar and binds functionality to it.
  * 
  * @typedef { import('@types/ckeditor__ckeditor5-utils').Locale } Locale
  * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command

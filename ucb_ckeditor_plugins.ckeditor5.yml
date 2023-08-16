@@ -83,6 +83,8 @@ ucb_ckeditor_plugins_icon:
   ckeditor5:
     plugins:
       - icon.Icon
+    config:
+      icon: { faCategories: {}, faIcons: {} }
   # Configuration that will be used directly by Drupal.
   drupal:
     label: Icons
@@ -94,6 +96,7 @@ ucb_ckeditor_plugins_icon:
     elements:
       - <i>
       - <i class>
+    class: Drupal\ucb_ckeditor_plugins\Plugin\CKEditor5Plugin\Icon
 
 ucb_ckeditor_plugins_map:
   # Configuration that will be sent to CKEditor 5 JavaScript plugins.

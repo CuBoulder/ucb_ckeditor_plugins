@@ -12,8 +12,11 @@
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-utils": "^30.0.0",
+    "@ckeditor/ckeditor5-ui": "^39.0.1",
+    "@fortawesome/fontawesome-free": "^6.4.2",
     "@types/ckeditor__ckeditor5-core": "^33.0.3",
     "ckeditor5": "~34.1.0",
+    "copy-webpack-plugin": "^11.0.0",
     "raw-loader": "^4.0.2",
     "terser-webpack-plugin": "^5.2.0",
     "webpack": "^5.51.1",

@@ -1,5 +1,8 @@
 /**
- * @file registers the icon toolbar button and binds functionality to it.
+ * @file registers the icon picker and binds functionality to it.
+ * 
+ * @typedef { { 'icons': string[], 'label': string } } CategoryDefinition
+ * @typedef { { 'styles': string[], 'label': string } } IconDefinition
  * 
  * @typedef { import('@types/ckeditor__ckeditor5-utils').Locale } Locale
  * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command
@@ -8,46 +11,70 @@
  * @typedef { import('../iconconfig').SelectableOption } SelectableOption
  */
 
-import { ButtonView } from 'ckeditor5/src/ui';
+import { createDropdown } from 'ckeditor5/src/ui';
 import { Plugin } from 'ckeditor5/src/core';
 import iconIcon from '../../../../../icons/icon.svg';
+import IconPickerHeader from './iconpickerheader';
+import IconPickerView from './iconpickerview';
+import IconPickerGrid from './iconpickergrid';
+import IconPickerFooter from './iconpickerfooter';
 
 export default class IconPicker extends Plugin {
-	/**
-	 * @inheritdoc
-	 */
-	static get requires() {
-		return [];
-	}
-
 	/**
 	 * @inheritdoc
 	 */
 	init() {
 		/** @type {EditorWithUI} */
 		const editor = this.editor,
-			commands = editor.commands,
+			command = editor.commands.get('insertIcon'),
 			componentFactory = editor.ui.componentFactory;
 
 		// This will register the icon toolbar button.
 		componentFactory.add('icon', (locale) => {
-			const command = commands.get('insertIcon');
-			const buttonView = new ButtonView(locale);
+			const dropdownView = createDropdown(locale);
+			let iconPickerView;
 
 			// Create the toolbar button.
-			buttonView.set({
+			dropdownView.buttonView.set({
 				label: locale.t('Icons'),
 				icon: iconIcon,
 				tooltip: true
 			});
 
 			// Bind the state of the button to the command.
-			buttonView.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
+			dropdownView.bind('isEnabled').to(command, 'isEnabled');
 
-			// Execute the command when the button is clicked (executed).
-			this.listenTo(buttonView, 'execute', () => editor.execute('insertIcon'));
+			dropdownView.on('change:isOpen', () => {
+				if (!iconPickerView) {
+					iconPickerView = this._createIconPickerView(locale);
+					iconPickerView.delegate('execute').to(command);
+					dropdownView.panelView.children.add(iconPickerView);
+				}
+			});
 
-			return buttonView;
+			return dropdownView;
 		});
+	}
+
+	_createIconPickerView(locale) {
+		const { config } = this.editor;
+
+		/** @type {Object<string, CategoryDefinition>} */
+		const faCategories = config.get('icon.faCategories');
+		
+		/** @type {Object<string, IconDefinition>} */
+		const faIcons = config.get('icon.faIcons');
+
+		const headerView = new IconPickerHeader(locale, faCategories);
+		const gridView = new IconPickerGrid(locale);
+		const footerView = new IconPickerFooter(locale);
+
+		headerView.on('execute', () => {
+			gridView.refresh(faCategories[headerView.categoryDropdownView.value], faIcons);
+			footerView.refresh(null);
+		});
+		gridView.on('execute', (eventInfo, iconName) => footerView.refresh(iconName, faIcons[iconName]));
+
+		return new IconPickerView(locale, headerView, gridView, footerView);
 	}
 }

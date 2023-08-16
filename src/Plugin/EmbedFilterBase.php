@@ -26,7 +26,7 @@ abstract class EmbedFilterBase extends FilterBase implements ContainerFactoryPlu
 	protected $renderer;
 
 	/**
-	 * Constructs a CalendarEmbed object.
+	 * Constructs an EmbedFilterBase object.
 	 *
 	 * @param array $configuration
 	 *   A configuration array containing information about the plugin instance.
