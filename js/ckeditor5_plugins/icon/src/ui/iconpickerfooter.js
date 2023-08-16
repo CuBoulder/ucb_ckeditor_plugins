@@ -80,7 +80,7 @@ export default class IconPickerFooter extends View {
 		if (iconName && iconDefinition) {
 			faIcon = new IconPickerFAIcon(this.locale, iconName, iconDefinition);
 			iconPreviewView.registerChild(faIcon);
-			iconPreviewView.element.appendChild(faIcon.element);	
+			iconPreviewView.element.appendChild(faIcon.element);
 		}
 
 		this._faIcon = faIcon;

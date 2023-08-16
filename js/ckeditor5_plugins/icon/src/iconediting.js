@@ -66,7 +66,7 @@ export default class IconEditing extends Plugin {
 			// Allows an icon to be inserted wherever text is allowed (including another container such as a button).
 			allowWhere: '$text',
 			// Allow the attributes which control the icon's size, alignment, color, and style.
-			allowAttributes: ['iconSize', 'iconAlignment', 'iconColor', 'iconStyle']
+			allowAttributes: ['iconFA', 'iconSize', 'iconAlignment', 'iconColor', 'iconBackgroundStyle']
 		});
 	}
 
@@ -78,11 +78,27 @@ export default class IconEditing extends Plugin {
 		// Converters are registered via the central editor object.
 		const { conversion } = this.editor;
 
+		// Stores the style and name of a FontAwesome icon in an attribute.
+		conversion.for('upcast').attributeToAttribute({
+			model: {
+				key: 'iconFA',
+				value: (viewElement, conversionApi) => {
+					const className = viewElement.getAttribute('class');
+					const styleMatch = className.match(/fa-(solid|classic|regular)/), iconMatch = className.match(/fa-[a-z0-9\-]+/g);
+					return styleMatch[0] + ' ' + iconMatch[1];
+				}
+			},
+			view: {
+				key: 'class',
+				value: /fa-(solid|classic|regular)/
+			}
+		});
+
 		// The size, alignment, color, and style attributes all convert to element class names.
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconSize', sizeOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconAlignment', alignmentOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconColor', colorOptions));
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconStyle', styleOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconBackgroundStyle', styleOptions));
 
 		// Upcast Converters: determine how existing HTML is interpreted by the
 		// editor. These trigger when an editor instance loads.
@@ -129,7 +145,7 @@ export default class IconEditing extends Plugin {
 		commands.add('sizeIcon', new ModifyIconCommand(this.editor, 'iconSize', sizeDefault));
 		commands.add('alignIcon', new ModifyIconCommand(this.editor, 'iconAlignment', alignmentDefault));
 		commands.add('colorIcon', new ModifyIconCommand(this.editor, 'iconColor', colorDefault));
-		commands.add('styleIcon', new ModifyIconCommand(this.editor, 'iconStyle', styleDefault));
+		commands.add('styleIcon', new ModifyIconCommand(this.editor, 'iconBackgroundStyle', styleDefault));
 	}
 }
 
@@ -166,7 +182,8 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
  *   The icon container element or widget.
  */
 function createIconView(modelElement, viewWriter) {
-	return viewWriter.createContainerElement('i', { class: 'ucb-icon fa-solid fa-chess-rook' });
+	const iconFA = modelElement.getAttribute('iconFA');
+	return viewWriter.createContainerElement('i', { class: 'ucb-icon ' + iconFA });
 }
 
 /**
@@ -177,8 +194,9 @@ function createIconView(modelElement, viewWriter) {
  * @returns {ContainerElement}
  *   The icon container element or widget.
  */
- function createIconWidgetView(modelElement, viewWriter) {
+function createIconWidgetView(modelElement, viewWriter) {
+	const iconFA = modelElement.getAttribute('iconFA');
 	return toWidget(
-		viewWriter.createContainerElement('span', { class: 'ucb-icon' }, [ viewWriter.createRawElement('span', {}, element => element.innerHTML = '<i class="fa-solid fa-chess-rook"></i>') ]), viewWriter, { label: 'icon widget' }
+		viewWriter.createContainerElement('span', { class: 'ucb-icon' }, [viewWriter.createRawElement('span', {}, element => element.innerHTML = '<i class="' + iconFA + '"></i>')]), viewWriter, { label: 'icon widget' }
 	);
 }

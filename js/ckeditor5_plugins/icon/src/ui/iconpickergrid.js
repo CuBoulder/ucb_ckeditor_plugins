@@ -1,5 +1,9 @@
 /**
  * @file contains the icon picker grid view.
+ * 
+ * @typedef { import('./iconpicker').CategoryDefinition } CategoryDefinition
+ * @typedef { import('./iconpicker').IconDefinition } IconDefinition
+ * @typedef { import('@types/ckeditor__ckeditor5-utils').Locale } Locale
  */
 
 import { FocusTracker, KeystrokeHandler } from "ckeditor5/src/utils";
@@ -7,8 +11,13 @@ import { View } from 'ckeditor5/src/ui';
 import addKeyboardHandlingForGrid from '@ckeditor/ckeditor5-ui/src/bindings/addkeyboardhandlingforgrid';
 import IconPickerItem from './iconpickeritem';
 
-
 export default class IconPickerGrid extends View {
+	/**
+	 * Creates a new IconPickerGrid.
+	 * 
+	 * @param {Locale} locale 
+	 *   The locale.
+	 */
 	constructor(locale) {
 		super(locale);
 
@@ -41,6 +50,8 @@ export default class IconPickerGrid extends View {
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();
 
+		// Enables wrap-around arrow key navigation of the grid. Requires `@ckeditor/ckeditor5-ui` package.
+		// See `ckeditor5/packages/ckeditor5-special-characters/src/ui/charactergridview.ts`.
 		addKeyboardHandlingForGrid({
 			keystrokeHandler: this.keystrokes,
 			focusTracker: this.focusTracker,
@@ -50,24 +61,30 @@ export default class IconPickerGrid extends View {
 				.getPropertyValue('grid-template-columns')
 				.split(' ')
 				.length,
-			uiLanguageDirection: this.locale && this.locale.uiLanguageDirection
+			uiLanguageDirection: locale.uiLanguageDirection
 		});
 	}
 
+	/**
+	 * @param {string} iconName 
+	 * @param {IconDefinition} iconDefinition 
+	 * @returns {IconPickerItem}
+	 *   An IconPickerItem created based on the provded icon.
+	 */
 	_createItem(iconName, iconDefinition) {
-		const item = new IconPickerItem(this.locale, iconName, iconDefinition);
+		const item = new IconPickerItem(this.locale, iconName, iconDefinition), t = this.locale.t;
 
 		this.set('iconName', null);
 
 		item.set({
-			label: this.locale.t(iconDefinition.label),
+			label: t(iconDefinition.label),
 			class: 'ck-character-grid__tile'
 		});
 
 		item.extendTemplate({
 			isOn: false,
 			attributes: {
-				title: this.locale.t(iconDefinition.label)
+				title: t(iconDefinition.label)
 			},
 			on: {
 				mouseover: item.bindTemplate.to('mouseover'),
@@ -86,6 +103,12 @@ export default class IconPickerGrid extends View {
 		return item;
 	}
 
+	/**
+	 * Refreshes this icon picker grid based on a category selection.
+	 * 
+	 * @param {CategoryDefinition} categoryDefinition 
+	 * @param {Object<string, IconDefinition>} iconDefinitions
+	 */
 	refresh(categoryDefinition, iconDefinitions) {
 		this.items.clear();
 		for (const iconName of categoryDefinition.icons) {

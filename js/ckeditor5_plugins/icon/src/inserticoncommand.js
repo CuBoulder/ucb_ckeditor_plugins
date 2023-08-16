@@ -12,13 +12,13 @@ export default class InsertIconCommand extends Command {
 	/**
 	 * @inheritdoc
 	 */
-	execute() {
+	execute({ iconFA = 'fa-solid fa-chess-rook' }) {
 		const { editing, model } = this.editor;
 
 		model.change((writer) => {
 			// Insert <icon></icon> at the current selection position
 			// in a way that will result in creating a valid model structure.
-			const iconElement = writer.createElement('icon', { 'iconSize': sizeDefault, 'iconAlignment': alignmentDefault, 'iconColor': colorDefault, 'iconStyle': styleDefault });
+			const iconElement = writer.createElement('icon', { iconFA, iconSize: sizeDefault, iconAlignment: alignmentDefault, iconColor: colorDefault, iconBackgroundStyle: styleDefault });
 			model.insertContent(iconElement);
 			editing.view.focus();
 			writer.setSelection(iconElement, 'on');
