@@ -26,6 +26,8 @@ export default class IconPickerItem extends ButtonView {
 		this._faIcon.extendTemplate({
 			attributes: {
 				class: [
+					'ck',
+					'ck-icon',
 					'ck-button__icon',
 					'ck-icon_inherit-color'
 				]

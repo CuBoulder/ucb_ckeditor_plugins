@@ -33,11 +33,9 @@ export default class IconPickerFAIcon extends View {
 		}
 
 		this.setTemplate({
-			tag: 'i',
+			tag: 'span',
 			attributes: {
 				class: [
-					'ck',
-					'ck-icon',
 					'ucb-icon-fa',
 					'fa-' + styles[styleIndex],
 					'fa-' + iconName
