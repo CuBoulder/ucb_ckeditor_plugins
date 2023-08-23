@@ -16,7 +16,7 @@ export default class MarginEditing extends Plugin {
 	_defineSchema() {
 		const schema = this.editor.model.schema;
     	// Extend the text node's schema to accept the tooltip attribute.
-		schema.register( 'ucb-margin-close', {
+		schema.register( 'close-margin', {
 			allowWhere: '$block',
 			allowChildren: '$text'
 		} );
@@ -26,7 +26,7 @@ export default class MarginEditing extends Plugin {
 
 		// Conversion from a view element to a model attribute
 		conversion.for( 'upcast' ).elementToElement( {
-			model: 'ucb-margin-close',
+			model: 'close-margin',
 			view: {
 				name: 'div',
 				classes:  'margin-close'
@@ -35,7 +35,7 @@ export default class MarginEditing extends Plugin {
 
         // Conversion from a model attribute to a view element
 		conversion.for( 'dataDowncast' ).elementToElement( {
-			model: 'ucb-margin-close',
+			model: 'close-margin',
 
             // Callback function provides access to the model attribute value
 			// and the DowncastWriter
@@ -46,7 +46,7 @@ export default class MarginEditing extends Plugin {
 		} );
 
 		conversion.for('editingDowncast').elementToElement({
-			model: 'ucb-margin-close',
+			model: 'close-margin',
 			view: {
 				name: 'div',
 				classes: 'margin-close'
