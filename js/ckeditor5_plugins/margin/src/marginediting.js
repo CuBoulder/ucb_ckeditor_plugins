@@ -18,7 +18,7 @@ export default class MarginEditing extends Plugin {
     	// Extend the text node's schema to accept the tooltip attribute.
 		schema.register( 'close-margin', {
 			allowWhere: '$block',
-			allowChildren: '$text'
+			allowChildren: false
 		} );
 	}
 	_defineConverters() {

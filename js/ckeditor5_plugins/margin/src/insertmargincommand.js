@@ -4,11 +4,8 @@ export default class MarginCommand extends Command {
   execute() {
     const model = this.editor.model;
     const selection = model.document.selection;
-    console.log("execute() function called"); // Add this line
 
     model.change(writer => {
-      console.log("Inside model.change()"); // Add this line
-
       // Call the addCloseMargin function to create the div with the class
       const closeMargin = addCloseMargin(writer);
       
