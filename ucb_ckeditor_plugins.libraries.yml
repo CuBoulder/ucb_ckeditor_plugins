@@ -95,3 +95,18 @@ button.editor:
     theme:
       css/button.editor.css: { }
       css/button.css: { }
+      
+margin.admin:
+  css:
+    theme:
+      css/margin.admin.css: { }
+
+margin.editor:
+  js:
+    js/build/margin.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/margin.editor.css: { }
+      css/margin.css: { }
