@@ -10,7 +10,7 @@ export default class MarginEditing extends Plugin {
   init() {
     this._defineSchema();
     this._defineConverters();
-    this.editor.commands.add('addCloseMargin', new MarginCommand(this.editor)); // Use 'addCloseMargin' as the command name
+    this.editor.commands.add('addCloseMargin', new MarginCommand(this.editor));
   }
 
 	_defineSchema() {
@@ -18,7 +18,6 @@ export default class MarginEditing extends Plugin {
     	// Extend the text node's schema to accept the tooltip attribute.
 		schema.register( 'close-margin', {
 			allowWhere: '$block',
-			allowChildren: false
 		} );
 	}
 	_defineConverters() {

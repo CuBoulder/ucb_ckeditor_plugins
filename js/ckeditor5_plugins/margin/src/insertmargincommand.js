@@ -7,7 +7,7 @@ export default class MarginCommand extends Command {
 
     model.change(writer => {
       // Call the addCloseMargin function to create the div with the class
-      const closeMargin = addCloseMargin(writer);
+      const closeMargin = addCloseMargin(writer, selection);
       
       // Insert the created div at the current selection position
       model.insertContent(closeMargin, selection);
@@ -30,12 +30,16 @@ export default class MarginCommand extends Command {
   }
 }
 
-function addCloseMargin(writer) {
+function addCloseMargin(writer, selection) {
   const marginDiv = writer.createElement('close-margin');
-  
-  // Create an empty text node and append it to the div
-  const textNode = writer.createText('');
-  writer.append(textNode, marginDiv);
+
+  const range = selection.getFirstRange();
+
+  for (const item of range.getItems()) {
+    const textNode = writer.createText(item.data)
+    writer.append(textNode, marginDiv)
+
+  }  
 
   return marginDiv;
 }
