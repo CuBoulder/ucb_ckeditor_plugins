@@ -18,6 +18,7 @@ export default class MarginEditing extends Plugin {
     	// Extend the text node's schema to accept the tooltip attribute.
 		schema.register( 'close-margin', {
 			allowWhere: '$block',
+			allowChildren: '$text'
 		} );
 	}
 	_defineConverters() {
@@ -28,30 +29,34 @@ export default class MarginEditing extends Plugin {
 			model: 'close-margin',
 			view: {
 				name: 'div',
-				classes:  'margin-close'
+				classes: 'margin-close'
 			},
 		} );
 
         // Conversion from a model attribute to a view element
-		conversion.for( 'dataDowncast' ).elementToElement( {
+		conversion.for( 'downcast' ).elementToElement( {
 			model: 'close-margin',
-
-            // Callback function provides access to the model attribute value
-			// and the DowncastWriter
-			view: {
-				name: 'div',
-				classes: 'margin-close',
+			view: (modelElement, { writer: viewWriter }) => {
+				const div = viewWriter.createContainerElement('div', { class: 'margin-close' });
+				return div;
 			}
-		} );
+		});
 
-		conversion.for('editingDowncast').elementToElement({
+		conversion.for('dataDowncast').elementToElement({
 			model: 'close-margin',
-			view: {
+
+			view:{
 				name: 'div',
-				classes: 'margin-close'
+				classes:'margin-close'
 			}
 		})
 
-
+		conversion.for('editingDowncast').elementToElement({
+			model: 'close-margin',
+			view: (modelElement, { writer: viewWriter }) => {
+				const div = viewWriter.createEditableElement('div', { class: 'margin-close' });
+				return div;
+			}
+		});
 	}
 }
