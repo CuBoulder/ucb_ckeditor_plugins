@@ -6,13 +6,17 @@ export default class MarginCommand extends Command {
     const selection = model.document.selection;
 
     model.change(writer => {
-      // Call the addCloseMargin function to create the div with the class
-      const closeMargin = addCloseMargin(writer, selection);
-      
-      // Insert the created div at the current selection position
-      model.insertContent(closeMargin, selection);
+      const selectedElement = selection.getFirstPosition().parent;
+      if (selection && selectedElement.name == 'close-margin') {
+        writer.remove(selectedElement)
+      } else {
+        // If not, add the "close-margin" div
+        const closeMargin = addCloseMargin(writer, selection);
+        model.insertContent(closeMargin, selection);
+      }
     });
   }
+  
 
   refresh() {
     const model = this.editor.model;
