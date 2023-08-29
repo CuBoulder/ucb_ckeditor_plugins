@@ -21,7 +21,7 @@ export default class MarginUI extends Plugin {
       button.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
 
       this.listenTo(button, 'execute', () =>
-      editor.execute('addCloseMargin')
+        editor.execute('addCloseMargin')
       );
 
       return button;

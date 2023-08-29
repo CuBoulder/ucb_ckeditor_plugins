@@ -7,8 +7,18 @@ export default class MarginCommand extends Command {
 
     model.change(writer => {
       const selectedElement = selection.getFirstPosition().parent;
-      if (selection && selectedElement.name == 'close-margin') {
-        writer.remove(selectedElement)
+      if (selection && selectedElement.name === 'close-margin') {
+        // Create a new element containing the inner text
+        const innerText = selectedElement.getChild(0).data;
+        const newElement = writer.createElement('p');
+        const newTextElement = writer.createText(innerText);
+        writer.append(newTextElement, newElement);
+
+        // Insert the new element at the position of the close margin div
+        model.insertContent(newElement, selectedElement);
+
+        // Remove the close margin div
+        writer.remove(selectedElement);
       } else {
         // If not, add the "close-margin" div
         const closeMargin = addCloseMargin(writer, selection);
