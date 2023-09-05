@@ -21,16 +21,18 @@ export default class ButtonGroupCommand extends Command {
 					buttonGroupSize: size,
 				})
 			for (const item of range.getItems()) {
-				console.log(item)
 				if (item.name =='linkButton'){
+					const innerTextEl = item._children ? writer.cloneElement(item._children._nodes[0]) : false;
 					const newButton = item._clone();
 					newButton._setAttribute('linkButtonColor', color)
 					newButton._setAttribute('linkButtonSize', size)
+					if(innerTextEl){
+						writer.append(innerTextEl, newButton)
+					};
 					writer.append(newButton, buttonGroup)
 				}
 			}
 			model.insertContent(buttonGroup);
-			// writer.setSelection(linkButtonContents, 'in');
 		});
 	}
 

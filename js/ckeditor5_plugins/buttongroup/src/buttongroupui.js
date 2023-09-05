@@ -31,14 +31,14 @@ export default class ButtonGroupUI extends Plugin {
 			button.isToggleable = true;
 			// Show the UI on button click.
 			this.listenTo( button, 'execute', () => {
-				this._showUI(insertButtonGroupCommand.existingButtonSelected)
+				this._showUI(insertButtonGroupCommand.existingButtonGroupSelected)
 			} );
 
 			this.buttonView = button;
 
 			// Show the on/off in Toolbar if a button is already selected.
 			const updateButtonState = () => {
-				const linkButtonSelected = insertButtonGroupCommand.existingButtonSelected;
+				const linkButtonSelected = insertButtonGroupCommand.existingButtonGroupSelected;
 				button.isOn = !!linkButtonSelected;
 			};
 			  
@@ -48,8 +48,8 @@ export default class ButtonGroupUI extends Plugin {
 			
 			// Shows the UI on click of a button widget.
 			this.listenTo(viewDocument, 'click', () => {
-				if (insertButtonGroupCommand.existingButtonSelected)
-					this._showUI(insertButtonGroupCommand.existingButtonSelected);
+				if (insertButtonGroupCommand.existingButtonGroupSelected)
+					this._showUI(insertButtonGroupCommand.existingButtonGroupSelected);
 			});
 
 			// Bind the state of the button to the command.
