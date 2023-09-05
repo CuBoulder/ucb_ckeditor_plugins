@@ -23,13 +23,12 @@ export default class ButtonGroupCommand extends Command {
 			for (const item of range.getItems()) {
 				console.log(item)
 				if (item.name =='linkButton'){
-					console.log(item)
-					item._setAttribute('linkButtonColor', color)
-					item._setAttribute('linkButtonSize', size)
-					// writer.append(item, buttonGroup)
+					const newButton = item._clone();
+					newButton._setAttribute('linkButtonColor', color)
+					newButton._setAttribute('linkButtonSize', size)
+					writer.append(newButton, buttonGroup)
 				}
 			}
-			// writer.append(linkButtonContents, linkButton);
 			model.insertContent(buttonGroup);
 			// writer.setSelection(linkButtonContents, 'in');
 		});
