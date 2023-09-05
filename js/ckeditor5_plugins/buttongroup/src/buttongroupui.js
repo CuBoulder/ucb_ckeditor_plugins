@@ -112,8 +112,8 @@ export default class ButtonGroupUI extends Plugin {
 		} );
 
 		if (selectedButton) {
-			const size = selectedButton.getAttribute('linkButtonSize');
-			const color = selectedButton.getAttribute('linkButtonColor');
+			const size = selectedButton.getAttribute('buttonGroupSize');
+			const color = selectedButton.getAttribute('buttonGroupColor');
 			// const style = selectedButton.getAttribute('linkButtonStyle');
 			// const href = selectedButton.getAttribute('linkButtonHref');
 		

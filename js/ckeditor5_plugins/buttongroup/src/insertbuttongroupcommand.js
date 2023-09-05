@@ -8,31 +8,30 @@ import { defaultColor, defaultSize } from './buttongroupconfig';
 export default class ButtonGroupCommand extends Command {
 	constructor(editor) {
 		super(editor);
-		this.set('existingButtonSelected', false);
+		this.set('existingButtonGroupSelected', false);
 	}
 	execute({ value = '', size = defaultSize, color = defaultColor, classes = '' }) {
 		const model = this.editor.model;
 		const selection = model.document.selection;
 
 		model.change(writer => {
-			const range = selection.getFirstRange(),
-				linkButton = writer.createElement('linkButton', {
-					linkButtonColor: color,
-					linkButtonSize: size,
-				}),
-				linkButtonContents = writer.createElement('linkButtonContents');
+			const range = selection.getFirstRange();
+				const buttonGroup = writer.createElement('buttonGroup', {
+					buttonGroupColor: color,
+					buttonGroupSize: size,
+				})
 			for (const item of range.getItems()) {
-				let element;
-				if (item.is('textProxy'))
-					element = writer.createText(item.data, item.textNode.getAttributes());
-				else if (item.is('element'))
-					element = writer.cloneElement(item);
-				if (element && model.schema.checkChild(linkButtonContents, element))
-					writer.append(element, linkButtonContents);
+				console.log(item)
+				if (item.name =='linkButton'){
+					console.log(item)
+					item._setAttribute('linkButtonColor', color)
+					item._setAttribute('linkButtonSize', size)
+					// writer.append(item, buttonGroup)
+				}
 			}
-			writer.append(linkButtonContents, linkButton);
-			model.insertContent(linkButton);
-			writer.setSelection(linkButtonContents, 'in');
+			// writer.append(linkButtonContents, linkButton);
+			model.insertContent(buttonGroup);
+			// writer.setSelection(linkButtonContents, 'in');
 		});
 	}
 
@@ -43,12 +42,12 @@ export default class ButtonGroupCommand extends Command {
 
 		const allowedIn = model.schema.findAllowedParent(
 			selection.getFirstPosition(),
-			'linkButton'
+			'buttonGroup'
 		);
 
 		this.isEnabled = allowedIn !== null;
 
-		this.existingButtonSelected = isButtonElement(selectedElement) ? selectedElement : null;
+		this.existingButtonGroupSelected = isButtonGroupElement(selectedElement) ? selectedElement : null;
 	}
 }
 
@@ -57,6 +56,6 @@ export default class ButtonGroupCommand extends Command {
  * @returns {boolean}
  *   Whether or not `element` is a map element.
  */
-function isButtonElement(element) {
-	return element && element.name === 'linkButton';
+function isButtonGroupElement(element) {
+	return element && element.name === 'buttonGroup';
 }

@@ -45,7 +45,7 @@ export default class ButtonGroupEditing extends Plugin {
 			allowWhere: '$block',
 			isObject: true,
 			isInline: true,
-			allowAttributes: ['buttonGroupColor', 'linkButtonSize'],
+			allowAttributes: ['buttonGroupColor', 'buttonGroupSize'],
 			allowChildren: 'linkButton'
 		});
 	}
@@ -62,59 +62,53 @@ export default class ButtonGroupEditing extends Plugin {
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('buttonGroupColor', colorOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('buttonGroupSize', sizeOptions));
 
-		// Element upcasts
-		conversion.for('upcast').add(dispatcher => {
-			// A custom upcast prevents the CKEditor 5 Link plugin from overriding via its `linkHref` attribute `$text` element.
-			dispatcher.on('element:a', (evt, data, conversionApi) => {
-				if (conversionApi.consumable.consume(data.viewItem, { name: true, classes: 'ucb-link-button', attributes: ['href'] })) {
-					const linkButton = conversionApi.writer.createElement('linkButton', { linkButtonHref: data.viewItem.getAttribute('href') });
-					// Forces insertion and conversion of a clean `linkButton` element.
-					if (!conversionApi.safeInsert(linkButton, data.modelCursor))
-						return;
-					conversionApi.convertChildren(data.viewItem, linkButton);
-					conversionApi.updateConversionResult(linkButton, data); // Omitting this line causes strange issues (trust me).
-				}
-			});
-		});
+		// // Element upcasts
+		// conversion.for('upcast').add(dispatcher => {
+		// 	// A custom upcast prevents the CKEditor 5 Link plugin from overriding via its `linkHref` attribute `$text` element.
+		// 	dispatcher.on('element:a', (evt, data, conversionApi) => {
+		// 		if (conversionApi.consumable.consume(data.viewItem, { name: true, classes: 'ucb-link-button', attributes: ['href'] })) {
+		// 			const linkButton = conversionApi.writer.createElement('linkButton', { linkButtonHref: data.viewItem.getAttribute('href') });
+		// 			// Forces insertion and conversion of a clean `linkButton` element.
+		// 			if (!conversionApi.safeInsert(linkButton, data.modelCursor))
+		// 				return;
+		// 			conversionApi.convertChildren(data.viewItem, linkButton);
+		// 			conversionApi.updateConversionResult(linkButton, data); // Omitting this line causes strange issues (trust me).
+		// 		}
+		// 	});
+		// });
 		conversion.for('upcast').elementToElement({
-			model: 'linkButtonContents',
+			model: 'buttonGroup',
 			view: {
-				name: 'span',
-				classes: 'ucb-link-button-contents'
+				name: 'div',
+				classes: 'ucb-button-group'
 			}
 		});
 
 		// Attribute downcasts
-		conversion.for('downcast').attributeToAttribute({ model: 'linkButtonHref', view: 'href' });
+		// conversion.for('downcast').attributeToAttribute({ model: 'linkButtonHref', view: 'href' });
 
 		// Element downcasts – elements become widgets in the editor via `editingDowncast`
 		conversion.for('dataDowncast').elementToElement({
-			model: 'linkButton',
+			model: 'buttonGroup',
 			view: {
-				name: 'a',
-				classes: 'ucb-link-button'
+				name: 'div',
+				classes: 'ucb-button-group'
 			}
 		});
-		conversion.for('dataDowncast').elementToElement({
-			model: 'linkButtonContents',
-			view: {
-				name: 'span',
-				classes: 'ucb-link-button-contents'
-			}
-		});
+		
 		conversion.for('editingDowncast').elementToElement({
-			model: 'linkButton',
+			model: 'buttonGroup',
 			view: (modelElement, { writer }) =>
 				toWidget(
-					writer.createContainerElement('a', { class: 'ucb-link-button', onclick: 'event.preventDefault()' }, { renderUnsafeAttributes: ['onclick'] }),
-					writer, { label: 'button widget' }
+					writer.createContainerElement('div', { class: 'ucb-button-group'}),
+					writer, { label: 'button group widget' }
 				)
 		});
-		conversion.for('editingDowncast').elementToElement({
-			model: 'linkButtonContents',
-			view: (modelElement, { writer }) =>
-				toWidgetEditable(writer.createEditableElement('span', { class: 'ucb-link-button-contents' }), writer)
-		});
+		// conversion.for('editingDowncast').elementToElement({
+		// 	model: 'linkButtonContents',
+		// 	view: (modelElement, { writer }) =>
+		// 		toWidgetEditable(writer.createEditableElement('span', { class: 'ucb-link-button-contents' }), writer)
+		// });
 	}
 }
 
