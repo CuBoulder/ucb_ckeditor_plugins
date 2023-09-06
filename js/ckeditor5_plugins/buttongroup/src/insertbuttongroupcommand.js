@@ -55,7 +55,7 @@ export default class ButtonGroupCommand extends Command {
 /**
  * @param {Element | null} element 
  * @returns {boolean}
- *   Whether or not `element` is a map element.
+ *   Whether or not `element` is a button group element.
  */
 function isButtonGroupElement(element) {
 	return element && element.name === 'buttonGroup';
