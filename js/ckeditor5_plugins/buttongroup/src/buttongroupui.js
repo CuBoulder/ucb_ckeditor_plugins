@@ -103,42 +103,35 @@ export default class ButtonGroupUI extends Plugin {
 	_showUI(selectedButton) {
 		const selection = this.editor.model.document.selection;
 		this.buttonView.isOn = true;
+	
 		// Check the value of the command.
-		const commandValue = this.editor.commands.get( 'addButtonGroup' ).value;
-
-		this._balloon.add( {
-			view: this.formView,
-			position: this._getBalloonPositionData()
-		} );
-
+		const commandValue = this.editor.commands.get('addButtonGroup').value;
+	
+		// Check if the balloon is already open for the selectedButton
+		if (!this._balloon.visibleView || this._balloon.visibleView !== this.formView) {
+			this._balloon.add({
+				view: this.formView,
+				position: this._getBalloonPositionData(),
+			});
+		}
+	
 		if (selectedButton) {
 			const size = selectedButton.getAttribute('buttonGroupSize');
 			const color = selectedButton.getAttribute('buttonGroupColor');
-			// const style = selectedButton.getAttribute('linkButtonStyle');
-			// const href = selectedButton.getAttribute('linkButtonHref');
-		
+	
 			this.formView.color = color;
-			// this.formView.style = style;
 			this.formView.size = size;
-		
-			// this.formView.linkInputView.fieldView.value = href;
-			// this.formView.linkInputView.fieldView.element.value = href; // Update the input field value
-			// this.formView.linkInputView.fieldView.set('value', href); // Update the input field value (alternative method)
 		}
-
-		// Disable the input when the selection is not collapsed.
-		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
-
+	
 		// Fill the form using the state (value) of the command.
-		if ( commandValue ) {
-			// this.formView.linkInputView.fieldView.value = commandValue.link;
+		if (commandValue) {
 			this.formView.colorDropdown.fieldView.value = commandValue.color;
 			this.formView.sizeDropdown.fieldView.value = commandValue.size;
-			// this.formView.styleDropdown.fieldView.value = commandValue.style
 		}
-
+	
 		this.formView.focus();
 	}
+	
 
 	_hideUI() {
 		// Clear the input field values and reset the form.
