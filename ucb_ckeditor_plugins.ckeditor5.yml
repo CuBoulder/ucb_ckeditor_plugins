@@ -78,6 +78,22 @@ ucb_ckeditor_plugins_invisible:
     # class: Optional PHP class that makes it possible for the plugin to provide
     #   dynamic values, or a configuration UI.
 
+ucb_ckeditor_plugins_cuiconextras:
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - cuiconextras.CUIconExtras
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: CU Boulder Icon Extras
+    library: ucb_ckeditor_plugins/cuiconextras.editor
+    elements:
+      - <i>
+      - <i class>
+    conditions:
+      plugins:
+        - ckeditor5_icons_icon
+
 ucb_ckeditor_plugins_map:
   # Configuration that will be sent to CKEditor 5 JavaScript plugins.
   ckeditor5:

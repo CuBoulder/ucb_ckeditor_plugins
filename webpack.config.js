@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-const { styles, builds } = require('@ckeditor/ckeditor5-dev-utils');
 const TerserPlugin = require('terser-webpack-plugin');
+const plugins = require('./webpack.plugins');
 
 function getDirectories(env, srcpath) {
 	return (env.plugin ? [env.plugin] : fs.readdirSync(srcpath))
@@ -61,6 +61,8 @@ module.exports = (env) => {
 				rules: [{ test: /\.svg$/, use: 'raw-loader' }]
 			}
 		};
+		const p = plugins[dir];
+		if (p) bc.plugins = bc.plugins.concat(p);
 		pluginConfigs.push(bc);
 	});
 	return pluginConfigs;
