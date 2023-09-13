@@ -42,7 +42,7 @@ export const colorOptions = {
 export const colorDefault = 'none';
 
 /** @type {Object<string, SelectableOption>} */
-export const backgroundOptions = {
+export const backgroundStyleOptions = {
 	none: {
 		label: 'No background',
 		icon: iconStyleNone
@@ -64,4 +64,4 @@ export const backgroundOptions = {
 	}
 };
 
-export const backgroundDefault = 'none';
+export const backgroundStyleDefault = 'none';

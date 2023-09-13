@@ -10,7 +10,7 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { Widget } from 'ckeditor5/src/widget';
 import ModifyIconCommand from './modifyiconcommand';
-import { colorOptions, colorDefault, backgroundDefault, backgroundOptions } from './cuiconextrasconfig';
+import { colorOptions, colorDefault, backgroundStyleDefault, backgroundStyleOptions } from './cuiconextrasconfig';
 
 // cSpell:ignore icon inserticoncommand
 
@@ -57,7 +57,7 @@ export default class CUIconExtrasEditing extends Plugin {
 		const schema = this.editor.model.schema;
 
 		schema.extend('icon', {
-			allowAttributes: ['iconColor', 'iconBackgroundStyle']
+			allowAttributes: ['iconCUColor', 'iconCUBackgroundStyle']
 		});
 	}
 
@@ -70,8 +70,8 @@ export default class CUIconExtrasEditing extends Plugin {
 		const { conversion } = this.editor;
 
 		// The size, alignment, color, and style attributes all convert to element class names.
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconColor', colorOptions));
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconBackgroundStyle', backgroundOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconCUColor', colorOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconCUBackgroundStyle', backgroundStyleOptions));
 	}
 
 	/**
@@ -79,8 +79,8 @@ export default class CUIconExtrasEditing extends Plugin {
 	 */
 	_defineCommands() {
 		const commands = this.editor.commands;
-		commands.add('colorIcon', new ModifyIconCommand(this.editor, 'iconColor', colorDefault));
-		commands.add('changeIconBackground', new ModifyIconCommand(this.editor, 'iconBackgroundStyle', backgroundDefault));
+		commands.add('changeIconCUColor', new ModifyIconCommand(this.editor, 'iconCUColor', colorDefault));
+		commands.add('changeIconCUBackgroundStyle', new ModifyIconCommand(this.editor, 'iconCUBackgroundStyle', backgroundStyleDefault));
 	}
 }
 

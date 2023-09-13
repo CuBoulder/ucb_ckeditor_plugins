@@ -9,7 +9,7 @@
  */
 
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
-import { colorOptions, colorDefault, backgroundOptions, backgroundDefault } from './cuiconextrasconfig';
+import { colorOptions, colorDefault, backgroundStyleOptions, backgroundStyleDefault } from './cuiconextrasconfig';
 import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import themeIcon from '../../../../icons/theme.svg';
@@ -32,13 +32,13 @@ export default class CUIconExtrasToolbar extends Plugin {
 			componentFactory = editor.ui.componentFactory;
 
 		// Makes style and theme options avaliable to the widget toolbar.
-		componentFactory.add('iconColor', locale =>
-			this._createDropdown(locale, 'Icon theme color', themeIcon, null, commands.get('colorIcon'), colorOptions, colorDefault));
-		componentFactory.add('iconBackground', locale =>
-			this._createDropdown(locale, 'Icon background', backgroundOptions[backgroundDefault].icon, null, commands.get('changeIconBackground'), backgroundOptions, backgroundDefault));
+		componentFactory.add('iconCUColor', locale =>
+			this._createDropdown(locale, 'Icon theme color', themeIcon, null, commands.get('changeIconCUColor'), colorOptions, colorDefault));
+		componentFactory.add('iconCUBackgroundStyle', locale =>
+			this._createDropdown(locale, 'Icon background style', backgroundStyleOptions[backgroundStyleDefault].icon, null, commands.get('changeIconCUBackgroundStyle'), backgroundStyleOptions, backgroundStyleDefault));
 
 		// Adds the new items to the icon toolbar along with the existing items.
-		editor.config.set('icon.toolbarItems', ['iconSize', 'iconAlignment', 'iconStyle', 'iconColor', 'iconBackground']);
+		editor.config.set('icon.toolbarItems', ['iconSize', 'iconAlignment', 'iconStyle', 'iconCUColor', 'iconCUBackgroundStyle']);
 	}
 
 	/**
