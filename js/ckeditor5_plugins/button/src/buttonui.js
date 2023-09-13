@@ -3,7 +3,7 @@ import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/sr
 import FormView from './buttonview';
 
 import getRangeText from './buttonutils.js';
-import icon from '../../../../icons/hand-pointer-regular.svg';
+import icon from '../../../../icons/arrow-right-to-bracket-solid.svg';
 
 export default class ButtonUI extends Plugin {
 	static get requires() {

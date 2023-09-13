@@ -2,7 +2,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import BGFormView from './buttongroupview';
 
-import icon from '../../../../icons/bars-solid.svg';
+import icon from '../../../../icons/arrows-turn-right-solid.svg';
 
 export default class ButtonGroupUI extends Plugin {
 	static get requires() {
