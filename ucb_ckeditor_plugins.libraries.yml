@@ -6,7 +6,7 @@ ckeditor-plugin-styles:
       css/box.css: { }
       css/button.css: { }
       css/calendar.css: { }
-      css/icon.css: { }
+      css/cuiconextras.css: { }
       css/map.css: { }
       css/tooltip.css: { }
 
@@ -45,16 +45,15 @@ calendar.editor:
       css/calendar.editor.css: { }
       css/calendar.css: { }
 
-icon.admin: { css: { theme: { css/icon.admin.css: { } } } }
-icon.editor:
+cuiconextras.editor:
   js:
-    js/build/icon.js: { preprocess: false, minified: true }
+    js/build/cuiconextras.js: { preprocess: false, minified: true }
   dependencies:
     - core/ckeditor5
   css:
     theme:
-      css/icon.editor.css: { }
-      css/icon.css: { }
+      css/cuiconextras.editor.css: { }
+      css/cuiconextras.css: { }
 
 invisible.admin: { css: { theme: { css/invisible.admin.css: { } } } }
 invisible.editor:

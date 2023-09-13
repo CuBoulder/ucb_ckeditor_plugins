@@ -5,7 +5,7 @@
  */
 
 import { Command } from 'ckeditor5/src/core';
-import { getSelectedIconWidget } from './iconutils';
+import { getSelectedIconWidget } from './cuiconextrasutils';
 
 export default class ModifyIconCommand extends Command {
 	/** 

@@ -7,6 +7,6 @@
  */
 // cSpell:ignore icon
 
-import Icon from './icon';
+import CUIconExtras from './cuiconextras';
 
-export default { Icon }; // Only these plugins will be built when running `b icon` or `w icon`.
+export default { CUIconExtras }; // Only these plugins will be built when running `b icon` or `w icon`.

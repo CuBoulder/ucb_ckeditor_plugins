@@ -5,16 +5,16 @@
  * @typedef { import('@types/ckeditor__ckeditor5-core').Command } Command
  * @typedef { import('@types/ckeditor__ckeditor5-ui/src/dropdown/dropdownview').default } DropdownView
  * @typedef { import('@types/ckeditor__ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
- * @typedef { import('../iconconfig').SelectableOption } SelectableOption
+ * @typedef { import('./cuiconextrasconfig').SelectableOption } SelectableOption
  */
 
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
-import { sizeOptions, sizeDefault, alignmentOptions, alignmentDefault, colorOptions, colorDefault, styleOptions, styleDefault } from '../iconconfig';
-import { Plugin, icons } from 'ckeditor5/src/core';
+import { colorOptions, colorDefault, backgroundOptions, backgroundDefault } from './cuiconextrasconfig';
+import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
-import themeIcon from '../../../../../icons/theme.svg';
+import themeIcon from '../../../../icons/theme.svg';
 
-export default class IconToolbar extends Plugin {
+export default class CUIconExtrasToolbar extends Plugin {
 	/**
 	 * @inheritdoc
 	 */
@@ -31,30 +31,14 @@ export default class IconToolbar extends Plugin {
 			commands = editor.commands,
 			componentFactory = editor.ui.componentFactory;
 
-		// Makes title, alignment, style, and theme options avaliable to the widget toolbar.
-		componentFactory.add('iconSize', locale =>
-			this._createDropdown(locale, 'Icon size', sizeOptions[sizeDefault].icon, icons.objectSizeFull, commands.get('sizeIcon'), sizeOptions, sizeDefault));
-		componentFactory.add('iconAlignment', locale =>
-			this._createDropdown(locale, 'Icon alignment', alignmentOptions[alignmentDefault].icon, null, commands.get('alignIcon'), alignmentOptions, alignmentDefault));
+		// Makes style and theme options avaliable to the widget toolbar.
 		componentFactory.add('iconColor', locale =>
-			this._createDropdown(locale, 'Icon color', themeIcon, null, commands.get('colorIcon'), colorOptions, colorDefault));
-		componentFactory.add('iconStyle', locale =>
-			this._createDropdown(locale, 'Icon style', styleOptions[styleDefault].icon, null, commands.get('styleIcon'), styleOptions, styleDefault));
-	}
+			this._createDropdown(locale, 'Icon theme color', themeIcon, null, commands.get('colorIcon'), colorOptions, colorDefault));
+		componentFactory.add('iconBackground', locale =>
+			this._createDropdown(locale, 'Icon background', backgroundOptions[backgroundDefault].icon, null, commands.get('changeIconBackground'), backgroundOptions, backgroundDefault));
 
-	/**
-	 * @inheritdoc
-	 */
-	afterInit() {
-		const editor = this.editor;
-		const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
-		widgetToolbarRepository.register('icon', {
-			items: ['iconSize', 'iconAlignment', 'iconColor', 'iconStyle'],
-			getRelatedElement: (selection) => {
-				const selectedElement = selection.getSelectedElement();
-				return selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-icon') ? selectedElement : null;
-			}
-		});
+		// Adds the new items to the icon toolbar along with the existing items.
+		editor.config.set('icon.toolbarItems', ['iconSize', 'iconAlignment', 'iconStyle', 'iconColor', 'iconBackground']);
 	}
 
 	/**
