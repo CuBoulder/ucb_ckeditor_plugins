@@ -52,7 +52,6 @@ cuiconextras.editor:
     - core/ckeditor5
   css:
     theme:
-      css/cuiconextras.editor.css: { }
       css/cuiconextras.css: { }
 
 invisible.admin: { css: { theme: { css/invisible.admin.css: { } } } }

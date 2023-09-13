@@ -10,10 +10,6 @@
 
 .ucb-box .ucb-box-inner {
 	color: var(--ucb-box-theme-color, inherit);
-	background-color: var(--ucb-box-theme-fill);
-}
-
-.ucb-box .ucb-box-inner {
 	position: relative;
 	display: block;
 }
@@ -24,6 +20,11 @@
 	font-weight: bold;
 	margin-bottom: -1px;
 	padding: 1em 1em .9em 1em;
+}
+
+.ucb-box.ucb-box-style-fill .ucb-box-inner {
+	--ucb-background-color: var(--ucb-box-theme-fill);
+	background-color: var(--ucb-background-color);
 }
 
 .ucb-box .ucb-box-content {
