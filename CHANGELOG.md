@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds the "CUIconExtras" CKEditor 5 plugin
+  This plugin includes two extra CU-specific toolbar items for icons produced by the Icon plugin. These allow changing an icon's theme color and background style.
+---
+
 - ### Adds the "Calendar" CKEditor 5 plugin
   This update adds a "Calendar" item to CKEditor 5, allowing insertion of Google Calendar embeds via an embed code taken from Google Calendar. Equivalent to the `[googlecalendar]` Shortcode in D7 Express.
   
