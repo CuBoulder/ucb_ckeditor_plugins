@@ -12,6 +12,8 @@
 
 .container > .ucb-button-group{
 	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .container > .ucb-button-group > .ucb-link-button {
     flex-grow: 1;
