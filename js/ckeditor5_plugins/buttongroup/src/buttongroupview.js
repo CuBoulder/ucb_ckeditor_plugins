@@ -23,16 +23,9 @@ export default class BGFormView extends View {
 		this.colorDropdown = this._createSelectionDropdown(locale, 'Color', colorIcon, 'color', colorOptions, defaultColor)
 		this.sizeDropdown = this._createSelectionDropdown(locale, 'Size', sizeOptions[defaultSize].icon, 'size', sizeOptions, defaultSize )
 		
-		// Creates the main input field.
-		// this.innerTextInputView = this._createInput( 'Button Text' );
-		// this.linkInputView = this._createInput( 'Add Link' );
-		
 		// Sets defaults
 		this.set('size', defaultSize)
 		this.set('color', defaultColor)
-		// this.linkInputView.fieldView.bind('href').to(this, 'href');
-		// this.set('href', '')
-
 
 		this.saveButtonView = this._createButton( 'Save', icons.check, 'ck-button-save' );
 
@@ -48,9 +41,6 @@ export default class BGFormView extends View {
 		this.childViews = this.createCollection( [
 			this.sizeDropdown,
 			this.colorDropdown,
-			// this.styleDropdown,
-			// this.innerTextInputView,
-			// this.linkInputView,
 			this.saveButtonView,
 			this.cancelButtonView
 		] );
@@ -102,14 +92,7 @@ export default class BGFormView extends View {
 	}
 
 	focus() {
-		// If the link text field is enabled, focus it straight away to allow the user to type.
-		// if ( this.linkInputView.isEnabled ) {
-		// 	this.linkInputView.focus();
-		// }
-		// // Focus the link text field if the former is disabled.
-		// else {
-		// 	this.linkInputView.focus();
-		// }
+		// none
 	}
 
 	_createInput( label ) {

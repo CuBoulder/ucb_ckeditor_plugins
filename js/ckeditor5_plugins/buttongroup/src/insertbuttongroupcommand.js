@@ -41,15 +41,9 @@ export default class ButtonGroupCommand extends Command {
 		const selection = model.document.selection;
 		const selectedElement = selection.getSelectedElement();
 
-		console.log(selectedElement)
-
-
 		if(selectedElement && selectedElement.name == 'buttonGroup'){
 			const color = selectedElement.getAttribute('buttonGroupColor')
 			const size = selectedElement.getAttribute('buttonGroupSize')
-
-			console.log('my color',color)
-			console.log('my size', size)
 			const childBtns = Array.from(selectedElement.getChildren())
 			childBtns.forEach(btn=>{
 				console.log('button', btn)
