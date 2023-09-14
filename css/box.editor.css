@@ -3,7 +3,7 @@
 }
 
 .ck .ucb-box {
-	margin-top: 1em;
+	margin-top: calc(1em + var(--ck-widget-handler-icon-size));
 	margin-bottom: 1em;
 }
 

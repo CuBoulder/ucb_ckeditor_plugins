@@ -310,5 +310,5 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
  */
 function createBoxView(viewWriter, widget = false) {
 	const div = viewWriter.createContainerElement('div', { class: 'ucb-box' });
-	return widget ? toWidget(div, viewWriter, { label: 'box widget' }) : div;
+	return widget ? toWidget(div, viewWriter, { label: 'box widget', hasSelectionHandle: true }) : div;
 }
