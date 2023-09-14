@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds selection handle to Box widgets
+  It actually is that simple. Amazing.
+  
+  Resolves CuBoulder/ucb_ckeditor_plugins#30
+---
+
 - ### Adds Button Group Plugin
   Adds Button Group, allowing buttons to be selected in the editor and then wrapped in a button group element, which will present them in a horizontal navigation bar style with uniform sizes and colors.
   
