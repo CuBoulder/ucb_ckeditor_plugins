@@ -9,6 +9,27 @@
 	font-weight: bold;
 	line-height: 1.5em;
 }
+
+.container > .ucb-button-group{
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.container > .ucb-button-group > .ucb-link-button {
+    flex-grow: 1;
+    border-radius: 0px;
+    background-clip: padding-box;
+    text-align: center;
+    vertical-align: middle;
+    border-style: solid;
+    position: relative;
+    border: none;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 0;
+	border-radius: 0px !important;
+}
+
 /* Button in Editor - slightly expands a button's clickable area in CK editor to make toggling button UI easier via button element click */
 .ck-content .ucb-link-button.ucb-link-button-small,.ck-content .ucb-link-button.ucb-link-button-regular,.ck-content .ucb-link-button.ucb-link-button-large{
     padding: 5px 15px;
@@ -92,4 +113,7 @@
 	background-color: #a6a6a6;
 }
 
+.container > .ucb-button-group > .ucb-link-button-large{
+	padding: 20px;
+}
 

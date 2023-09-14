@@ -9,6 +9,7 @@ ckeditor-plugin-styles:
       css/cuiconextras.css: { }
       css/map.css: { }
       css/tooltip.css: { }
+      css/buttongroup.css: { }
 
 # === Admin / editing interface libraries ===
 
@@ -85,3 +86,14 @@ tooltip.editor:
     theme:
       css/tooltip.editor.css: { }
       css/tooltip.css: { }
+
+buttongroup.admin: { css: { theme: { css/buttongroup.admin.css: { } } } }
+buttongroup.editor:
+  js:
+    js/build/buttongroup.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/buttongroup.editor.css: { }
+      css/buttongroup.css: { }

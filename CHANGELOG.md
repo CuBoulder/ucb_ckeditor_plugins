@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds Button Group Plugin
+  Adds Button Group, allowing buttons to be selected in the editor and then wrapped in a button group element, which will present them in a horizontal navigation bar style with uniform sizes and colors.
+  
+  Also changes icon for Button to be more similar to Button Group. 
+  
+  Resolves https://github.com/CuBoulder/tiamat-theme/issues/251
+---
+
 - ### Adds the "CUIconExtras" CKEditor 5 plugin
   This plugin includes two extra CU-specific toolbar items for icons produced by the Icon plugin. These allow changing an icon's theme color and background style.
 ---
