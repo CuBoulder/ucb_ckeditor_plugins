@@ -5,11 +5,7 @@
 import { Command } from 'ckeditor5/src/core';
 import { defaultColor, defaultSize } from './buttongroupconfig'
 
-export default class ButtonGroupCommand extends Command {
-	// constructor(editor) {
-	// 	super(editor);
-	// 	this.set('existingButtonGroupSelected', false);
-	// }
+export default class InsertButtonGroupCommand extends Command {
 
 	execute() {
 		const {model} = this.editor;
@@ -28,7 +24,6 @@ export default class ButtonGroupCommand extends Command {
 			const size = selectedElement.getAttribute('buttonGroupSize')
 			const childBtns = Array.from(selectedElement.getChildren())
 			childBtns.forEach(btn=>{
-				console.log('button', btn)
 				btn._setAttribute('linkButtonColor', defaultColor)
 				btn._setAttribute('linkButtonSize', defaultSize)
 			})
@@ -50,12 +45,12 @@ export default class ButtonGroupCommand extends Command {
  * @param {Writer} writer
  *   The writer used to create and append elements.
  * @returns {Element}
- *   The box element with all required child elements to match the box schema.
+ *   The box element with all required child elements to match the button group schema.
  */
 function createButtonGroup(writer) {
 	const model = writer.model
 	const selection = model.document.selection
-	// Create instances of the three elements registered with the editor in boxediting.js.
+	// Create instances of the three elements registered with the editor in buttongroupediting.js.
 	const buttonGroup = writer.createElement('buttonGroup', {
 		buttonGroupColor: defaultColor,
 		buttonGroupSize: defaultSize,
@@ -79,33 +74,6 @@ function createButtonGroup(writer) {
 	// Return the element to be added to the editor.
 	return buttonGroup;
 }
-
-
-// execute() {
-// 	const model = this.editor.model;
-// 	const selection = model.document.selection;
-
-// 	model.change(writer => {
-// 		const range = selection.getFirstRange();
-// 			const buttonGroup = writer.createElement('buttonGroup', {
-// 				buttonGroupColor: color,
-// 				buttonGroupSize: size,
-// 			})
-// 		for (const item of range.getItems()) {
-// 			if (item.name =='linkButton'){
-// 				const innerTextEl = item._children ? writer.cloneElement(item._children._nodes[0]) : false;
-// 				const newButton = item._clone();
-// 				newButton._setAttribute('linkButtonColor', color)
-// 				newButton._setAttribute('linkButtonSize', size)
-// 				if(innerTextEl){
-// 					writer.append(innerTextEl, newButton)
-// 				};
-// 				writer.append(newButton, buttonGroup)
-// 			}
-// 		}
-// 		model.insertContent(buttonGroup);
-// 	});
-// }
 
 /**
  * @param {Element | null} element 

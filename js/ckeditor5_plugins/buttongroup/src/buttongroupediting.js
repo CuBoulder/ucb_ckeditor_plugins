@@ -6,27 +6,11 @@
  */
 
 import { Plugin } from 'ckeditor5/src/core';
-import ButtonCommand from './insertbuttongroupcommand';
 import { Widget, toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
-import { sizeOptions, styleOptions, colorOptions } from './buttongroupconfig';
+import { sizeOptions, colorOptions, defaultSize, defaultColor } from './buttongroupconfig';
+import InsertButtonGroupCommand from './insertbuttongroupcommand';
+import ModifyButtonGroupCommand from './modifybuttongroupcommand';
 
-/*
- * The Link Button is based on a specific schema defined in this file.
- * 
- * Model (for the plugin's internal use only):
- * <linkButton linkButtonColor="blue|black|gray|white|gold" linkButtonStyle="default|full" linkButtonSize="large|regular|small" linkButtonHref="{ ... }">
- *    <linkButtonContents>
- *       { contents of: $block }
- *    </linkButtonContents>
- * </linkButton>
- * 
- * View (the saved and interpreted plain HTML):
- * <a class="ucb-link-button ucb-link-button-(blue|black|gray|white|gold) ucb-link-button-(default|full) ucb-link-button-(large|regular|small)" href="{ ... }">
- *    <span class="ucb-link-button-contents">
- *       { contents }
- *    </span>
- * </a>
- */
 export default class ButtonGroupEditing extends Plugin {
 	static get requires() {
 		return [Widget];
@@ -35,7 +19,7 @@ export default class ButtonGroupEditing extends Plugin {
 	init() {
 		this._defineSchema();
 		this._defineConverters();
-		this.editor.commands.add('addButtonGroup', new ButtonCommand(this.editor));
+		this._defineCommands();
 	}
 
 	// Schemas are registered via the central `editor` object.
@@ -56,26 +40,12 @@ export default class ButtonGroupEditing extends Plugin {
 	 */
 	_defineConverters() {
 		// Converters are registered via the central editor object.
-		const { conversion } = this.editor;
+		const { conversion, editing } = this.editor;
 
 		// Attributes convertable to/from a class name need no separate upcast and downcast definitions
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('buttonGroupColor', colorOptions));
 		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('buttonGroupSize', sizeOptions));
 
-		// // Element upcasts
-		// conversion.for('upcast').add(dispatcher => {
-		// 	// A custom upcast prevents the CKEditor 5 Link plugin from overriding via its `linkHref` attribute `$text` element.
-		// 	dispatcher.on('element:a', (evt, data, conversionApi) => {
-		// 		if (conversionApi.consumable.consume(data.viewItem, { name: true, classes: 'ucb-link-button', attributes: ['href'] })) {
-		// 			const linkButton = conversionApi.writer.createElement('linkButton', { linkButtonHref: data.viewItem.getAttribute('href') });
-		// 			// Forces insertion and conversion of a clean `linkButton` element.
-		// 			if (!conversionApi.safeInsert(linkButton, data.modelCursor))
-		// 				return;
-		// 			conversionApi.convertChildren(data.viewItem, linkButton);
-		// 			conversionApi.updateConversionResult(linkButton, data); // Omitting this line causes strange issues (trust me).
-		// 		}
-		// 	});
-		// });
 		conversion.for('upcast').elementToElement({
 			model: 'buttonGroup',
 			view: {
@@ -98,18 +68,19 @@ export default class ButtonGroupEditing extends Plugin {
 		
 		conversion.for('editingDowncast').elementToElement({
 			model: 'buttonGroup',
-			view: (modelElement, { writer }) =>
-				toWidget(
-					writer.createContainerElement('div', { class: 'ucb-button-group'}),
-					writer, { label: 'button group widget' }
-				)
+			view: (modelElement, { writer: viewWriter }) => createButtonGroupView(viewWriter, true)
 		});
-		// conversion.for('editingDowncast').elementToElement({
-		// 	model: 'linkButtonContents',
-		// 	view: (modelElement, { writer }) =>
-		// 		toWidgetEditable(writer.createEditableElement('span', { class: 'ucb-link-button-contents' }), writer)
-		// });
 	}
+
+		/**
+	 * Defines the commands for inserting or modifying the box.
+	 */
+		_defineCommands() {
+			const commands = this.editor.commands;
+			commands.add('insertButtonGroup', new InsertButtonGroupCommand(this.editor));
+			commands.add('sizeButtonGroup', new ModifyButtonGroupCommand(this.editor, 'buttonGroupSize', defaultSize));
+			commands.add('colorButtonGroup', new ModifyButtonGroupCommand(this.editor, 'buttonGroupColor', defaultColor));
+		}
 }
 
 function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
@@ -124,3 +95,17 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 		view
 	};
 }
+
+/**
+ * @param {DowncastWriter} viewWriter
+ *   The downcast writer.
+ * @param {boolean} [widget=false]
+ *   Whether or not to return a widget for editing. Defaults to `false`.
+ * @returns {ContainerElement}
+ *   The box container element or widget.
+ */
+function createButtonGroupView(viewWriter, widget = false) {
+	const div = viewWriter.createContainerElement('div', { class: 'ucb-button-group' });
+	return widget ? toWidget(div, viewWriter, { label: 'button group widget', hasSelectionHandle: true }) : div;
+}
+
