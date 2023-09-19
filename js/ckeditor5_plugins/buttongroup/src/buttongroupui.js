@@ -54,15 +54,16 @@ export default class ButtonGroupUI extends Plugin {
 			widgetToolbarRepository.register('buttonGroup', {
 				items: ['buttonGroupSize', 'buttonGroupColor'],
 				getRelatedElement: (selection) => {
-					// TO DO -- This is not working
-					console.log('ancestor',selection.focus.getAncestors())
-					selection.focus.getAncestors()
-					.find((node) => node.hasClass('ucb-button-group'))
+				// TO DO -- This isnt triggering the UI
+				console.log('Selection', selection)
+				console.log('selection ancestors', selection.focus.getAncestors())
+				console.log('selection nodes'), selection.focus.getAncestors().find(node=> node);
+				selection.focus.getAncestors().find((node) => node.hasClass('ucb-button-group'))
 				}
 			});
-		
-			console.log('widgettool', widgetToolbarRepository)
 		}
+		
+
 		
 		
 
