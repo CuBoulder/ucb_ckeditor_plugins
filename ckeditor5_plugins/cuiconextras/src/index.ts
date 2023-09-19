@@ -5,8 +5,8 @@
  *
  * I.e. this file's purpose is to make plugin(s) discoverable.
  */
-// cSpell:ignore icon
+// cSpell:ignore cuiconextras
 
 import CUIconExtras from './cuiconextras';
 
-export default { CUIconExtras }; // Only these plugins will be built when running `b icon` or `w icon`.
+export default { CUIconExtras }; // Only these plugins will be built when running `b cuiconextras` or `w cuiconextras`.
