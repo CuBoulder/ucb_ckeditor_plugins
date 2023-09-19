@@ -1,16 +1,15 @@
 /**
- * @file defines schemas, converters, and commands for the icon plugin.
- * 
- * @typedef { import('./cuiconextrasconfig').SelectableOption } SelectableOption
- * @typedef { import('@ckeditor/ckeditor5-engine').DowncastWriter } DowncastWriter
- * @typedef { import('@ckeditor/ckeditor5-engine/src/model/element').default } ModelElement
- * @typedef { import('@ckeditor/ckeditor5-engine/src/view/containerelement').default } ContainerElement
+ * @file defines schemas, converters, and commands for the cuiconextras plugin.
  */
 
+import type { PluginDependencies } from 'ckeditor5/src/core';
 import { Plugin } from 'ckeditor5/src/core';
 import { Widget } from 'ckeditor5/src/widget';
 import ModifyIconCommand from './modifyiconcommand';
-import { colorOptions, colorDefault, backgroundStyleDefault, backgroundStyleOptions } from './cuiconextrasconfig';
+import type { Color, ColorAttributeDefinition, ModelAttributeDefiniton } from './cuiconextrasconfig';
+import { colorOptions, colorDefault, backgroundStyleDefault, backgroundStyleOptions, BackgroundStyle, BackgroundStyleAttributeDefinition } from './cuiconextrasconfig';
+import type { SelectableOption } from './cuiconextrastypes';
+import type { PluginInterface } from '@ckeditor/ckeditor5-core/src/plugin';
 
 // cSpell:ignore icon inserticoncommand
 
@@ -28,18 +27,18 @@ import { colorOptions, colorDefault, backgroundStyleDefault, backgroundStyleOpti
  * This file has the logic for defining the icon model, and for how it is
  * converted to standard DOM markup.
  */
-export default class CUIconExtrasEditing extends Plugin {
+export default class CUIconExtrasEditing extends Plugin implements PluginInterface {
 	/**
 	 * @inheritdoc
 	 */
-	static get requires() {
-		return [Widget];
+	public static get requires(): PluginDependencies {
+		return [Widget] as const;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	init() {
+	public init() {
 		this._defineSchema();
 		this._defineConverters();
 		this._defineCommands();
@@ -52,7 +51,7 @@ export default class CUIconExtrasEditing extends Plugin {
 	 * The logic in _defineConverters() will determine how this is converted to
 	 * markup.
 	 */
-	_defineSchema() {
+	private _defineSchema() {
 		// Schemas are registered via the central `editor` object.
 		const schema = this.editor.model.schema;
 
@@ -65,19 +64,19 @@ export default class CUIconExtrasEditing extends Plugin {
 	 * Converters determine how CKEditor 5 models are converted into markup and
 	 * vice-versa.
 	 */
-	_defineConverters() {
+	private _defineConverters() {
 		// Converters are registered via the central editor object.
 		const { conversion } = this.editor;
 
 		// The size, alignment, color, and style attributes all convert to element class names.
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconCUColor', colorOptions));
-		conversion.attributeToAttribute(buildAttributeToAttributeDefinition('iconCUBackgroundStyle', backgroundStyleOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeClassNameDefinition<Color, ColorAttributeDefinition>('iconCUColor', colorOptions));
+		conversion.attributeToAttribute(buildAttributeToAttributeClassNameDefinition<BackgroundStyle, BackgroundStyleAttributeDefinition>('iconCUBackgroundStyle', backgroundStyleOptions));
 	}
 
 	/**
 	 * Defines the commands for inserting or modifying the icon.
 	 */
-	_defineCommands() {
+	private _defineCommands() {
 		const commands = this.editor.commands;
 		commands.add('changeIconCUColor', new ModifyIconCommand(this.editor, 'iconCUColor', colorDefault));
 		commands.add('changeIconCUBackgroundStyle', new ModifyIconCommand(this.editor, 'iconCUBackgroundStyle', backgroundStyleDefault));
@@ -85,16 +84,17 @@ export default class CUIconExtrasEditing extends Plugin {
 }
 
 /**
- * @param {string} attributeName 
+ * @param attributeName 
  *   The attribute name.
- * @param {Object<string, SelectableOption>} attributeOptions
+ * @param attributeOptions
  *   The options avaliable for the attribute.
  * @returns 
  *   The attribute to attribute definition of the specified attribute.
  */
-function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
-	const view = {}, values = [];
-	for (const [value, option] of Object.entries(attributeOptions)) {
+function buildAttributeToAttributeClassNameDefinition<T extends string, D extends ModelAttributeDefiniton<T>>(attributeName: D[1], attributeOptions: Record<T, SelectableOption>) {
+	const view: { [key: string]: { key: 'class', value: string } } = {};
+	const values: string[] = [];
+	for (const [value, option] of Object.entries<SelectableOption>(attributeOptions)) {
 		if (!option.className) continue;
 		values.push(value);
 		view[value] = { key: 'class', value: option.className };
@@ -104,6 +104,6 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
 			key: attributeName,
 			values: values
 		},
-		view
+		view: view
 	};
 }
