@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds TypeScript as an option for plugin development
+  With files from my [CKEditor 5 Icons](https://git.drupalcode.org/project/ckeditor5_icons) project, CKEditor plugins can now be built using either TypeScript or JavaScript. The build process has not changed and our existing JavaScript plugins should still build just fine.
+  
+  Resolves CuBoulder/ucb_ckeditor_plugins#27
+---
+
 - ### Adds selection handle to Box widgets
   It actually is that simple. Amazing.
   
