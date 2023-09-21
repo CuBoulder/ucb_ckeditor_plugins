@@ -2,7 +2,7 @@ import { Plugin } from 'ckeditor5/src/core';
 // import BGFormView from './buttongroupview';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
-
+import {sizeOptions, defaultSize, colorOptions, defaultColor} from './buttongroupconfig'
 import icon from '../../../icons/arrows-turn-right-solid.svg';
 
 export default class ButtonGroupUI extends Plugin {
