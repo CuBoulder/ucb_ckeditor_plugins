@@ -78,8 +78,8 @@ export default class ButtonGroupEditing extends Plugin {
 		_defineCommands() {
 			const commands = this.editor.commands;
 			commands.add('insertButtonGroup', new InsertButtonGroupCommand(this.editor));
-			commands.add('buttonGroupSize', new ThemeButtonGroupCommand(this.editor, 'buttonGroupSize', defaultSize));
-			commands.add('buttonGroupColor', new ThemeButtonGroupCommand(this.editor, 'buttonGroupColor', defaultColor));
+			commands.add('buttonGroupSize', new ModifyButtonGroupCommand(this.editor, 'buttonGroupSize', defaultSize));
+			commands.add('buttonGroupColor', new ModifyButtonGroupCommand(this.editor, 'buttonGroupColor', defaultColor));
 		}
 }
 

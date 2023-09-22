@@ -24,8 +24,8 @@ export default class InsertButtonGroupCommand extends Command {
 			const size = selectedElement.getAttribute('buttonGroupSize')
 			const childBtns = Array.from(selectedElement.getChildren())
 			childBtns.forEach(btn=>{
-				btn._setAttribute('linkButtonColor', defaultColor)
-				btn._setAttribute('linkButtonSize', defaultSize)
+				btn._setAttribute('linkButtonColor', color)
+				btn._setAttribute('linkButtonSize', size)
 			})
 
 		}

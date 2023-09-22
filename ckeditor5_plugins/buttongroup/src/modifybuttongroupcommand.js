@@ -41,6 +41,7 @@ export default class ModifyButtonGroupCommand extends Command {
 	refresh() {
 		const model = this.editor.model, buttongroup = getSelectedButtonGroupWidget(model.document.selection), attributeName = this.attributeName, defaultValue = this.defaultValue;
 		this.isEnabled = !!buttongroup; // Disables any ModifyButtonGroup if there is no selected box
+		console.log('my button group', buttongroup)
 		if (this.isEnabled)
 			this.value = buttongroup.getAttribute(attributeName); // Sets the `value` of this ModifyButtonGroup to the attribute of the selected bg
 		else this.value = defaultValue;
@@ -50,8 +51,24 @@ export default class ModifyButtonGroupCommand extends Command {
 	 * @inheritdoc
 	 */
 	execute(options = { value: '' }) {
-		const model = this.editor.model, buttongroup = getSelectedButtonGroupWidget(model.document.selection), attributeName = this.attributeName, defaultValue = this.defaultValue;
-		if (buttongroup)
-			model.change(writer => writer.setAttribute(attributeName, options.value || defaultValue, buttongroup)); // Sets the attribute of the selected bg to a new value upon execution of this command
+		const model = this.editor.model, 
+			  buttongroup = getSelectedButtonGroupWidget(model.document.selection), 
+			  attributeName = this.attributeName, 
+			  defaultValue = this.defaultValue;
+	
+		if (buttongroup) {
+			model.change(writer => {
+				writer.setAttribute(attributeName, options.value || defaultValue, buttongroup); // Set the attribute on the buttonGroup
+	
+				// Iterate over the children of the buttonGroup
+				for (const linkButton of buttongroup.getChildren()) {
+					if (linkButton.name === 'linkButton') {
+						writer.setAttribute('linkButtonColor', buttongroup.getAttribute('buttonGroupColor') || defaultColor, linkButton);
+						writer.setAttribute('linkButtonSize', buttongroup.getAttribute('buttonGroupSize') || defaultSize, linkButton);
+					}
+				}
+			});
+		}
 	}
+	
 }

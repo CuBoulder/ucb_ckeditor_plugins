@@ -9,6 +9,22 @@ export default function getRangeText( range ) {
 	}, '' );
 }
 
+function findButtonGroupElement(element) {
+    if (element.name === 'buttonGroup') {
+        return element;
+    }
+
+    // Check children for 'buttonGroup' presence:
+    for (const child of element.getChildren()) {
+        if (child.is('element') && child.name === 'buttonGroup') {
+            return child;
+        }
+    }
+
+    return null;
+}
+
+
 export function getSelectedButtonGroupWidget(selection) {
     const selectionPosition = selection.getFirstPosition();
     if (!selectionPosition)
@@ -16,13 +32,16 @@ export function getSelectedButtonGroupWidget(selection) {
 
     let parent = selectionPosition.parent;
     while (parent) {
-        if (parent.is('element') && isButtonGroupWidget(parent))
-            return parent;
+        const buttonGroupElement = findButtonGroupElement(parent);
+        if (buttonGroupElement) {
+            return buttonGroupElement;
+        }
         parent = parent.parent;
     }
 
     return null;
 }
+
 
 function isButtonGroupWidget(element) {
     if (element.name === 'buttonGroup') {
