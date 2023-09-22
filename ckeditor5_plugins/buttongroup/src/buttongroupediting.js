@@ -10,7 +10,7 @@ import { Widget, toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { sizeOptions, colorOptions, defaultSize, defaultColor } from './buttongroupconfig';
 import InsertButtonGroupCommand from './insertbuttongroupcommand';
 import ModifyButtonGroupCommand from './modifybuttongroupcommand';
-
+import ThemeButtonGroupCommand from './themebuttongroupcommand';
 export default class ButtonGroupEditing extends Plugin {
 	static get requires() {
 		return [Widget];
@@ -78,8 +78,8 @@ export default class ButtonGroupEditing extends Plugin {
 		_defineCommands() {
 			const commands = this.editor.commands;
 			commands.add('insertButtonGroup', new InsertButtonGroupCommand(this.editor));
-			commands.add('buttonGroupSize', new ModifyButtonGroupCommand(this.editor, 'buttonGroupSize', defaultSize));
-			commands.add('buttonGroupColor', new ModifyButtonGroupCommand(this.editor, 'buttonGroupColor', defaultColor));
+			commands.add('buttonGroupSize', new ThemeButtonGroupCommand(this.editor, 'buttonGroupSize', defaultSize));
+			commands.add('buttonGroupColor', new ThemeButtonGroupCommand(this.editor, 'buttonGroupColor', defaultColor));
 		}
 }
 

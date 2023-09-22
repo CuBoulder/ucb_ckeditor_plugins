@@ -10,20 +10,31 @@ export default function getRangeText( range ) {
 }
 
 export function getSelectedButtonGroupWidget(selection) {
-	const selectionPosition = selection.getFirstPosition();
-	if (!selectionPosition)
-		return null;
+    const selectionPosition = selection.getFirstPosition();
+    if (!selectionPosition)
+        return null;
 
-	let parent = selectionPosition.parent;
-	while (parent) {
-		if (parent.is('element') && isButtonGroupWidget(parent))
-			return parent;
-		parent = parent.parent;
-	}
+    let parent = selectionPosition.parent;
+    while (parent) {
+        if (parent.is('element') && isButtonGroupWidget(parent))
+            return parent;
+        parent = parent.parent;
+    }
 
-	return null;
+    return null;
 }
 
 function isButtonGroupWidget(element) {
-	return element.name === 'buttonGroup';
+    if (element.name === 'buttonGroup') {
+        return true;
+    }
+
+    // Check children for 'buttonGroup' presence:
+    for (const child of element.getChildren()) {
+        if (child.is('element') && child.name === 'buttonGroup') {
+            return true;
+        }
+    }
+
+    return false;
 }

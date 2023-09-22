@@ -20,7 +20,6 @@ export default class ButtonGroupUI extends Plugin {
 			const button = new ButtonView(locale);
 			const command = commands.get('insertButtonGroup');
 
-
 			button.label = 'Button Group';
 			button.icon = icon;
 			button.tooltip = true;
@@ -48,6 +47,7 @@ export default class ButtonGroupUI extends Plugin {
 	 */
 		afterInit() {
 			const editor = this.editor;
+			console.log(editor.commands, 'commands')
 			const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 		
 			widgetToolbarRepository.register('buttonGroup', {
@@ -61,13 +61,8 @@ export default class ButtonGroupUI extends Plugin {
 				}
 			});
 		}
-		
 
-		
-		
-
-
-			/**
+	/**
 	 * Creates a dropdown with multiple buttons for executing a command.
 	 * 
 	 * @param {Locale} locale

@@ -3,17 +3,17 @@ import { icons } from 'ckeditor5/src/core';
 export const sizeOptions = {
 	large: {
 		label: 'Large',
-		icon: icons.large,
+		icon: icons.objectSizeLarge,
 		className: 'ucb-link-button-large'
 	},
 	regular: {
 		label: 'Regular',
-		icon: icons.regular,
+		icon: icons.objectSizeMedium,
 		className: 'ucb-link-button-regular'
 	},
 	small: {
 		label: 'Small',
-		icon: icons.small,
+		icon: icons.objectSizeSmall,
 		className: 'ucb-link-button-small'
 	},
 };
