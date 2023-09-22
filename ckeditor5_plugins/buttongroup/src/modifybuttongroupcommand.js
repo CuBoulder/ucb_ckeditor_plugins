@@ -40,8 +40,7 @@ export default class ModifyButtonGroupCommand extends Command {
 	 */
 	refresh() {
 		const model = this.editor.model, buttongroup = getSelectedButtonGroupWidget(model.document.selection), attributeName = this.attributeName, defaultValue = this.defaultValue;
-		this.isEnabled = !!buttongroup; // Disables any ModifyButtonGroup if there is no selected box
-		console.log('my button group', buttongroup)
+		this.isEnabled = !!buttongroup; // Disables any ModifyButtonGroup if there is no selected buttonGroup
 		if (this.isEnabled)
 			this.value = buttongroup.getAttribute(attributeName); // Sets the `value` of this ModifyButtonGroup to the attribute of the selected bg
 		else this.value = defaultValue;

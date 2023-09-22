@@ -47,7 +47,6 @@ export default class ButtonGroupUI extends Plugin {
 	 */
 		afterInit() {
 			const editor = this.editor;
-			console.log(editor.commands, 'commands')
 			const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 		
 			widgetToolbarRepository.register('buttonGroup', {
