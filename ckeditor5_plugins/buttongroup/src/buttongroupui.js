@@ -7,6 +7,7 @@ import icon from '../../../icons/arrows-turn-right-solid.svg';
 import { icons } from 'ckeditor5/src/core';
 
 
+
 export default class ButtonGroupUI extends Plugin {
 	static get requires() {
 		return [ WidgetToolbarRepository ];
@@ -57,6 +58,7 @@ export default class ButtonGroupUI extends Plugin {
 				items: ['buttonGroupSize', 'buttonGroupColor', 'addNewButtonBG'],
 				getRelatedElement: (selection) => {
 					const selectedElement = selection.getSelectedElement();
+					if (!selectedElement) return null;
 					if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-button-group'))
 						return selectedElement;
 					return selection.focus.getAncestors()

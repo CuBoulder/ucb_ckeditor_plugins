@@ -3,6 +3,7 @@
  */
 
 import { Command } from 'ckeditor5/src/core';
+import ButtonUI from '../../button/src/buttonui';
 
 export default class AddNewButtonCommand extends Command {
 
@@ -13,7 +14,9 @@ export default class AddNewButtonCommand extends Command {
 
 		model.change((writer)=> {
             if(isButtonGroupElement(selectedElement)){
-                writer.append(insertNewButtonBG(writer),selectedElement)
+                const newButton = insertNewButtonBG(writer)
+                writer.append(newButton,selectedElement)
+                writer.setSelection(newButton, 'on');
             }
 		})
 	}
