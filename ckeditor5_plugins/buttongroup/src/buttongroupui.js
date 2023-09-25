@@ -85,19 +85,35 @@ export default class ButtonGroupUI extends Plugin {
 	 */
 	_createDropdown(locale, label, icon, command, options, defaultValue) {
 		const dropdownView = createDropdown(locale);
-		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createButton(locale, option.label, option.icon, command, optionValue)));
+		
+		addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => 
+			this._createButton(locale, option.label, option.icon, command, optionValue)
+		));
+		
 		dropdownView.buttonView.set({
 			label: locale.t(label),
 			icon,
 			tooltip: true,
 			withText: !icon
 		});
-		if (icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
-			dropdownView.buttonView.bind('icon').to(command, 'value', value => options[value] ? options[value].icon : options[defaultValue].icon);
+		
+		// If the dropdown does not have an icon, bind its label to the current value.
+		if (!icon) {
+			dropdownView.buttonView.bind('label').to(command, 'value', value => 
+				options[value] ? options[value].label : options[defaultValue].label
+			);
+		} else if (icon === options[defaultValue].icon) {
+			// If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
+			dropdownView.buttonView.bind('icon').to(command, 'value', value => 
+				options[value] ? options[value].icon : options[defaultValue].icon
+			);
+		}
+		
 		// Enable button if any of the buttons are enabled.
 		dropdownView.bind('isEnabled').to(command, 'isEnabled');
 		return dropdownView;
 	}
+	
 
 
 	_createButton(locale, label, icon, command, value) {

@@ -5,7 +5,6 @@
  */
 
 import { Command } from 'ckeditor5/src/core';
-import { getSelectedButtonGroupWidget } from './buttongrouputils';
 
 export default class ModifyButtonGroupCommand extends Command {
 	/** 
@@ -39,7 +38,7 @@ export default class ModifyButtonGroupCommand extends Command {
 	 * @inheritdoc
 	 */
 	refresh() {
-		const model = this.editor.model, buttongroup = getSelectedButtonGroupWidget(model.document.selection), attributeName = this.attributeName, defaultValue = this.defaultValue;
+		const model = this.editor.model, buttongroup = model.document.selection.getSelectedElement(), attributeName = this.attributeName, defaultValue = this.defaultValue;
 		this.isEnabled = !!buttongroup; // Disables any ModifyButtonGroup if there is no selected buttonGroup
 		if (this.isEnabled)
 			this.value = buttongroup.getAttribute(attributeName); // Sets the `value` of this ModifyButtonGroup to the attribute of the selected bg
@@ -51,7 +50,7 @@ export default class ModifyButtonGroupCommand extends Command {
 	 */
 	execute(options = { value: '' }) {
 		const model = this.editor.model, 
-			  buttongroup = getSelectedButtonGroupWidget(model.document.selection), 
+			  buttongroup = model.document.selection.getSelectedElement(), 
 			  attributeName = this.attributeName, 
 			  defaultValue = this.defaultValue;
 	

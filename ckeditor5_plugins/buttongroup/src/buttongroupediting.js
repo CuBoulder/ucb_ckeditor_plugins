@@ -10,7 +10,6 @@ import { Widget, toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { sizeOptions, colorOptions, defaultSize, defaultColor } from './buttongroupconfig';
 import InsertButtonGroupCommand from './insertbuttongroupcommand';
 import ModifyButtonGroupCommand from './modifybuttongroupcommand';
-import ThemeButtonGroupCommand from './themebuttongroupcommand';
 import AddNewButtonCommand from './addnewbuttoncommand';
 export default class ButtonGroupEditing extends Plugin {
 	static get requires() {
