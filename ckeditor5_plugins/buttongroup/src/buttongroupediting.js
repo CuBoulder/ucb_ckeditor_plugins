@@ -11,6 +11,7 @@ import { sizeOptions, colorOptions, defaultSize, defaultColor } from './buttongr
 import InsertButtonGroupCommand from './insertbuttongroupcommand';
 import ModifyButtonGroupCommand from './modifybuttongroupcommand';
 import ThemeButtonGroupCommand from './themebuttongroupcommand';
+import AddNewButtonCommand from './addnewbuttoncommand';
 export default class ButtonGroupEditing extends Plugin {
 	static get requires() {
 		return [Widget];
@@ -80,6 +81,7 @@ export default class ButtonGroupEditing extends Plugin {
 			commands.add('insertButtonGroup', new InsertButtonGroupCommand(this.editor));
 			commands.add('buttonGroupSize', new ModifyButtonGroupCommand(this.editor, 'buttonGroupSize', defaultSize));
 			commands.add('buttonGroupColor', new ModifyButtonGroupCommand(this.editor, 'buttonGroupColor', defaultColor));
+			commands.add('addNewButtonBG', new AddNewButtonCommand(this.editor))
 		}
 }
 

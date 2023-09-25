@@ -4,6 +4,8 @@ import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
 import {sizeOptions, defaultSize, colorOptions, defaultColor} from './buttongroupconfig'
 import icon from '../../../icons/arrows-turn-right-solid.svg';
+import { icons } from 'ckeditor5/src/core';
+
 
 export default class ButtonGroupUI extends Plugin {
 	static get requires() {
@@ -40,6 +42,8 @@ export default class ButtonGroupUI extends Plugin {
 			this._createDropdown(locale, 'Size', sizeOptions[defaultSize].icon, commands.get('buttonGroupSize'), sizeOptions, defaultSize));
 		componentFactory.add('buttonGroupColor', locale =>
 			this._createDropdown(locale, 'Color', colorOptions[defaultColor].icon, commands.get('buttonGroupColor'), colorOptions, defaultColor));
+		componentFactory.add('addNewButtonBG', locale =>
+			this._createButton(locale, 'Add Button', icons.plus, commands.get('addNewButtonBG'), null))
 	}
 
 		/**
@@ -50,7 +54,7 @@ export default class ButtonGroupUI extends Plugin {
 			const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 		
 			widgetToolbarRepository.register('buttonGroup', {
-				items: ['buttonGroupSize', 'buttonGroupColor'],
+				items: ['buttonGroupSize', 'buttonGroupColor', 'addNewButtonBG'],
 				getRelatedElement: (selection) => {
 					const selectedElement = selection.getSelectedElement();
 					if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-button-group'))
