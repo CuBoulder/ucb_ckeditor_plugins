@@ -59,6 +59,7 @@ export default class ButtonGroupUI extends Plugin {
 				getRelatedElement: (selection) => {
 					const selectedElement = selection.getSelectedElement();
 					if (!selectedElement) return null;
+					if (selectedElement && selectedElement.hasClass('ucb-link-button')) return null;
 					if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-button-group'))
 						return selectedElement;
 					return selection.focus.getAncestors()
