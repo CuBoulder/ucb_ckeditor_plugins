@@ -1,7 +1,6 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import FormView from './buttonview';
-
 import getRangeText from './buttonutils.js';
 import icon from '../../../icons/arrow-right-to-bracket-solid.svg';
 
@@ -52,6 +51,17 @@ export default class ButtonUI extends Plugin {
 				if (insertButtonCommand.existingButtonSelected)
 					this._showUI(insertButtonCommand.existingButtonSelected);
 			});
+
+			const model = this.editor.model;
+
+			this.listenTo(model.document.selection, 'change:range', (evt, data) => {
+				// Here, check if the new selection is on a button and show the UI.
+				const selectedElement = model.document.selection.getSelectedElement();
+				if (selectedElement && selectedElement.name == 'linkButton') {
+					this._showSelectionUI(selectedElement);
+				}
+			});
+			
 
 			// Bind the state of the button to the command.
 			button.bind('isOn', 'isEnabled').to(insertButtonCommand, 'value', 'isEnabled');
@@ -143,6 +153,34 @@ export default class ButtonUI extends Plugin {
 
 		this.formView.focus();
 	}
+
+	_showSelectionUI(selectedButton) {
+		if (!this._balloon.hasView(this.formView)) {
+			this._balloon.add({
+				view: this.formView,
+				position: this._getBalloonPositionData()
+			});
+	
+			const size = selectedButton.getAttribute('linkButtonSize');
+			const color = selectedButton.getAttribute('linkButtonColor');
+			const style = selectedButton.getAttribute('linkButtonStyle');
+			const href = selectedButton.getAttribute('linkButtonHref');
+			
+			this.formView.color = color;
+			this.formView.style = style;
+			this.formView.size = size;
+			
+			this.formView.linkInputView.fieldView.value = href;
+			this.formView.linkInputView.fieldView.element.value = href;
+			this.formView.linkInputView.fieldView.set('value', href);
+			
+			setTimeout(() => {
+				this.formView.linkInputView.fieldView.focus();
+			}, 0);
+			
+		}
+	}
+	
 
 	_hideUI() {
 		// Clear the input field values and reset the form.

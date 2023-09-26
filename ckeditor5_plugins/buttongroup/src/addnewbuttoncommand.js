@@ -3,7 +3,6 @@
  */
 
 import { Command } from 'ckeditor5/src/core';
-import ButtonUI from '../../button/src/buttonui';
 
 export default class AddNewButtonCommand extends Command {
 
