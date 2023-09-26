@@ -55,6 +55,10 @@ export default class ButtonUI extends Plugin {
 					this._showUI(insertButtonCommand.existingButtonSelected);
 			});
 
+			this.on('showUI', (eventInfo, newButton) => {
+				this._showUI(newButton)
+			});
+
 			// Bind the state of the button to the command.
 			button.bind('isOn', 'isEnabled').to(insertButtonCommand, 'value', 'isEnabled');
 
@@ -107,7 +111,6 @@ export default class ButtonUI extends Plugin {
 	}
 
 	_showUI(selectedButton) {
-		const selection = this.editor.model.document.selection;
 		this.buttonView.isOn = true;
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
@@ -132,10 +135,6 @@ export default class ButtonUI extends Plugin {
 			this.formView.linkInputView.fieldView.set('value', href); // Update the input field value (alternative method)
 		}
 
-		setTimeout(() => {
-			this.formView.linkInputView.fieldView.focus();
-		}, 0);
-
 		// Disable the input when the selection is not collapsed.
 		// this.formView.linkInputView.isEnabled = selection.getFirstRange().isCollapsed;
 
@@ -148,6 +147,10 @@ export default class ButtonUI extends Plugin {
 		}
 
 		this.formView.focus();
+
+		setTimeout(() => {
+			this.formView.linkInputView.fieldView.focus();
+		}, 0);
 	}
 	_hideUI() {
 		// Clear the input field values and reset the form.

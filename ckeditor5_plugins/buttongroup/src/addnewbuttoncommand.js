@@ -14,10 +14,10 @@ export default class AddNewButtonCommand extends Command {
 
 		model.change((writer)=> {
             if(isButtonGroupElement(selectedElement)){
-                const newButton = insertNewButtonBG(writer)
-                writer.append(newButton,selectedElement)
-				writer.setSelection(newButton,"on")
-				this.editor.plugins.get('ButtonUI')._showUI(newButton)
+                const newButton = insertNewButtonBG(writer);
+                writer.append(newButton,selectedElement);
+				writer.setSelection(newButton, "on");
+				this.editor.plugins.get('ButtonUI').fire('showUI', newButton);
             }
 		})
 	}
