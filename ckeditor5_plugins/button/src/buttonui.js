@@ -112,6 +112,12 @@ export default class ButtonUI extends Plugin {
 
 	_showUI(selectedButton) {
 		this.buttonView.isOn = true;
+
+		// If there's an existing balloon open, close it! 
+		if (this._balloon.visibleView) {
+			this._hideUI();
+		}
+		
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
 
@@ -145,14 +151,15 @@ export default class ButtonUI extends Plugin {
 			this.formView.sizeDropdown.fieldView.value = commandValue.size;
 			this.formView.styleDropdown.fieldView.value = commandValue.style
 		}
-
-		this.formView.focus();
-
 		setTimeout(() => {
 			this.formView.linkInputView.fieldView.focus();
 		}, 0);
 	}
 	_hideUI() {
+		// Case for if user is rapidly clicking add button to button group
+		if (!this._balloon.hasView(this.formView)) {
+			return; // If the formView isn't in the balloon, do nothing
+		}
 		// Clear the input field values and reset the form.
 		this.formView.element.reset();
 		this.buttonView.isOn = false;
