@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Change: Button Groups - 'Add Button' Functionality & UI Enhancements
+  New Changes to the Button Group plugin includes the following enhancements:
+  
+  - Ability to add new Buttons to existing Button Groups by selecting the new `+` icon on the Button Group Toolbar. Editors can now create an empty Button Group first and then add Buttons to it, as well as adding new Buttons to an existing Button Group. Editors may still select existing Buttons and then create the Button Group. 
+  
+  - Button Group's UI no longer requires confirmation of changes. Selection of Button Group color and size are instantly applied using the Button Group Toolbar. 
+  
+  Resolves #29 
+---
+
 - ### Converts plugin "CU Icon Extras" to TypeScript
   This was the easiest CKEditor 5 plugin to convert to TypeScript, done to verify that TypeScript plugins are building properly and get the ball rolling on TypeScript for future plugin development.
   

@@ -1,13 +1,15 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import FormView from './buttonview';
-
 import getRangeText from './buttonutils.js';
 import icon from '../../../icons/arrow-right-to-bracket-solid.svg';
 
 export default class ButtonUI extends Plugin {
 	static get requires() {
 		return [ ContextualBalloon ];
+	}
+	static get pluginName(){
+		return 'ButtonUI'
 	}
 
 	init() {
@@ -51,6 +53,10 @@ export default class ButtonUI extends Plugin {
 			this.listenTo(viewDocument, 'click', () => {
 				if (insertButtonCommand.existingButtonSelected)
 					this._showUI(insertButtonCommand.existingButtonSelected);
+			});
+
+			this.on('showUI', (eventInfo, newButton) => {
+				this._showUI(newButton)
 			});
 
 			// Bind the state of the button to the command.
@@ -105,8 +111,13 @@ export default class ButtonUI extends Plugin {
 	}
 
 	_showUI(selectedButton) {
-		const selection = this.editor.model.document.selection;
 		this.buttonView.isOn = true;
+
+		// If there's an existing balloon open, close it! 
+		if (this._balloon.visibleView) {
+			this._hideUI();
+		}
+		
 		// Check the value of the command.
 		const commandValue = this.editor.commands.get( 'addButton' ).value;
 
@@ -140,11 +151,15 @@ export default class ButtonUI extends Plugin {
 			this.formView.sizeDropdown.fieldView.value = commandValue.size;
 			this.formView.styleDropdown.fieldView.value = commandValue.style
 		}
-
-		this.formView.focus();
+		setTimeout(() => {
+			this.formView.linkInputView.fieldView.focus();
+		}, 0);
 	}
-
 	_hideUI() {
+		// Case for if user is rapidly clicking add button to button group
+		if (!this._balloon.hasView(this.formView)) {
+			return; // If the formView isn't in the balloon, do nothing
+		}
 		// Clear the input field values and reset the form.
 		this.formView.element.reset();
 		this.buttonView.isOn = false;
