@@ -1,6 +1,8 @@
 # === Display library (included on all pages with WYSIWYG content or editors) ===
 
 ckeditor-plugin-styles:
+  js:
+    js/counter.js: { }
   css:
     theme:
       css/box.css: { }
@@ -10,6 +12,7 @@ ckeditor-plugin-styles:
       css/map.css: { }
       css/tooltip.css: { }
       css/buttongroup.css: { }
+      css/countup.css: { }
 
 # === Admin / editing interface libraries ===
 
@@ -97,3 +100,15 @@ buttongroup.editor:
     theme:
       css/buttongroup.editor.css: { }
       css/buttongroup.css: { }
+
+countup.admin: { css: { theme: { css/countup.admin.css: { } } } }
+countup.editor:
+  js:
+    js/build/countup.js: { preprocess: false, minified: true }
+    js/counter.js: { }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/countup.editor.css: { }
+      css/countup.css: { }

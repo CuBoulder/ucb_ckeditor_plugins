@@ -233,3 +233,39 @@ ucb_ckeditor_plugins_buttongroup:
     elements:
       - <div class='ucb-button-group ucb-button-group-blue'><div class='ucb-button-group ucb-button-group-black'><div class='ucb-button-group ucb-button-group-gray'><div class='ucb-button-group ucb-button-group-white'><div class='ucb-button-group ucb-button-group-large'><div class='ucb-button-group ucb-button-group-regular'><div class='ucb-button-group ucb-button-group-small'><div class='ucb-button-group ucb-button-group-blue ucb-button-group-large'><div class='ucb-button-group ucb-button-group-blue ucb-button-group-regular'><div class='ucb-button-group ucb-button-group-blue ucb-button-group-small'><div class='ucb-button-group ucb-button-group-black ucb-button-group-large'><div class='ucb-button-group ucb-button-group-black ucb-button-group-regular'><div class='ucb-button-group ucb-button-group-black ucb-button-group-small'><div class='ucb-button-group ucb-button-group-gray ucb-button-group-large'><div class='ucb-button-group ucb-button-group-gray ucb-button-group-regular'><div class='ucb-button-group ucb-button-group-gray ucb-button-group-small'><div class='ucb-button-group ucb-button-group-white ucb-button-group-large'><div class='ucb-button-group ucb-button-group-white ucb-button-group-regular'><div class='ucb-button-group ucb-button-group-white ucb-button-group-small'><div class='ucb-button-group ucb-button-group-gold ucb-button-group-large'><div class='ucb-button-group ucb-button-group-gold ucb-button-group-regular'><div class='ucb-button-group ucb-button-group-gold ucb-button-group-small'>
 
+ucb_ckeditor_plugins_countup:
+  # Use the provider: property for this plugin to depend on another module.
+
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - countup.Countup
+    # *Additional configuration properties*
+    # config: data sent to the constructor of any CKEditor 5 plugin
+    #   editorPluginName:
+    #     editorPluginProperty: editorPluginValue
+
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Countup
+    # The library loaded while using the editor.
+    library: ucb_ckeditor_plugins/countup.editor
+    # The library loaded when configuring the text format using this plugin.
+    admin_library: ucb_ckeditor_plugins/countup.admin
+    toolbar_items:
+      # This should match the name of the corresponding plugin exported in the
+      # plugin's index.js.
+      countup:
+        label: Countup
+    # If the plugin does not provide elements, set this as
+    # `elements: false`
+    elements:
+      # Note that it necessary for elements to separately provide both the tag
+      # <div> is used to make containers that are tagged with coutner which casues the number to increment until matching the input.
+      - <div>
+      - <div class="ucb-countup counter">
+    # *Additional configuration properties*
+    # conditions: for setting additional criteria that must be met for the
+    #   plugin to be active.
+    # class: Optional PHP class that makes it possible for the plugin to provide
+    #   dynamic values, or a configuration UI.
