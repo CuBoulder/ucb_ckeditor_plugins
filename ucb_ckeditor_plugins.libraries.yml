@@ -2,32 +2,32 @@
 
 ckeditor-plugin-styles:
   js:
-    js/counter.js: { }
+    js/counter.js: {}
   css:
     theme:
-      css/box.css: { }
-      css/button.css: { }
-      css/calendar.css: { }
-      css/cuiconextras.css: { }
-      css/map.css: { }
-      css/tooltip.css: { }
-      css/buttongroup.css: { }
-      css/countup.css: { }
+      css/box.css: {}
+      css/button.css: {}
+      css/calendar.css: {}
+      css/cuiconextras.css: {}
+      css/map.css: {}
+      css/tooltip.css: {}
+      css/buttongroup.css: {}
+      css/countup.css: {}
 
 # === Admin / editing interface libraries ===
 
-box.admin: { css: { theme: { css/box.admin.css: { } } } }
+box.admin: { css: { theme: { css/box.admin.css: {} } } }
 box.editor:
   js:
     js/build/box.js: { preprocess: false, minified: true }
   css:
     theme:
-      css/box.editor.css: { }
-      css/box.css: { }
+      css/box.editor.css: {}
+      css/box.css: {}
   dependencies:
     - core/ckeditor5
 
-button.admin: { css: { theme: { css/button.admin.css: { } } } }
+button.admin: { css: { theme: { css/button.admin.css: {} } } }
 button.editor:
   js:
     js/build/button.js: { preprocess: false, minified: true }
@@ -35,10 +35,10 @@ button.editor:
     - core/ckeditor5
   css:
     theme:
-      css/button.editor.css: { }
-      css/button.css: { }
+      css/button.editor.css: {}
+      css/button.css: {}
 
-calendar.admin: { css: { theme: { css/calendar.admin.css: { } } } }
+calendar.admin: { css: { theme: { css/calendar.admin.css: {} } } }
 calendar.editor:
   js:
     js/build/calendar.js: { preprocess: false, minified: true }
@@ -46,8 +46,8 @@ calendar.editor:
     - core/ckeditor5
   css:
     theme:
-      css/calendar.editor.css: { }
-      css/calendar.css: { }
+      css/calendar.editor.css: {}
+      css/calendar.css: {}
 
 cuiconextras.editor:
   js:
@@ -56,9 +56,9 @@ cuiconextras.editor:
     - core/ckeditor5
   css:
     theme:
-      css/cuiconextras.css: { }
+      css/cuiconextras.css: {}
 
-invisible.admin: { css: { theme: { css/invisible.admin.css: { } } } }
+invisible.admin: { css: { theme: { css/invisible.admin.css: {} } } }
 invisible.editor:
   js:
     js/build/invisible.js: { preprocess: false, minified: true }
@@ -66,9 +66,9 @@ invisible.editor:
     - core/ckeditor5
   css:
     theme:
-      css/invisible.editor.css: { }
+      css/invisible.editor.css: {}
 
-map.admin: { css: { theme: { css/map.admin.css: { } } } }
+map.admin: { css: { theme: { css/map.admin.css: {} } } }
 map.editor:
   js:
     js/build/map.js: { preprocess: false, minified: true }
@@ -76,10 +76,10 @@ map.editor:
     - core/ckeditor5
   css:
     theme:
-      css/map.editor.css: { }
-      css/map.css: { }
+      css/map.editor.css: {}
+      css/map.css: {}
 
-tooltip.admin: { css: { theme: { css/tooltip.admin.css: { } } } }
+tooltip.admin: { css: { theme: { css/tooltip.admin.css: {} } } }
 tooltip.editor:
   js:
     js/build/tooltip.js: { preprocess: false, minified: true }
@@ -87,10 +87,10 @@ tooltip.editor:
     - core/ckeditor5
   css:
     theme:
-      css/tooltip.editor.css: { }
-      css/tooltip.css: { }
+      css/tooltip.editor.css: {}
+      css/tooltip.css: {}
 
-buttongroup.admin: { css: { theme: { css/buttongroup.admin.css: { } } } }
+buttongroup.admin: { css: { theme: { css/buttongroup.admin.css: {} } } }
 buttongroup.editor:
   js:
     js/build/buttongroup.js: { preprocess: false, minified: true }
@@ -98,17 +98,17 @@ buttongroup.editor:
     - core/ckeditor5
   css:
     theme:
-      css/buttongroup.editor.css: { }
-      css/buttongroup.css: { }
+      css/buttongroup.editor.css: {}
+      css/buttongroup.css: {}
 
-countup.admin: { css: { theme: { css/countup.admin.css: { } } } }
+countup.admin: { css: { theme: { css/countup.admin.css: {} } } }
 countup.editor:
   js:
     js/build/countup.js: { preprocess: false, minified: true }
-    js/counter.js: { }
+    js/counter.js: {}
   dependencies:
     - core/ckeditor5
   css:
     theme:
-      css/countup.editor.css: { }
-      css/countup.css: { }
+      css/countup.editor.css: {}
+      css/countup.css: {}
