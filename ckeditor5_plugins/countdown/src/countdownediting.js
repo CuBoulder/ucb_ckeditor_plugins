@@ -29,7 +29,7 @@ export default class CountdownEditing extends Plugin {
 			allowWhere: '$text',
 			isObject: true,
 			isInline: true,
-			allowAttributes: ['cuCountdownBackground', 'cuCountdownStyle']
+			allowAttributes: ['cuCountdownBackground', 'cuCountdownStyle', 'cuCountdownDate']
 		});
 	}
 
