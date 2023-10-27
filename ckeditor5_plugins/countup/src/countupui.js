@@ -21,7 +21,7 @@ export default class CountupUI extends Plugin {
 
 			button.label = 'Countup';
 			button.icon = icon;
-			button.countup = true;
+			button.tooltip = true;
 			button.withText = false;
 			
 			// Show the UI on button click.

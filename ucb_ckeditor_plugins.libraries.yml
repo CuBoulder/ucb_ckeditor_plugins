@@ -13,6 +13,7 @@ ckeditor-plugin-styles:
       css/tooltip.css: {}
       css/buttongroup.css: {}
       css/countup.css: {}
+      css/countdown.css: {}
 
 # === Admin / editing interface libraries ===
 
@@ -112,3 +113,15 @@ countup.editor:
     theme:
       css/countup.editor.css: {}
       css/countup.css: {}
+
+countdown.admin: { css: { theme: { css/countdown.admin.css: {} } } }
+countdown.editor:
+  js:
+    js/build/countdown.js: { preprocess: false, minified: true }
+    js/counter.js: {}
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/countdown.editor.css: {}
+      css/countdown.css: {}

@@ -102,7 +102,7 @@ export default class FormView extends View {
 		button.set( {
 			label,
 			icon,
-			countup: true,
+			tooltip: true,
 			class: className
 		} );
 

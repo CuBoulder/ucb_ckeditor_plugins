@@ -42,7 +42,7 @@ export default class CountupEditing extends Plugin {
 		// Conversion from a view element to a model attribute
 		conversion.for( 'upcast' ).elementToAttribute( {
 			view: {
-				name: 'ucb-countup',
+				name: 'div',
 				class: 'ucb-countup counter'
 			},
 			model: {
