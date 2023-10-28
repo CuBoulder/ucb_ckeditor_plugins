@@ -1,0 +1,74 @@
+/**** Callout CSS ****/
+.feature-layout-wrapper .feature-layout-callout img {
+  max-width: 100% !important;
+}
+
+.feature-layout-callout {
+  width: 240px;
+  float: right;
+  margin: 0 0 40px 40px;
+  clear: both;
+}
+
+.feature-layout-callout img.image-square-thumbnail {
+  width: 110px;
+  height: auto;
+  display: block;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+
+.feature-layout-callout,
+.feature-layout-callout-large,
+.feature-layout-callout-xlarge {
+  width: auto;
+  float: none;
+  margin: 40px 0 20px;
+}
+
+@media all and (min-width: 720px) and (max-width: 959px) {
+  .feature-layout-callout {
+    width: 240px;
+    float: right;
+    margin: 0 0 40px 40px;
+    clear: right;
+  }
+  .feature-layout-callout-large {
+    width: 320px;
+    float: right;
+    margin: 0 0 40px 40px;
+  }
+  .feature-layout-callout-xlarge {
+    width: 400px;
+    float: right;
+    margin: 0 0 40px 40px;
+  }
+}
+@media (min-width: 960px) {
+  .feature-layout-callout {
+    width: 240px;
+    float: right;
+    margin: 0 0 40px 40px;
+  }
+  .feature-layout-callout-large {
+    margin: 0 0 40px 40px;
+    width: 380px;
+    float: right;
+  }
+  .feature-layout-callout-xlarge {
+    margin: 0 0 40px 40px;
+    width: 520px;
+    float: right;
+  }
+  .feature-layout-wrapper .feature-layout-callout,
+  .feature-layout-wrapper .feature-layout-callout-large,
+  .feature-layout-wrapper .feature-layout-callout-xlarge {
+    margin-right: -260px;
+  }
+}
+.feature-layout-callout .content-width-container {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  width: auto;
+}

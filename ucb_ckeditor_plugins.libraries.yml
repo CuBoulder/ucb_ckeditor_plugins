@@ -2,7 +2,8 @@
 
 ckeditor-plugin-styles:
   js:
-    js/counter.js: {}
+    js/countup.js: {}
+    js/countdown.js: {}
   css:
     theme:
       css/box.css: {}
@@ -14,6 +15,7 @@ ckeditor-plugin-styles:
       css/buttongroup.css: {}
       css/countup.css: {}
       css/countdown.css: {}
+      css/callout.css: {}
 
 # === Admin / editing interface libraries ===
 
@@ -106,7 +108,7 @@ countup.admin: { css: { theme: { css/countup.admin.css: {} } } }
 countup.editor:
   js:
     js/build/countup.js: { preprocess: false, minified: true }
-    js/counter.js: {}
+    js/countup.js: {}
   dependencies:
     - core/ckeditor5
   css:
@@ -118,10 +120,21 @@ countdown.admin: { css: { theme: { css/countdown.admin.css: {} } } }
 countdown.editor:
   js:
     js/build/countdown.js: { preprocess: false, minified: true }
-    js/counter.js: {}
+    js/countdown.js: {}
   dependencies:
     - core/ckeditor5
   css:
     theme:
       css/countdown.editor.css: {}
       css/countdown.css: {}
+
+callout.admin: { css: { theme: { css/callout.admin.css: {} } } }
+callout.editor:
+  js:
+    js/build/callout.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/callout.editor.css: {}
+      css/callout.css: {}

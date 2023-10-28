@@ -29,7 +29,8 @@ export default class CountdownEditing extends Plugin {
 			allowWhere: '$text',
 			isObject: true,
 			isInline: true,
-			allowAttributes: ['cuCountdownBackground', 'cuCountdownStyle', 'cuCountdownDate']
+			allowAttributes: ['cuCountdownBackground', 'cuCountdownStyle'],
+			allowContentOf: '$block'
 		});
 	}
 
@@ -50,7 +51,7 @@ export default class CountdownEditing extends Plugin {
 			model: 'cuCountdown',
 			view: {
 				name: 'span',
-				classes: 'cu-countdown'
+				classes: 'ucb-countdown'
 			}
 		});
 
@@ -59,14 +60,14 @@ export default class CountdownEditing extends Plugin {
 			model: 'cuCountdown',
 			view: {
 				name: 'span',
-				classes: 'cu-countdown'
+				classes: 'ucb-countdown'
 			}
 		});
 		conversion.for('editingDowncast').elementToElement({
 			model: 'cuCountdown',
 			view: (modelElement, { writer }) =>
 				toWidget(
-					writer.createContainerElement('span', { class: 'cu-countdown'}),
+					writer.createContainerElement('span', { class: 'ucb-countdown'}),
 					writer, { label: 'Countdown Widget' }
 				)
 		});

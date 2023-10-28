@@ -10,20 +10,25 @@ import {
 } from 'ckeditor5/src/ui';
 import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
 import { icons } from 'ckeditor5/src/core';
+import { sizeOptions, defaultSize} from './calloutconfig';
 
 export default class FormView extends View {
 	constructor( locale, componentFactory) {
 		super( locale);
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();
+
+		// Creates Dropdowns for Background, Size, Style
+		this.sizeDropdown = this._createSelectionDropdown(locale, 'Size', sizeOptions[defaultSize].icon, 'size', sizeOptions, defaultSize )
 		
 		// Creates the main input field.
 		// this.innerTextInputView = this._createInput( 'Button Text' );
-		this.countupTextInputView = this._createInput( 'Add Countup Number' );
+		this.calloutTextInputView = this._createInput( 'Add Callout Text' );
 		
 		// Sets defaults
-		this.countupTextInputView.fieldView.bind('countupText').to(this, 'countupText');
-		this.set('countupText', '')
+		this.set('size', defaultSize)
+		this.calloutTextInputView.fieldView.bind('calloutText').to(this, 'calloutText');
+		this.set('calloutText', '')
 
 
 		this.saveButtonView = this._createButton( 'Save', icons.check, 'ck-button-save' );
@@ -38,7 +43,8 @@ export default class FormView extends View {
 		this.cancelButtonView.delegate( 'execute' ).to( this, 'cancel' );
 
 		this.childViews = this.createCollection( [
-			this.countupTextInputView,
+			this.sizeDropdown,
+			this.calloutTextInputView,
 			this.saveButtonView,
 			this.cancelButtonView
 		] );
@@ -59,7 +65,7 @@ export default class FormView extends View {
 		this.setTemplate( {
 			tag: 'form',
 			attributes: {
-				class: [ 'ck', 'ck-countup-form' ],
+				class: [ 'ck', 'ck-callout-form' ],
 				tabindex: '-1'
 			},
 			children: this.childViews
@@ -91,12 +97,12 @@ export default class FormView extends View {
 
 	focus() {
 		// If the number text field is enabled, focus it straight away to allow the user to type.
-		if ( this.countupTextInputView.isEnabled ) {
-			this.countupTextInputView.focus();
+		if ( this.calloutTextInputView.isEnabled ) {
+			this.calloutTextInputView.focus();
 		}
 		// Focus the number text field if the former is disabled.
 		else {
-			this.countupTextInputView.focus();
+			this.calloutTextInputView.focus();
 		}
 	}
 

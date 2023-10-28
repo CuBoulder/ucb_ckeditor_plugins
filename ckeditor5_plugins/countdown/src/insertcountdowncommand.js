@@ -19,14 +19,9 @@ export default class CountdownCommand extends Command {
 			const range = selection.getFirstRange();
 			const cuCountdown = writer.createElement('cuCountdown', {
 				cuCountdownBackground: background,
-				cuCountdownStyle: style,
-				cuCountdownDate: date
+				cuCountdownStyle: style
 			});
-
-			// Create cuCountdownDate as a separate text node within cuCountdown
-			const cuCountdownDate = writer.createText(date);
-			writer.insert(cuCountdownDate, cuCountdown);
-
+			writer.insert(date, cuCountdown);
 			model.insertContent(cuCountdown);
 		});
 	}
@@ -44,16 +39,6 @@ export default class CountdownCommand extends Command {
 		this.isEnabled = allowedIn !== null;
 	
 		this.existingCountdownSelected = isButtonElement(selectedElement) ? selectedElement : null;
-	
-		if (this.existingCountdownSelected) {
-			// Check and update the 'date' variable based on 'cuCountdownDate' attribute
-			const cuCountdownDateAttribute = this.existingCountdownSelected.getAttribute('cuCountdownDate');
-			if (cuCountdownDateAttribute !== undefined) {
-				this.date = cuCountdownDateAttribute;
-			} else {
-				this.date = ''; // Set a default value if 'cuCountdownDate' is not defined
-			}
-		}
 	}	
 }
 

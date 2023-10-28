@@ -1,6 +1,6 @@
-import CountupEditing from './countupediting';
+import CalloutEditing from './calloutediting';
 import { Plugin } from 'ckeditor5/src/core';
-import CountupUI from './countupui.js';
+import CalloutUI from './calloutui.js';
 
 /**
  * @file This is what CKEditor refers to as a master (glue) plugin. Its role is
@@ -11,10 +11,10 @@ import CountupUI from './countupui.js';
  * before it's made discoverable via index.js.
  */
 
-// The contents of CountupUI and CountupEditing could be included in this
+// The contents of CalloutUI and CalloutEditing could be included in this
 // file, but it is recommended to separate these concerns in different files.
-  export default class Countup extends Plugin {
+  export default class Callout extends Plugin {
     static get requires() {
-      return [ CountupEditing, CountupUI ];
+      return [ CalloutEditing, CalloutUI ];
     }
   }
