@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Countup Button
+  Added the Countup button
+  
+  Countup button is the "stopwatch" icon.
+  I figured the countup would be the stopwatch and the countdown would be the hourglass.
+  
+  Sister PR: https://github.com/CuBoulder/tiamat10-profile/pull/36
+  
+  Countdown Example: 11/15/2023 23:59:59
+  
+  Closes #36 
+---
+
 - ### Change: Button Groups - 'Add Button' Functionality & UI Enhancements
   New Changes to the Button Group plugin includes the following enhancements:
   
