@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Update callout.js for svg icon
+  Update callout.js for the icon svg update
+  
+  Closes #46 
+---
+
 - ### Countup Button
   Added the Countup button
   
