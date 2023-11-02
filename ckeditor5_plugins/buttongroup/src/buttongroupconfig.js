@@ -18,7 +18,7 @@ export const sizeOptions = {
 	},
 };
 
-export const defaultSize = 'regular'
+export const defaultSize = 'regular';
 
 export const colorOptions = {
 	blue: {
@@ -43,4 +43,4 @@ export const colorOptions = {
 	}
 };
 
-export const defaultColor = 'black'
+export const defaultColor = 'blue';

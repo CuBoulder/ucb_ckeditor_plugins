@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Changes the default button color to blue
+  The default color when creating a new button or button group is now blue.
+  
+  Resolves CuBoulder/ucb_ckeditor_plugins#48
+---
+
 - ### Update callout.js for svg icon
   Update callout.js for the icon svg update
   
