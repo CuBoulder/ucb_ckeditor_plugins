@@ -29,4 +29,5 @@ export default class InvisibleUI extends Plugin {
 		});
 	  }
 }
+
 	

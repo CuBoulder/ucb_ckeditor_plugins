@@ -4,45 +4,49 @@ export default class InvisibleCommand extends Command {
   constructor( editor ) {
     super( editor );
 
-    // Listen for the Enter key and execute the command if conditions are met.
-    editor.keystrokes.set( 'Enter', ( data, cancel ) => {
-      const model = editor.model;
-      const selection = model.document.selection;
-
-      // If the selection is in an invisible element, let's exit that element.
-      if ( selection.focus && selection.focus.parent.name === 'ucb-invisible' ) {
-        model.change( writer => {
-          // Insert a paragraph after the invisible element.
-          const paragraph = writer.createElement( 'paragraph' );
-          writer.insert( paragraph, selection.focus.parent, 'after' );
-
-          // Place the selection into the new paragraph.
-          writer.setSelection( paragraph, 'in' );
-        });
-
-        // Prevent the default action of adding a new line in the invisible element.
-        cancel();
+            // Listen for the Enter key and execute the command if conditions are met.
+            this.editor.keystrokes.set('Enter', (data, cancel) => {
+              const model = this.editor.model;
+              const selection = model.document.selection;
+  
+              // If the selection is in an invisible element, let's exit that element.
+              if (selection.focus && selection.focus.parent.name === 'ucb-invisible') {
+                  model.change(writer => {
+                      // Insert a paragraph after the invisible element.
+                      const paragraph = writer.createElement('paragraph');
+                      writer.insert(paragraph, selection.focus.parent, 'after');
+  
+                      // Place the selection into the new paragraph.
+                      writer.setSelection(paragraph, 'in');
+                  });
+  
+                  // Prevent the default action of adding a new line in the invisible element.
+                  cancel();
+              }
+          }, { priority: 'high' }); // Use high priority to override the default Enter key behavior.
       }
-    }, { priority: 'high' } ); // Use high priority to override the default Enter key behavior.
-  }
-
-  execute() {
-    const model = this.editor.model;
-    const selection = model.document.selection;
-    const invisibleElement = findInvisibleElement(selection);
-
-    console.log('invisible element', invisibleElement)
-    model.change(writer => {
-      if (invisibleElement) {
-        // If selection is in an invisible element, remove the element.
-        removeInvisible(writer, invisibleElement);
-      } else {
-        // Otherwise, add an invisible element.
-        const invisible = addInvisible(writer, selection);
-        model.insertContent(invisible);
+  
+      execute() {
+          const model = this.editor.model;
+          const selection = model.document.selection;
+          const invisibleElement = findInvisibleElement(selection);
+  
+          model.change(writer => {
+              if (invisibleElement) {
+                  // If selection is in an invisible element, remove the element.
+                  removeInvisible(writer, invisibleElement);
+              } else {
+                  // Otherwise, add an invisible element.
+                  const invisible = writer.createElement('ucb-invisible');
+                  // TO DO -- fix so it gets selection or whatever is in widget form
+                  writer.appendText('Invisible Content', invisible);
+                  model.insertContent(invisible);
+  
+                  // Set the selection on the inserted widget element
+                  writer.setSelection(invisible, 'on');
+              }
+          });
       }
-    });
-  }
 
   refresh() {
     const model = this.editor.model;
@@ -83,7 +87,6 @@ function removeInvisible( writer, invisibleElement ) {
   const range = writer.createRangeOn(invisibleElement);
   const contents = range.getContainedElement();
   const parent = invisibleElement.parent
-  console.log(parent)
   writer.unwrap(invisibleElement);
   // Move selection out of the now-removed invisible element
   if (contents) {
