@@ -55,11 +55,29 @@ export default class InvisibleUI extends Plugin {
 				}
 			});
 		}
+		// Inside the InvisibleUI plugin:
+
 		_createInput(locale, label) {
 			const labeledInput = new LabeledFieldView(locale, createLabeledInputText);
 			labeledInput.label = locale.t(label);
+
+			// Add an event listener to update the command state or a variable when the input changes.
+			this.listenTo(labeledInput.fieldView, 'input', () => {
+				const text = labeledInput.fieldView.element.value;
+
+				// Call updateText to update the command state
+				const command = this.editor.commands.get('addInvisible');
+				if (command) {
+					command.updateText(text);
+					// If you need to execute the command right after updating text
+					command.execute(text); // Pass the text value directly
+				}
+			});
+
+
 			return labeledInput;
 		}
+
 }
 
 

@@ -3,7 +3,6 @@ import { Command } from 'ckeditor5/src/core';
 export default class InvisibleCommand extends Command {
   constructor( editor ) {
     super( editor );
-
             // Listen for the Enter key and execute the command if conditions are met.
             this.editor.keystrokes.set('Enter', (data, cancel) => {
               const model = this.editor.model;
@@ -26,26 +25,26 @@ export default class InvisibleCommand extends Command {
           }, { priority: 'high' }); // Use high priority to override the default Enter key behavior.
       }
   
-      execute() {
-          const model = this.editor.model;
-          const selection = model.document.selection;
-          const invisibleElement = findInvisibleElement(selection);
-  
-          model.change(writer => {
-              if (invisibleElement) {
-                  // If selection is in an invisible element, remove the element.
-                  removeInvisible(writer, invisibleElement);
-              } else {
-                  // Otherwise, add an invisible element.
-                  const invisible = writer.createElement('ucb-invisible');
-                  // TO DO -- fix so it gets selection or whatever is in widget form
-                  writer.appendText('Invisible Content', invisible);
-                  model.insertContent(invisible);
-  
-                  // Set the selection on the inserted widget element
-                  writer.setSelection(invisible, 'on');
-              }
-          });
+      execute(text) {
+        const model = this.editor.model;
+        const selection = model.document.selection;
+        const invisibleElement = findInvisibleElement(selection);
+    
+        model.change(writer => {
+            if (invisibleElement) {
+                // If selection is in an invisible element, remove the element.
+                removeInvisible(writer, invisibleElement);
+            } else {
+                // Otherwise, create an invisible element with the text from the input field.
+                const invisible = writer.createElement('ucb-invisible');
+                // Use the text from the input field.
+                writer.appendText(text || 'Invisible Content', invisible);
+                model.insertContent(invisible);
+    
+                // Set the selection on the inserted widget element
+                writer.setSelection(invisible, 'on');
+            }
+        });
       }
 
   refresh() {
@@ -65,6 +64,10 @@ export default class InvisibleCommand extends Command {
   this.isEnabled = allowedIn !== null || isInvisible !== null;
   this.value = !!isInvisible;
   }
+
+  updateText(newText) {
+		this._text = newText;
+	}
 }
 
 function findInvisibleElement(selection) {
