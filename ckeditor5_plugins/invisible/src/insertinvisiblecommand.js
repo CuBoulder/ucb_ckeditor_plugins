@@ -3,86 +3,96 @@ import { Command } from 'ckeditor5/src/core';
 export default class InvisibleCommand extends Command {
   constructor( editor ) {
     super( editor );
-            // Listen for the Enter key and execute the command if conditions are met.
-            this.editor.keystrokes.set('Enter', (data, cancel) => {
-              const model = this.editor.model;
-              const selection = model.document.selection;
-  
-              // If the selection is in an invisible element, let's exit that element.
-              if (selection.focus && selection.focus.parent.name === 'ucb-invisible') {
-                  model.change(writer => {
-                      // Insert a paragraph after the invisible element.
-                      const paragraph = writer.createElement('paragraph');
-                      writer.insert(paragraph, selection.focus.parent, 'after');
-  
-                      // Place the selection into the new paragraph.
-                      writer.setSelection(paragraph, 'in');
-                  });
-  
-                  // Prevent the default action of adding a new line in the invisible element.
-                  cancel();
-              }
-          }, { priority: 'high' }); // Use high priority to override the default Enter key behavior.
       }
   
       execute(text) {
         const model = this.editor.model;
         const selection = model.document.selection;
-        const invisibleElement = findInvisibleElement(selection);
-    
+        const invisibleElement = isInvisibleElement(selection.getSelectedElement()) ? findInvisibleElement(selection.getSelectedElement()) : null;
+        // If selection is text, use that
+        const selectedText = generateText(selection)
+
         model.change(writer => {
+          let newElementCreated = false;
             if (invisibleElement) {
-                // If selection is in an invisible element, remove the element.
-                removeInvisible(writer, invisibleElement);
+                // Update the text content of the existing invisible element.
+                const textNode = invisibleElement.getChild(0);
+                if (textNode) {
+                    writer.remove(textNode); // Remove the existing text node
+                }
+                writer.appendText(text || 'Invisible Content', invisibleElement);
             } else {
-                // Otherwise, create an invisible element with the text from the input field.
+                // Create a new invisible element with the text from the input field.
                 const invisible = writer.createElement('ucb-invisible');
-                // Use the text from the input field.
-                writer.appendText(text || 'Invisible Content', invisible);
+                writer.appendText(text || selectedText || 'Invisible Content', invisible);
                 model.insertContent(invisible);
     
                 // Set the selection on the inserted widget element
                 writer.setSelection(invisible, 'on');
+                newElementCreated = true
+                if (newElementCreated) {
+                  setTimeout(() => {
+                      const inputField = this.editor.ui.labeledInput;
+                      if (inputField) {
+                          inputField.fieldView.value = text || selectedText;
+                          inputField.fieldView.focus();
+                      }
+                  }, 0) // Timeout set to 0 to allow UI to update
+                }
             }
         });
-      }
-
-  refresh() {
-    const model = this.editor.model;
-    const selection = model.document.selection;
+    }
     
-   // Check if the command should be enabled based on the current selection.
-   const allowedIn = model.schema.findAllowedParent(
-    selection.getFirstPosition(),
-    'ucb-invisible'
-  );
 
-  // The command is enabled if we're in a position to insert an invisible element.
-  // The command's value is true if the selection is inside an invisible element.
-  const isInvisible = findInvisibleElement(selection);
-
-  this.isEnabled = allowedIn !== null || isInvisible !== null;
-  this.value = !!isInvisible;
+    refresh() {
+      const model = this.editor.model;
+      const selection = model.document.selection;
+      
+      // Check if the command should be enabled based on the current selection.
+      const allowedIn = model.schema.findAllowedParent(
+          selection.getFirstPosition(),
+          'ucb-invisible'
+      );
+  
+      // Check if the selection is inside an invisible element.
+      const invisibleElement = findInvisibleElement(selection.getSelectedElement());
+      this.isEnabled = allowedIn !== null || invisibleElement !== null;
+      this.value = !!invisibleElement;
+  
+      // Update the input field in the toolbar
+      const inputField = this.editor.ui.labeledInput;
+      if (inputField) {
+          if (invisibleElement) {
+              const textNode = invisibleElement.getChild(0);
+              inputField.fieldView.value = textNode ? textNode.data : '';
+          } else {
+              inputField.fieldView.value = '';
+          }
+      }
   }
+  
 
   updateText(newText) {
 		this._text = newText;
 	}
 }
 
-function findInvisibleElement(selection) {
-  // Ensure there's a focus position to look at
-  if (!selection.focus) {
-    return null;
-  }
+function isInvisibleElement(element) {
+	return element && element.name === 'ucb-invisible';
+}
 
-  // Check the name of the focus parent, if it's 'ucb-invisible', return it
-  if (selection.focus.parent && selection.focus.parent.name === 'ucb-invisible') {
-    return selection.focus.parent;
-  }
+function findInvisibleElement(element){
+  return isInvisibleElement(element) ?  element : null
+}
 
-  // If the parent is not 'ucb-invisible', return null and log an error for debugging
-  return null;
+function generateText(selection){
+    const range = selection.getFirstRange();
+    let string = '';
+
+    for ( const item of range.getItems() ) {
+      string += item.data
+  }
+  return string;
 }
 
 
@@ -95,20 +105,4 @@ function removeInvisible( writer, invisibleElement ) {
   if (contents) {
     writer.setSelection(contents, 'after');
   }
-}
-
-
-
-
-function addInvisible( writer, selection ) {
-  const invisible = writer.createElement( 'ucb-invisible' );
-
-  const range = selection.getFirstRange();
-
-  for ( const item of range.getItems() ) {
-    const textNode = writer.createText( item.data );
-    writer.append( textNode, invisible );
-  }
-
-  return invisible;
 }

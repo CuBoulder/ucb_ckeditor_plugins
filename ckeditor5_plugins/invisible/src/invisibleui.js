@@ -49,32 +49,38 @@ export default class InvisibleUI extends Plugin {
 				items: ['invisibleInnerText'],
 				getRelatedElement: (selection) => {
 					const selectedElement = selection.getSelectedElement();
-					if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-invisible'))
+					if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-invisible')){
+						// Update the input field's value
+						const textNode = selectedElement.getChild(0);
+						const text = textNode ? textNode.data : '';						
+						const inputField = this.editor.ui.labeledInput;
+						if (inputField) {
+							inputField.fieldView.value = text;
+						}
 						return selectedElement;
+					}
 				  	return null;
 				}
 			});
 		}
-		// Inside the InvisibleUI plugin:
-
 		_createInput(locale, label) {
 			const labeledInput = new LabeledFieldView(locale, createLabeledInputText);
 			labeledInput.label = locale.t(label);
-
-			// Add an event listener to update the command state or a variable when the input changes.
+		
 			this.listenTo(labeledInput.fieldView, 'input', () => {
 				const text = labeledInput.fieldView.element.value;
-
-				// Call updateText to update the command state
+		
+				// Update the state
 				const command = this.editor.commands.get('addInvisible');
 				if (command) {
 					command.updateText(text);
-					// If you need to execute the command right after updating text
-					command.execute(text); // Pass the text value directly
+					command.execute(text);
 				}
 			});
-
-
+		
+			// Store the labeled input for later reference
+			this.editor.ui.labeledInput = labeledInput;
+		
 			return labeledInput;
 		}
 
