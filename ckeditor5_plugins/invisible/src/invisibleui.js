@@ -16,7 +16,7 @@ export default class InvisibleUI extends Plugin {
 		const componentFactory = editor.ui.componentFactory;
 
 		// This will register the ButtonGroup button to the toolbar
-		componentFactory.add( 'buttonGroup', (locale) => {
+		componentFactory.add( 'invisible', (locale) => {
 			const button = new ButtonView(locale);
 			const command = commands.get('addInvisible');
 		
