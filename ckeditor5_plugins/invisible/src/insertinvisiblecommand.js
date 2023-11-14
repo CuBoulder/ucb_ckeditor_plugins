@@ -1,65 +1,78 @@
-/**
- * @file defines insertInvisibleCommand, which is executed when the Invisible
- * toolbar button is pressed.
- */
-// cSpell:ignore simpleboxeditingimport { Command } from 'ckeditor5/src/core';
 import { Command } from 'ckeditor5/src/core';
-import { IconView } from 'ckeditor5/src/ui';
-
-
-// const selection = editor.model.document.selection;
-
+import {isInvisibleElement, findInvisibleElement, generateText} from './invisibleutils';
 
 export default class InvisibleCommand extends Command {
-  execute() {
-    const model = this.editor.model;
-    const selection = model.document.selection;
-
-    model.change(writer => {
-      // Insert <ucb-invisible>*</ucb-invisible> at the current selection position
-      // in a way that will result in creating a valid model structure.
-
-      // const selectedText = this.editor.getData({ selection: true });
-      const invisible = addInvisible(writer, selection);
-      model.insertContent(invisible);
-    });
-  }
-
-  refresh() {
-    const model = this.editor.model;
-    const selection = model.document.selection;
-
-    // Determine if the cursor (selection) is in a position where adding a
-    // Invisible is permitted. This is based on the schema of the model(s)
-    // currently containing the cursor.
-    const allowedIn = model.schema.findAllowedParent(
-      selection.getFirstPosition(),
-      'ucb-invisible'
-    );
-
-    // If the cursor is not in a location where a ucb-invisible can be added, return
-    // null so the addition doesn't happen.
-    this.isEnabled = allowedIn !== null;
-  }
-}
-
-function addInvisible(writer, text) {
-  // Create instances of the element registered with the editor.
-
-  // Make the element
-  const invisible = writer.createElement('ucb-invisible');
-  // Strip the tags out of the selected text, convert to text Node for append
+  constructor( editor ) {
+    super( editor );
+      }
   
+      execute(text) {
+        const model = this.editor.model;
+        const selection = model.document.selection;
+        const invisibleElement = isInvisibleElement(selection.getSelectedElement()) ? findInvisibleElement(selection.getSelectedElement()) : null;
+        // If selection is text, make it insertable
+        const selectedText = generateText(selection)
 
-  const range = text.getFirstRange();
+        model.change(writer => {
+          let newElementCreated = false;
+            if (invisibleElement) {
+                // Update the text content of the existing invisible element.
+                const textNode = invisibleElement.getChild(0);
+                if (textNode) {
+                    writer.remove(textNode); // Remove the existing text node
+                }
+                writer.appendText(text !== null ? text : '', invisibleElement);
+              } else {
+                // Create a new invisible element with the text from the input field, the highlighted text, or default.
+                const invisible = writer.createElement('ucb-invisible');
+                if (!selectedText){
+                  writer.appendText(text || 'Invisible Content', invisible);
+                } else {
+                  writer.appendText(selectedText || 'Invisible Content', invisible);
+                }
+                model.insertContent(invisible);
+    
+                // Set the selection on the inserted widget element
+                writer.setSelection(invisible, 'on');
+                newElementCreated = true
+                if (newElementCreated) {
+                  setTimeout(() => {
+                      const inputField = this.editor.ui.labeledInput;
+                      if (inputField) {
+                          inputField.fieldView.value = text || selectedText;
+                          inputField.fieldView.focus();
+                      }
+                  }, 0) // Timeout set to 0 to allow UI to update, not sure why this is needed but it works
+                }
+            }
+        });
+    }
+    
 
-  for (const item of range.getItems()) {
-    const textNode = writer.createText(item.data)
-    writer.append(textNode, invisible)
-
-  }  
-
-  // Return the element to be added to the editor.
-  return invisible;
+    refresh() {
+      const model = this.editor.model;
+      const selection = model.document.selection;
+      
+      // Check if the command should be enabled based on the current selection.
+      const allowedIn = model.schema.findAllowedParent(
+          selection.getFirstPosition(),
+          'ucb-invisible'
+      );
+  
+      // Check if the selection is inside an invisible element.
+      const invisibleElement = findInvisibleElement(selection.getSelectedElement());
+      this.isEnabled = allowedIn !== null || invisibleElement !== null;
+      this.value = !!invisibleElement;
+  
+      // Update the input field in the toolbar
+      const inputField = this.editor.ui.labeledInput;
+      if (inputField) {
+          if (invisibleElement) {
+              const textNode = invisibleElement.getChild(0);
+              inputField.fieldView.value = textNode ? textNode.data : '';
+          } else {
+              inputField.fieldView.value = '';
+          }
+      }
+  }
 }
-

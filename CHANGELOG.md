@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Invisible Plugin Enhancements
+  Enhances the `Screen-Reader Only` plugin and editing experience
+  
+  - Fixes bug where content editors were unable to escape out of Invisible by refactoring plugin as a widget.
+  - By highlighting text and clicking the Screen Read Only toolbar button, you can automatically wrap the text selection in a SR-Only element. SR-Only elements can also be created without any selected text and the input field will auto-focus to allow immediate input of your screen-read only text within the new element.
+  - Changes to inner text of a SR-Only element appear instantly.
+  - SR-Only elements can be unwrapped/deleted as well as moved around in the editor using the selection handle. 
+  
+  Resolves #49
+  
+---
+
 - ### Changes the default button color to blue
   The default color when creating a new button or button group is now blue.
   
