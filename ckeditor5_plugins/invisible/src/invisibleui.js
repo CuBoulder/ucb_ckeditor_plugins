@@ -2,7 +2,7 @@
 // // Also handles the format and display during editing
 import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
-import { addToolbarToDropdown, ButtonView, createDropdown, createLabeledInputText, FocusCycler, LabeledFieldView, submitHandler, View } from 'ckeditor5/src/ui';
+import { ButtonView, createLabeledInputText, LabeledFieldView } from 'ckeditor5/src/ui';
 import audioIcon from '../../../icons/invisible.svg'
 import { isInvisibleElement } from './invisibleutils';
 
