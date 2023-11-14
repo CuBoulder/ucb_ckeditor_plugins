@@ -1,4 +1,5 @@
 import { Command } from 'ckeditor5/src/core';
+import {isInvisibleElement, findInvisibleElement, generateText} from './invisibleutils';
 
 export default class InvisibleCommand extends Command {
   constructor( editor ) {
@@ -9,7 +10,7 @@ export default class InvisibleCommand extends Command {
         const model = this.editor.model;
         const selection = model.document.selection;
         const invisibleElement = isInvisibleElement(selection.getSelectedElement()) ? findInvisibleElement(selection.getSelectedElement()) : null;
-        // If selection is text, use that
+        // If selection is text, make it insertable
         const selectedText = generateText(selection)
 
         model.change(writer => {
@@ -20,11 +21,15 @@ export default class InvisibleCommand extends Command {
                 if (textNode) {
                     writer.remove(textNode); // Remove the existing text node
                 }
-                writer.appendText(text || 'Invisible Content', invisibleElement);
-            } else {
-                // Create a new invisible element with the text from the input field.
+                writer.appendText(text !== null ? text : '', invisibleElement);
+              } else {
+                // Create a new invisible element with the text from the input field, the highlighted text, or default.
                 const invisible = writer.createElement('ucb-invisible');
-                writer.appendText(text || selectedText || 'Invisible Content', invisible);
+                if (!selectedText){
+                  writer.appendText(text || 'Invisible Content', invisible);
+                } else {
+                  writer.appendText(selectedText || 'Invisible Content', invisible);
+                }
                 model.insertContent(invisible);
     
                 // Set the selection on the inserted widget element
@@ -37,7 +42,7 @@ export default class InvisibleCommand extends Command {
                           inputField.fieldView.value = text || selectedText;
                           inputField.fieldView.focus();
                       }
-                  }, 0) // Timeout set to 0 to allow UI to update
+                  }, 0) // Timeout set to 0 to allow UI to update, not sure why this is needed but it works
                 }
             }
         });
@@ -69,40 +74,5 @@ export default class InvisibleCommand extends Command {
               inputField.fieldView.value = '';
           }
       }
-  }
-  
-
-  updateText(newText) {
-		this._text = newText;
-	}
-}
-
-function isInvisibleElement(element) {
-	return element && element.name === 'ucb-invisible';
-}
-
-function findInvisibleElement(element){
-  return isInvisibleElement(element) ?  element : null
-}
-
-function generateText(selection){
-    const range = selection.getFirstRange();
-    let string = '';
-
-    for ( const item of range.getItems() ) {
-      string += item.data
-  }
-  return string;
-}
-
-
-function removeInvisible( writer, invisibleElement ) {
-  const range = writer.createRangeOn(invisibleElement);
-  const contents = range.getContainedElement();
-  const parent = invisibleElement.parent
-  writer.unwrap(invisibleElement);
-  // Move selection out of the now-removed invisible element
-  if (contents) {
-    writer.setSelection(contents, 'after');
   }
 }

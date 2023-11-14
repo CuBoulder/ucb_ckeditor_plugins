@@ -1,5 +1,6 @@
 import { Plugin } from 'ckeditor5/src/core';
 import InvisibleCommand from './insertinvisiblecommand';
+import RemoveInvisibleCommand from './removeinvisiblecommand';
 import { Widget, toWidget } from 'ckeditor5/src/widget';
 
 
@@ -16,6 +17,10 @@ export default class InvisibleEditing extends Plugin {
 			'addInvisible',
 			new InvisibleCommand(this.editor),
 		  );
+		this.editor.commands.add(
+			'removeInvisible',
+			new RemoveInvisibleCommand(this.editor)
+		)
 	}
 	_defineSchema() {
 		const schema = this.editor.model.schema;

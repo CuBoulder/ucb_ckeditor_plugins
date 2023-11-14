@@ -6,17 +6,19 @@ export function findInvisibleElement(element){
   return isInvisibleElement(element) ?  element : null
 }
 
+// Used for creation of <ucb-invisible> elements if there's highlighted text and insertInvisible command is executed. Includes only the text
 export function generateText(selection){
     const range = selection.getFirstRange();
     let string = '';
-
     for ( const item of range.getItems() ) {
-      string += item.data
+      if(item.data){
+        string += item.data
+      }
   }
   return string;
 }
 
-
+// Handles unwrapping the inner text from a <ucb-invisible> element on removal
 export function removeInvisible( writer, invisibleElement ) {
   const range = writer.createRangeOn(invisibleElement);
   const contents = range.getContainedElement();

@@ -4,6 +4,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { addToolbarToDropdown, ButtonView, createDropdown, createLabeledInputText, FocusCycler, LabeledFieldView, submitHandler, View } from 'ckeditor5/src/ui';
 import audioIcon from '../../../icons/invisible.svg'
+import { isInvisibleElement } from './invisibleutils';
 
 export default class InvisibleUI extends Plugin {
 	static get requires() {
@@ -30,7 +31,18 @@ export default class InvisibleUI extends Plugin {
 			button.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
 
 			// Execute the command when the button is clicked (executed).
-			this.listenTo(button, 'execute', () => editor.execute('addInvisible'));
+			this.listenTo(button, 'execute', () => {
+				const selection = editor.model.document.selection;
+				const selectedElement = selection.getSelectedElement();
+			
+				if (selectedElement && isInvisibleElement(selectedElement)) {
+					// If an invisible element is selected, remove it on toolbar press
+					editor.execute('removeInvisible', selectedElement);
+				} else {
+					// Otherwise, add a new invisible element.
+					editor.execute('addInvisible');
+				}
+			});
 
 			return button;
 		} );
@@ -73,7 +85,6 @@ export default class InvisibleUI extends Plugin {
 				// Update the state
 				const command = this.editor.commands.get('addInvisible');
 				if (command) {
-					command.updateText(text);
 					command.execute(text);
 				}
 			});
@@ -85,7 +96,6 @@ export default class InvisibleUI extends Plugin {
 		}
 
 }
-
 
 
 	
