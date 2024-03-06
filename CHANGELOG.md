@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Uses higher-resolution image for Campus Map
+  Resolves CuBoulder/ucb_ckeditor_plugins#53
+---
+
 - ### Invisible Plugin Enhancements
   Enhances the `Screen-Reader Only` plugin and editing experience
   

@@ -215,7 +215,7 @@ function createCampusMapView(modelElement, downcastWriter, widget = false) {
 		return toWidget(downcastWriter.createContainerElement('div',
 			{
 				class: 'ucb-map ucb-campus-map',
-				style: `background-image: url('https://staticmap.concept3d.com/map/static-map/?map=336&loc=${mapLocation}')`
+				style: `background-image: url('https://staticmap.concept3d.com/map/static-map/?map=336&loc=${mapLocation}&scale=2')`
 			}, [
 			downcastWriter.createRawElement('a', {
 				href: campusMapLocationToURL(mapLocation)
