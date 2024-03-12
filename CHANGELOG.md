@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Fixes CK5 Button CSS specificity
+  Previously Button link styles were being overwritten by Box's link CSS specificity (0,2,0) versus (0,5,1). This would affect pages like https://www.colorado.edu/coloradan/spring-2024 where they add Buttons into Boxes to create elements on the page.
+   
+  Resolves #55 
+---
+
 - ### Uses higher-resolution image for Campus Map
   Resolves CuBoulder/ucb_ckeditor_plugins#53
 ---
