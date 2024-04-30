@@ -2,6 +2,7 @@
 var hourglasses = document.querySelectorAll('.ucb-countdown');
 for (const hourglass of hourglasses) {
   var countDownDate = new Date(hourglass.innerText).getTime();
+  var endDate = new Date(countDownDate);
 
   
     var now = new Date().getTime();
@@ -19,8 +20,13 @@ for (const hourglass of hourglasses) {
     var minutesHTML = "<div class='countdown-minutes'><span class = 'countdown-value'>" + minutes + "</span><span class = 'countdown-label'> Minutes</span></div>";
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     var secondsHTML = "<div class='countdown-seconds'><span class = 'countdown-value'>" + seconds + "</span><span class = 'countdown-label'> Seconds</span></div>";
-  
-    hourglass.innerHTML = daysHTML + "<div class='countdown-bottom'>" + hoursHTML + minutesHTML + secondsHTML +"</div>";
+    var srOnlyCountdown = document.createElement("div");
+    srOnlyCountdown.classList.add('sr-only');
+    srOnlyCountdown.innerHTML = "It is " + days + " days until " + endDate.toDateString();
+
+    hourglass.innerHTML = daysHTML + "<div class='countdown-bottom'>" + hoursHTML + minutesHTML + secondsHTML + "</div>";
+    hourglass.after(srOnlyCountdown);
+
 
   setInterval(function() {
     var now = new Date().getTime();
