@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds CKEditor 5 plugin styles globally to all pages
+  This update:
+  - [Bug, Meta] Fixes improperly-styled plugin-generated content in the Collection Grid block. Resolves CuBoulder/ucb_ckeditor_plugins#61
+  - [Bug, Meta] Fixes improperly-styled plugin-generated content in the site footer. 
+---
+
 - ### A11Y Update
   Added aria-hidden to the main countdown
   Added a new sr-only div with basic information for screen readers
