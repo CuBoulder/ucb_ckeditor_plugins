@@ -300,7 +300,8 @@ ucb_ckeditor_plugins_countdown:
       # Note that it necessary for elements to separately provide both the tag
       # <span> is used to make containers that are tagged with coutner which casues the number to increment until matching the input.
       - <span>
-      - <span class="ucb-countdown countdown-full countdown-solid countdown-transparent countdown-inline countdown-stacked">
+      - <span aria-hidden="true" class="ucb-countdown countdown-full countdown-solid countdown-transparent countdown-inline countdown-stacked">
+      - <span aria-hidden="true">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

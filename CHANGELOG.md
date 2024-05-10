@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### A11Y Update
+  Added aria-hidden to the main countdown
+  Added a new sr-only div with basic information for screen readers
+  
+  This update:
+  
+  - [a11y] Resolves CuBoulder/ucb_ckeditor_plugins#59:
+    - Adds `aria-hidden="true"` to the main countdown that updates every second. 
+    -Adds a new div to the js output that is `sr-only` for screen readers.
+    
+    Sister PR: https://github.com/CuBoulder/tiamat10-profile/pull/123
+    Sister PR: https://github.com/CuBoulder/ucb_migration_shortcodes/pull/20
+---
+
 - ### Increases Large Button Size
   Increases the size of Large style buttons by 5% to match the previous version (125% to 130%)
   
