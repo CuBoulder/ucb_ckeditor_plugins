@@ -16,22 +16,22 @@ function embedCodeToURL(embedCode) {
 
 /**
  * @param {string} url
- * @returns {string | null}
- *   Just the location part of the URL, or null if the URL isn't a valid Campus Map URL.
+ * @returns {string | undefined}
+ *   Just the location part of the URL, or `undefined` if the URL isn't a valid Campus Map URL.
  *   For example, passing the URL `'https://www.colorado.edu/map/?id=336#!m/432490'` returns `'432490'`,
- *   while passing the URL `'https://www.colorado.edu/'` returns `null` as it doesn't link directly to a Campus Map.
+ *   while passing the URL `'https://www.colorado.edu/'` returns `undefined` as it doesn't link directly to a Campus Map.
  */
 export function campusMapURLToLocation(url) {
   if (url[0] === '<') {
     url = embedCodeToURL(url); // Gets a URL from a likely embed code.
-    if (!url) return null;
+    if (!url) return;
   }
   let urlified;
   try {
     urlified = new URL(url);
-  } catch (e) { return null; }
+  } catch (e) { return; }
   if ((urlified.hostname !== 'colorado.edu' && urlified.hostname !== 'www.colorado.edu') || (urlified.pathname !== '/map' && urlified.pathname !== '/map/') || !urlified.hash)
-    return null;
+    return;
   return urlified.hash.match(/m\/(\d+)/)[1];
 }
 
