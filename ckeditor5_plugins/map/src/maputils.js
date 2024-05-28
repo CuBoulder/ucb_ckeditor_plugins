@@ -32,7 +32,10 @@ export function campusMapURLToLocation(url) {
   } catch (e) { return; }
   if ((urlified.hostname !== 'colorado.edu' && urlified.hostname !== 'www.colorado.edu') || (urlified.pathname !== '/map' && urlified.pathname !== '/map/') || !urlified.hash)
     return;
-  return urlified.hash.match(/m\/(\d+)/)[1];
+  const match = urlified.hash.match(/m\/(\d+)/);
+  if (match)
+    return match[1];
+  return;
 }
 
 /**
