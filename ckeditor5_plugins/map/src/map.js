@@ -15,10 +15,10 @@ import MapUI from './mapui';
 import { Plugin } from 'ckeditor5/src/core';
 
 export default class Map extends Plugin {
-	// Note that MapEditing and MapUI also extend `Plugin`, but these
-	// are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
-	// discover the plugins explicitly exported in index.js.
-	static get requires() {
-		return [MapEditing, MapUI];
-	}
+  // Note that MapEditing and MapUI also extend `Plugin`, but these
+  // are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
+  // discover the plugins explicitly exported in index.js.
+  static get requires() {
+    return [MapEditing, MapUI];
+  }
 }

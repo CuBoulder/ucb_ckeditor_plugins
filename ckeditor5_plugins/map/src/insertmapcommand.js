@@ -10,59 +10,59 @@ import { sizeDefault } from './mapconfig';
 import { campusMapURLToLocation, googleMapURLToLocation } from './maputils';
 
 export default class InsertMapCommand extends Command {
-	/**
-	 * Creates a new InsertMapCommand.
-	 * 
-	 * @param {Editor} editor 
-	 *   The editor.
-	 */
-	constructor(editor) {
-		super(editor);
-		this.set('existingMapSelected', false);
-	}
+  /**
+   * Creates a new InsertMapCommand.
+   * 
+   * @param {Editor} editor 
+   *   The editor.
+   */
+  constructor(editor) {
+    super(editor);
+    this.set('existingMapSelected', false);
+  }
 
-	/**
-	 * @inheritdoc
-	 */
-	execute(options = { value: '', size: sizeDefault }) {
-		const value = options.value.trim(), model = this.editor.model, mapSize = options.size;
+  /**
+   * @inheritdoc
+   */
+  execute(options = { value: '', size: sizeDefault }) {
+    const value = options.value.trim(), model = this.editor.model, mapSize = options.size;
 
-		if (!value) return;
+    if (!value) return;
 
-		let mapModel = 'campusMap';
-		let mapLocation = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a Campus Map.
-		if (!mapLocation) {
-			mapModel = 'googleMap';
-			mapLocation = googleMapURLToLocation(value); // Converts the user-supplied URL to a location for a Google Map.
-		}
-		if (!mapLocation) return;
+    let mapModel = 'campusMap';
+    let mapLocation = campusMapURLToLocation(value); // Converts the user-supplied URL to a location for a Campus Map.
+    if (!mapLocation) {
+      mapModel = 'googleMap';
+      mapLocation = googleMapURLToLocation(value); // Converts the user-supplied URL to a location for a Google Map.
+    }
+    if (!mapLocation) return;
 
-		model.change((writer) => model.insertContent(writer.createElement(mapModel, { mapLocation, mapSize })));
-	}
+    model.change((writer) => model.insertContent(writer.createElement(mapModel, { mapLocation, mapSize })));
+  }
 
-	/**
-	 * @inheritdoc
-	 */
-	refresh() {
-		const { model } = this.editor;
-		const { selection } = model.document;
-		const selectedElement = selection.getSelectedElement();
+  /**
+   * @inheritdoc
+   */
+  refresh() {
+    const { model } = this.editor;
+    const { selection } = model.document;
+    const selectedElement = selection.getSelectedElement();
 
-		// Determine if the cursor (selection) is in a position where adding a
-		// map is permitted. This is based on the schema of the model(s)
-		// currently containing the cursor.
-		const campusMapAllowedIn = model.schema.findAllowedParent(
-			selection.getFirstPosition(),
-			'campusMap'
-		);
+    // Determine if the cursor (selection) is in a position where adding a
+    // map is permitted. This is based on the schema of the model(s)
+    // currently containing the cursor.
+    const campusMapAllowedIn = model.schema.findAllowedParent(
+      selection.getFirstPosition(),
+      'campusMap'
+    );
 
-		// If the cursor is not in a location where a map can be added, return
-		// null so the addition doesn't happen.
-		this.isEnabled = campusMapAllowedIn !== null;
+    // If the cursor is not in a location where a map can be added, return
+    // null so the addition doesn't happen.
+    this.isEnabled = campusMapAllowedIn !== null;
 
-		// Adds a helpful attribute to get an existing selected map element.
-		this.existingMapSelected = isMapElement(selectedElement) ? selectedElement : null;
-	}
+    // Adds a helpful attribute to get an existing selected map element.
+    this.existingMapSelected = isMapElement(selectedElement) ? selectedElement : null;
+  }
 }
 
 /**
@@ -71,5 +71,5 @@ export default class InsertMapCommand extends Command {
  *   Whether or not `element` is a map element.
  */
 function isMapElement(element) {
-	return element && (element.name === 'campusMap' || element.name === 'googleMap');
+  return element && (element.name === 'campusMap' || element.name === 'googleMap');
 }

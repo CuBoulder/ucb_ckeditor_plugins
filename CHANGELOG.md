@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Updates map plugin
+  This update:
+  - [Bug, plugin:map] Fixes a bug caused by the addition of unnecessary junk in Campus Map URLs. Resolves CuBoulder/ucb_ckeditor_plugins#64
+  - [Change, plugin:map] Corrects the indentation of map plugin files to Drupal-standard spaces.
+---
+
 - ### Adds CKEditor 5 plugin styles globally to all pages
   This update:
   - [Bug, Meta] Fixes improperly-styled plugin-generated content in the Collection Grid block. Resolves CuBoulder/ucb_ckeditor_plugins#61
