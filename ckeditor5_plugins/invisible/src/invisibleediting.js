@@ -6,7 +6,7 @@ import { Widget, toWidget } from 'ckeditor5/src/widget';
 export default class InvisibleEditing extends Plugin {
   static get requires() {
     return [Widget];
-    }  
+  }  
 
   init() {
     this._defineSchema();

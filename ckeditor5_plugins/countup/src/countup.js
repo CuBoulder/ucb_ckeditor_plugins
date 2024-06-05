@@ -13,8 +13,8 @@ import CountupUI from './countupui.js';
 
 // The contents of CountupUI and CountupEditing could be included in this
 // file, but it is recommended to separate these concerns in different files.
-  export default class Countup extends Plugin {
-    static get requires() {
-      return [ CountupEditing, CountupUI ];
-    }
+export default class Countup extends Plugin {
+  static get requires() {
+    return [ CountupEditing, CountupUI ];
   }
+}

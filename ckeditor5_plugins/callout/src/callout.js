@@ -13,8 +13,8 @@ import CalloutUI from './calloutui.js';
 
 // The contents of CalloutUI and CalloutEditing could be included in this
 // file, but it is recommended to separate these concerns in different files.
-  export default class Callout extends Plugin {
-    static get requires() {
-      return [ CalloutEditing, CalloutUI ];
-    }
+export default class Callout extends Plugin {
+  static get requires() {
+    return [ CalloutEditing, CalloutUI ];
   }
+}
