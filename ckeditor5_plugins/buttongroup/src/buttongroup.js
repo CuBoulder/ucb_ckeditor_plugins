@@ -13,8 +13,8 @@ import ButtonGroupEditing from './buttongroupediting';
 
 // The contents of ButtonUI and ButtonEditing could be included in this
 // file, but it is recommended to separate these concerns in different files.
-  export default class ButtonGroup extends Plugin {
-    static get requires() {
-      return [ ButtonGroupEditing, ButtonGroupUI ];
-    }
+export default class ButtonGroup extends Plugin {
+  static get requires() {
+    return [ ButtonGroupEditing, ButtonGroupUI ];
   }
+}

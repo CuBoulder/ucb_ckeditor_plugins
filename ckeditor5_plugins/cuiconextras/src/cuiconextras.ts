@@ -17,10 +17,10 @@ import type { PluginDependencies } from 'ckeditor5/src/core';
 import { Plugin } from 'ckeditor5/src/core';
 
 export default class CUIconExtras extends Plugin implements PluginInterface {
-	// Note that IconEditing and IconUI also extend `Plugin`, but these
-	// are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
-	// discover the plugins explicitly exported in index.js.
-	public static get requires(): PluginDependencies {
-		return [CUIconExtrasEditing, CUIconExtrasToolbar] as const;
-	}
+  // Note that IconEditing and IconUI also extend `Plugin`, but these
+  // are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
+  // discover the plugins explicitly exported in index.js.
+  public static get requires(): PluginDependencies {
+    return [CUIconExtrasEditing, CUIconExtrasToolbar] as const;
+  }
 }

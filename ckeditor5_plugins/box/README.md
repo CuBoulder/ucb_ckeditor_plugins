@@ -7,19 +7,19 @@ This plugin is largely based on CKEditor 5's [block plugin widget tutorial](http
 ## Model
 ```xml
 <box boxTitle="left|center|right|hidden" boxAlignment="left|none|right" boxStyle="fill|outline|none" boxTheme="black|darkgray|lightgray|white">
-	<boxInner>
-		<boxTitle>{content of: $block}</boxTitle>
-		<boxContent>{content of: $root}</boxContent>
-	</boxInner>
+  <boxInner>
+    <boxTitle>{content of: $block}</boxTitle>
+    <boxContent>{content of: $root}</boxContent>
+  </boxInner>
 </box>
 ```
 
 ## HTML
 ```html
 <div class="ucb-box ucb-box-title-(left|center|right|hidden) ucb-box-alignment-(left|none|right) ucb-box-style-(fill|outline|none) ucb-box-theme-(black|darkgray|lightgray|white)">
-	<div class="ucb-box-inner">
-		<div class="ucb-box-title"> ... </div>
-		<div class="ucb-box-content"> ... </div>
-	</div>
+  <div class="ucb-box-inner">
+    <div class="ucb-box-title"> ... </div>
+    <div class="ucb-box-content"> ... </div>
+  </div>
 </div>
 ```

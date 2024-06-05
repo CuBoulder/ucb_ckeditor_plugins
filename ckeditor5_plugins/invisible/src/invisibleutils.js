@@ -1,5 +1,5 @@
 export function isInvisibleElement(element) {
-	return element && element.name === 'ucb-invisible';
+  return element && element.name === 'ucb-invisible';
 }
 
 export function findInvisibleElement(element){

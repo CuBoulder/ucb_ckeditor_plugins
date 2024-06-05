@@ -13,8 +13,8 @@ import ButtonUI from './buttonui.js';
 
 // The contents of ButtonUI and ButtonEditing could be included in this
 // file, but it is recommended to separate these concerns in different files.
-  export default class Button extends Plugin {
-    static get requires() {
-      return [ ButtonEditing, ButtonUI ];
-    }
+export default class Button extends Plugin {
+  static get requires() {
+    return [ ButtonEditing, ButtonUI ];
   }
+}

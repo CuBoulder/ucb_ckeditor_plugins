@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Fixes box plugin error on Drupal 10.3; Cleans up indentation for Drupal coding standards compliance
+  This update:
+  - [bug, plugin:box] Fixes box plugin error on Drupal 10.3. Resolves CuBoulder/ucb_ckeditor_plugins#67
+  - [change, meta] Cleans up indentation for Drupal coding standards compliance.
+---
+
 - ### Updates map plugin
   This update:
   - [Bug, plugin:map] Fixes a bug caused by the addition of unnecessary junk in Campus Map URLs. Resolves CuBoulder/ucb_ckeditor_plugins#64

@@ -1,33 +1,33 @@
 .ucb-link-button {
-	transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-	background-clip: padding-box;
-	border-radius: 3px;
-	text-decoration: none !important;
-	display: inline-block;
-	padding: 5px 10px;
-	font-weight: bold;
-	line-height: 1.5em;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+  border-radius: 3px;
+  text-decoration: none !important;
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: bold;
+  line-height: 1.5em;
 }
 
 .container > .ucb-button-group{
-	display: flex;
-	margin-top: 10px;
-	margin-bottom: 10px;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .container > .ucb-button-group > .ucb-link-button {
-    flex-grow: 1;
-    border-radius: 0px;
-    background-clip: padding-box;
-    text-align: center;
-    vertical-align: middle;
-    border-style: solid;
-    position: relative;
-    border: none;
-    overflow: hidden;
-    width: 100%;
-    margin-bottom: 0;
-	border-radius: 0px !important;
+  flex-grow: 1;
+  border-radius: 0px;
+  background-clip: padding-box;
+  text-align: center;
+  vertical-align: middle;
+  border-style: solid;
+  position: relative;
+  border: none;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 0;
+  border-radius: 0px !important;
 }
 
 /* Button in Editor - slightly expands a button's clickable area in CK editor to make toggling button UI easier via button element click */
@@ -38,82 +38,81 @@
 
 /* Colors */
 .ucb-link-button.ucb-link-button-blue {
-	color: #fff !important;
-	background-color: #0277BD;
+  color: #fff !important;
+  background-color: #0277BD;
 }
 
 .ucb-link-button.ucb-link-button-black {
-	color: #fff !important;
-	background-color: #000;
+  color: #fff !important;
+  background-color: #000;
 }
 
 .ucb-link-button.ucb-link-button-gray {
-	color: #111111 !important;
-	background-color: #EEEEEE;
+  color: #111111 !important;
+  background-color: #EEEEEE;
 }
 
 .ucb-link-button.ucb-link-button-white {
-	color: #111111 !important;
-	background-color: #fff;
+  color: #111111 !important;
+  background-color: #fff;
 }
 
 .ucb-link-button.ucb-link-button-gold {
-	color: #111111 !important;
-	background-color: #cfb87c;
+  color: #111111 !important;
+  background-color: #cfb87c;
 }
 
 /* Size */
 .ucb-link-button.ucb-link-button-large {
-	font-size: 130%;
+  font-size: 130%;
 }
 
 .ucb-link-button.ucb-link-button-regular {
-	font-size: 100%;
+  font-size: 100%;
 }
 
 .ucb-link-button.ucb-link-button-small {
-	font-size: 85%;
-	padding: 1px 6px;
+  font-size: 85%;
+  padding: 1px 6px;
 }
 
 
 /* Width */
 .ucb-link-button.ucb-link-button-full {
-	display: block;
-	text-align: center;
+  display: block;
+  text-align: center;
 }
 
 /* Hover + Focus */
 .ucb-link-button:hover{
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3)
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3)
 
 }
 .ucb-link-button.ucb-link-button-blue:hover,.ucb-link-button.ucb-link-button-blue:focus {
-	color: #fff !important;
-	background-color: #026baa;
+  color: #fff !important;
+  background-color: #026baa;
 }
 
 .ucb-link-button.ucb-link-button-black:hover,.ucb-link-button.ucb-link-button-black:focus {
-	color: #fff !important;
-	background-color: #333333;
+  color: #fff !important;
+  background-color: #333333;
 }
 
 .ucb-link-button.ucb-link-button-gray:hover,.ucb-link-button.ucb-link-button-gray:focus {
-	color: #111111 !important;
-	background-color: #d6d6d6;
+  color: #111111 !important;
+  background-color: #d6d6d6;
 }
 
 .ucb-link-button.ucb-link-button-white:hover,.ucb-link-button.ucb-link-button-white:focus {
-	color: #111111 !important;
-	background-color: #e6e6e6;
+  color: #111111 !important;
+  background-color: #e6e6e6;
 }
 
 .ucb-link-button.ucb-link-button-gold:hover,.ucb-link-button.ucb-link-button-gold:focus {
-	color: #111111 !important;
-	background-color: #a6a6a6;
+  color: #111111 !important;
+  background-color: #a6a6a6;
 }
 
 .container > .ucb-button-group > .ucb-link-button-large{
-	padding: 20px;
+  padding: 20px;
 }
-

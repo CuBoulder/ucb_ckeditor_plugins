@@ -12,18 +12,18 @@
  *   The selected box widget, or null if there isn't one.
  */
 export function getSelectedBoxWidget(selection) {
-	const selectionPosition = selection.getFirstPosition();
-	if (!selectionPosition)
-		return null;
+  const selectionPosition = selection.getFirstPosition();
+  if (!selectionPosition)
+    return null;
 
-	let parent = selectionPosition.parent;
-	while (parent) {
-		if (parent.is('element') && isBoxWidget(parent))
-			return parent;
-		parent = parent.parent;
-	}
+  let parent = selectionPosition.parent;
+  while (parent) {
+    if (parent.is('element') && isBoxWidget(parent))
+      return parent;
+    parent = parent.parent;
+  }
 
-	return null;
+  return null;
 }
 
 /**
@@ -32,5 +32,5 @@ export function getSelectedBoxWidget(selection) {
  *   Whether the element is a box widget.
  */
 function isBoxWidget(element) {
-	return element.name === 'box';
+  return element.name === 'box';
 }

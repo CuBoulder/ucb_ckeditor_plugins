@@ -15,10 +15,10 @@ import CalendarUI from './calendarui';
 import { Plugin } from 'ckeditor5/src/core';
 
 export default class Calendar extends Plugin {
-	// Note that CalendarEditing and CalendarUI also extend `Plugin`, but these
-	// are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
-	// discover the plugins explicitly exported in index.js.
-	static get requires() {
-		return [CalendarEditing, CalendarUI];
-	}
+  // Note that CalendarEditing and CalendarUI also extend `Plugin`, but these
+  // are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
+  // discover the plugins explicitly exported in index.js.
+  static get requires() {
+    return [CalendarEditing, CalendarUI];
+  }
 }
