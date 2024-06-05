@@ -7,35 +7,35 @@ import ButtonUI from '../../button/src/buttonui';
 
 export default class AddNewButtonCommand extends Command {
 
-	execute() {
-		const {model} = this.editor;
+  execute() {
+    const {model} = this.editor;
         const selection = model.document.selection
         const selectedElement = selection.getSelectedElement();
 
-		model.change((writer)=> {
+    model.change((writer)=> {
             if(isButtonGroupElement(selectedElement)){
                 const newButton = insertNewButtonBG(writer);
                 writer.append(newButton,selectedElement);
-				writer.setSelection(newButton, "on");
-				this.editor.plugins.get('ButtonUI').fire('showUI', newButton);
+        writer.setSelection(newButton, "on");
+        this.editor.plugins.get('ButtonUI').fire('showUI', newButton);
             }
-		})
-	}
+    })
+  }
 
-	refresh() {
-		const model = this.editor.model;
-		const selection = model.document.selection;
-		const selectedElement = selection.getSelectedElement();
+  refresh() {
+    const model = this.editor.model;
+    const selection = model.document.selection;
+    const selectedElement = selection.getSelectedElement();
 
-		const allowedIn = model.schema.findAllowedParent(
-			selection.getFirstPosition(),
-			'buttonGroup'
-		);
+    const allowedIn = model.schema.findAllowedParent(
+      selection.getFirstPosition(),
+      'buttonGroup'
+    );
 
-		this.isEnabled = allowedIn !== null;
+    this.isEnabled = allowedIn !== null;
 
-		this.existingButtonGroupSelected = isButtonGroupElement(selectedElement) ? selectedElement : null;
-	}
+    this.existingButtonGroupSelected = isButtonGroupElement(selectedElement) ? selectedElement : null;
+  }
 }
 
 /**
@@ -45,23 +45,23 @@ export default class AddNewButtonCommand extends Command {
  *   The box element with all required child elements to match the button group schema.
  */
 function insertNewButtonBG(writer) {
-	const model = writer.model
-	const selection = model.document.selection
+  const model = writer.model
+  const selection = model.document.selection
     const selectedElement = selection.getSelectedElement()
 
     if(isButtonGroupElement(selectedElement)){
-		const color = selectedElement.getAttribute('buttonGroupColor')
-		const size = selectedElement.getAttribute('buttonGroupSize')
+    const color = selectedElement.getAttribute('buttonGroupColor')
+    const size = selectedElement.getAttribute('buttonGroupSize')
 
         const newButton = writer.createElement('linkButton', {
             linkButtonColor: color,
             linkButtonSize: size,
             linkButtonHref: ""
-	    });
+      });
 
         return newButton;
-	}	
-	// Return the element to be added to the editor.
+  }  
+  // Return the element to be added to the editor.
     return null
 }
 
@@ -71,5 +71,5 @@ function insertNewButtonBG(writer) {
  *   Whether or not `element` is a button group element.
  */
 function isButtonGroupElement(element) {
-	return element && element.name === 'buttonGroup';
+  return element && element.name === 'buttonGroup';
 }

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ucb_ckeditor_plugins\Plugin\Filter\MapEmbed.
- */
-
 namespace Drupal\ucb_ckeditor_plugins\Plugin\Filter;
 
 use Drupal\Component\Utility\Html;
@@ -12,7 +7,7 @@ use Drupal\filter\FilterProcessResult;
 use Drupal\ucb_ckeditor_plugins\Plugin\EmbedFilterBase;
 
 /**
- * Provides a filter to correctly display map embeds produced by the Map plugin.
+ * Defines a filter used by the Map plugin.
  *
  * @Filter(
  *   id = "filter_map_embed",
@@ -23,44 +18,64 @@ use Drupal\ucb_ckeditor_plugins\Plugin\EmbedFilterBase;
  * )
  */
 class MapEmbed extends EmbedFilterBase {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process($text, $langcode) {
-		$result = new FilterProcessResult($text);
 
-		if (stristr($text, '<ucb-map') === FALSE)
-			return $result;
+  /**
+   * {@inheritdoc}
+   */
+  public function process($text, $langcode) {
+    $result = new FilterProcessResult($text);
 
-		$dom = Html::load($text);
-		$xpath = new \DOMXPath($dom);
+    if (stristr($text, '<ucb-map') === FALSE) {
+      return $result;
+    }
 
-		foreach ($xpath->query('//ucb-map[@*]') as $node) {
-			$build = [];
+    $dom = Html::load($text);
+    $xpath = new \DOMXPath($dom);
 
-			foreach ($node->attributes as $attribute)
-				$build['#attributes'][$attribute->nodeName] = $attribute->nodeValue;
+    foreach ($xpath->query('//ucb-map[@*]') as $node) {
+      $build = [];
 
-			if (isset($build['#attributes']['class'])) {
-				$classes = preg_split('/\s/', $build['#attributes']['class']);
-				if (in_array('ucb-map', $classes)) { // Classes must match exactly to be recognized as a map in the editor, the same rule applies here
-					if (in_array('ucb-campus-map', $classes)) { // Campus map
-						$build['#theme'] = 'ucb_campus_map_embed';
-						if(isset($build['#attributes']['data-map-location']))
-							$build['#mapLocation'] = preg_replace('/\D+/', '', $build['#attributes']['data-map-location']);		
-					} else if (in_array('ucb-google-map', $classes)) { // Google map
-						$build['#theme'] = 'ucb_google_map_embed';
-						if(isset($build['#attributes']['data-map-location']))
-							$build['#mapLocation'] = rawurlencode($build['#attributes']['data-map-location']);
-					} else continue;
-				} else continue;
-			} else continue;
+      foreach ($node->attributes as $attribute) {
+        $build['#attributes'][$attribute->nodeName] = $attribute->nodeValue;
+      }
 
-			$this->renderIntoDomNode($build, $node, $result);
-		}
+      if (isset($build['#attributes']['class'])) {
+        $classes = preg_split('/\s/', $build['#attributes']['class']);
+        if (in_array('ucb-map', $classes)) {
+          // Classes must match exactly to be recognized as a map in the
+          // editor, the same rule applies here.
+          if (in_array('ucb-campus-map', $classes)) {
+            // Map is a campus map.
+            $build['#theme'] = 'ucb_campus_map_embed';
+            if (isset($build['#attributes']['data-map-location'])) {
+              $build['#mapLocation'] = preg_replace('/\D+/', '', $build['#attributes']['data-map-location']);
+            }
+          }
+          elseif (in_array('ucb-google-map', $classes)) {
+            // Map is a Google map.
+            $build['#theme'] = 'ucb_google_map_embed';
+            if (isset($build['#attributes']['data-map-location'])) {
+              $build['#mapLocation'] = rawurlencode($build['#attributes']['data-map-location']);
+            }
+          }
+          else {
+            continue;
+          }
+        }
+        else {
+          continue;
+        }
+      }
+      else {
+        continue;
+      }
 
-		$result->setProcessedText(Html::serialize($dom));
+      $this->renderIntoDomNode($build, $node, $result);
+    }
 
-		return $result;
-	}
+    $result->setProcessedText(Html::serialize($dom));
+
+    return $result;
+  }
+
 }

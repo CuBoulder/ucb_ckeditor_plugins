@@ -1,144 +1,144 @@
 /* Default styles */
 
 .ucb-box {
-	position: relative;
-	display: block;
-	clear: both;
-	width: 100%;
-	margin: 0 0 1em 0;
+  position: relative;
+  display: block;
+  clear: both;
+  width: 100%;
+  margin: 0 0 1em 0;
 }
 
 .ucb-box .ucb-box-inner {
-	color: var(--ucb-box-theme-color, inherit);
-	position: relative;
-	display: block;
+  color: var(--ucb-box-theme-color, inherit);
+  position: relative;
+  display: block;
 }
 
 .ucb-box .ucb-box-title {
-	color: var(--ucb-box-title-theme-color, inherit);
-	background-color: var(--ucb-box-title-theme-fill, rgba(128, 128, 128, 0.15));
-	font-weight: bold;
-	margin-bottom: -1px;
-	padding: 1em 1em .9em 1em;
+  color: var(--ucb-box-title-theme-color, inherit);
+  background-color: var(--ucb-box-title-theme-fill, rgba(128, 128, 128, 0.15));
+  font-weight: bold;
+  margin-bottom: -1px;
+  padding: 1em 1em .9em 1em;
 }
 
 .ucb-box.ucb-box-style-fill .ucb-box-inner {
-	--ucb-background-color: var(--ucb-box-theme-fill);
-	background-color: var(--ucb-background-color);
+  --ucb-background-color: var(--ucb-box-theme-fill);
+  background-color: var(--ucb-background-color);
 }
 
 .ucb-box .ucb-box-content {
-	overflow: auto;
-	padding: 1em;
-	padding-top: calc(1em + 1px);
+  overflow: auto;
+  padding: 1em;
+  padding-top: calc(1em + 1px);
 }
 
 .ucb-box .ucb-box-content > *:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .ucb-box .ucb-box-content > *:last-child {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* Box title */
 
 .ucb-box.ucb-box-title-left .ucb-box-title {
-	text-align: left;
+  text-align: left;
 }
 
 .ucb-box.ucb-box-title-center .ucb-box-title {
-	text-align: center;
+  text-align: center;
 }
 
 .ucb-box.ucb-box-title-right .ucb-box-title {
-	text-align: right;
+  text-align: right;
 }
 
 .ucb-box.ucb-box-title-hidden .ucb-box-title {
-	display: none;
+  display: none;
 }
 
 /* Box alignments */
 
 .ucb-box.ucb-box-alignment-left {
-	float: left;
-	clear: left;
-	max-width: calc(40% - 1em);
-	margin-right: 1em;
+  float: left;
+  clear: left;
+  max-width: calc(40% - 1em);
+  margin-right: 1em;
 }
 
 .ucb-box.ucb-box-alignment-right {
-	float: right;
-	clear: right;
-	max-width: calc(40% - 1em);
-	margin-left: 1em;
+  float: right;
+  clear: right;
+  max-width: calc(40% - 1em);
+  margin-left: 1em;
 }
 
 /* Box styles */
 
 .ucb-box.ucb-box-style-outline .ucb-box-title, .ucb-box.ucb-box-style-outline .ucb-box-content {
-	border: 1px solid var(--ucb-box-theme-fill);
+  border: 1px solid var(--ucb-box-theme-fill);
 }
 
 .ucb-box.ucb-box-style-outline .ucb-box-inner, .ucb-box.ucb-box-style-none .ucb-box-inner, .ucb-box.ucb-box-style-outline .ucb-box-title, .ucb-box.ucb-box-style-none .ucb-box-title {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 /* Box themes */
 
 .ucb-box.ucb-box-theme-black {
-	--ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
-	--ucb-box-theme-fill: #000;
+  --ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
+  --ucb-box-theme-fill: #000;
 }
 
 .ucb-box.ucb-box-theme-black.ucb-box-style-fill {
-	--ucb-box-theme-color: #FFF;
-	--ucb-box-title-theme-color: #FFF;
+  --ucb-box-theme-color: #FFF;
+  --ucb-box-title-theme-color: #FFF;
 }
 
 .ucb-box.ucb-box-theme-darkgray {
-	--ucb-box-theme-fill: #424242;
-	--ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
+  --ucb-box-theme-fill: #424242;
+  --ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
 }
 
 .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill {
-	--ucb-box-theme-color: #FFF;
-	--ucb-box-title-theme-color: #FFF;
+  --ucb-box-theme-color: #FFF;
+  --ucb-box-title-theme-color: #FFF;
 }
 
 .ucb-box.ucb-box-theme-lightgray {
-	--ucb-box-theme-fill: #EEEEEE;
-	--ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
+  --ucb-box-theme-fill: #EEEEEE;
+  --ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
 }
 
 .ucb-box.ucb-box-theme-lightgray.ucb-box-style-fill {
-	--ucb-box-theme-color: #111111;
-	--ucb-box-title-theme-color: #111111;
+  --ucb-box-theme-color: #111111;
+  --ucb-box-title-theme-color: #111111;
 }
 
 .ucb-box.ucb-box-theme-white {
-	--ucb-box-theme-fill: #FFF;
-	--ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
+  --ucb-box-theme-fill: #FFF;
+  --ucb-box-title-theme-fill: rgba(128, 128, 128, 0.15);
 }
 
 .ucb-box.ucb-box-theme-white.ucb-box-style-fill {
-	--ucb-box-theme-color: #111111;
-	--ucb-box-title-theme-color: #111111;
+  --ucb-box-theme-color: #111111;
+  --ucb-box-title-theme-color: #111111;
 }
 
 /* Overrides link color for dark boxes (CuBoulder/tiamat-theme#434) */
 
 .ucb-box.ucb-box-theme-lightgray.ucb-box-style-fill a:link:not(:hover, :active, :focus), .ucb-box.ucb-box-theme-lightgray.ucb-box-style-fill a:visited:not(:hover, :active, :focus) {
-	color: #01579B;
+  color: #01579B;
 }
 
 .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:link, .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:visited,
 .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:link, .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:visited {
-	color: #cfb87c;
+  color: #cfb87c;
 }
 
 .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:hover, .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:active, .ucb-box.ucb-box-theme-black.ucb-box-style-fill a:focus,
 .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:hover, .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:active, .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:focus {
-	color: var(--ucb-box-theme-color);
+  color: var(--ucb-box-theme-color);
 }

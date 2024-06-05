@@ -8,10 +8,10 @@
  *   The `src` of the embedded `<iframe>`, or `null` if there isn't one.
  */
 function embedCodeToURL(embedCode) {
-	const iframeElement = new DOMParser().parseFromString(embedCode, 'text/html').querySelector('iframe');
-	if (iframeElement)
-		return iframeElement.getAttribute('src');
-	return null;
+  const iframeElement = new DOMParser().parseFromString(embedCode, 'text/html').querySelector('iframe');
+  if (iframeElement)
+    return iframeElement.getAttribute('src');
+  return null;
 }
 
 /**
@@ -20,15 +20,15 @@ function embedCodeToURL(embedCode) {
  *   Just the query string part of the URL, or null if the URL isn't a valid Google Calendar URL.
  */
 export function googleCalendarURLToQueryString(url) {
-	if (url[0] === '<') {
-		url = embedCodeToURL(url); // Gets a URL from a likely embed code.
-		if (!url) return null;
-	}
-	let urlified;
-	try {
-		urlified = new URL(url);
-	} catch (e) { return null; }
-	return urlified.hostname === 'calendar.google.com' && (urlified.pathname === '/calendar/embed' || urlified.pathname === '/calendar/embed/') ? (urlified.searchParams.toString() || '') || null : null;
+  if (url[0] === '<') {
+    url = embedCodeToURL(url); // Gets a URL from a likely embed code.
+    if (!url) return null;
+  }
+  let urlified;
+  try {
+    urlified = new URL(url);
+  } catch (e) { return null; }
+  return urlified.hostname === 'calendar.google.com' && (urlified.pathname === '/calendar/embed' || urlified.pathname === '/calendar/embed/') ? (urlified.searchParams.toString() || '') || null : null;
 }
 
 /**
@@ -37,5 +37,5 @@ export function googleCalendarURLToQueryString(url) {
  *   The entire Google Calendar URL when given just the query string.
  */
 export function googleCalendarQueryStringToURL(queryString) {
-	return 'https://calendar.google.com/calendar/embed?' + queryString;
+  return 'https://calendar.google.com/calendar/embed?' + queryString;
 }

@@ -1,152 +1,152 @@
 /*** Countdown ***/
 .ucb-countdown {
-    display: inline-block;
-    margin-bottom: 20px;
-  }
-  .countdown.countdown-full {
-    display: block;
-  }
-  
-  .countdown-stacked .countdown-days {
-    font-size: 200%;
-    display: table;
-  }
-  .countdown-stacked .countdown-days .countdown-value {
-    font-weight: 900;
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 250%;
-    padding-right: 5px;
-    line-height: 100%;
-  }
-  .countdown-stacked .countdown-days .countdown-label {
-    display: table-cell;
-    vertical-align: middle;
-    padding-left: 5px;
-  }
-  .countdown-stacked .countdown-bottom {
-    display: table;
-    border-top:1px solid #e7e7e7;
-    padding-top: 10px;
-    margin-top: 10px;
-    width: 100%;
-  }
-  .countdown-stacked .countdown-hours,
-  .countdown-stacked .countdown-minutes,
-  .countdown-stacked .countdown-seconds {
-    display: table-cell;
-    font-size: 150%;
-  }
-  .countdown-stacked .countdown-hours {
-    padding-right: 10px;
-  }
-  .countdown-stacked.countdown-days-hours-minutes .countdown-hours {
-    padding-right: 10px;
-  }
-  .countdown-stacked.countdown-days-hours-minutes .countdown-minutes {
-    padding-left: 10px;
-  }
-  .countdown-stacked.countdown-days-hours-minutes-seconds .countdown-minutes {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .countdown-stacked .countdown-seconds {
-    padding-left: 10px;
-  }
-  
-  .countdown-stacked .countdown-hours span.countdown-value,
-  .countdown-stacked .countdown-minutes span.countdown-value,
-  .countdown-stacked .countdown-seconds span.countdown-value {
-    font-weight: 900;
-    display: block;
-    text-align: center;
-  }
-  .countdown-stacked .countdown-hours span.countdown-label,
-  .countdown-stacked .countdown-minutes span.countdown-label,
-  .countdown-stacked .countdown-seconds span.countdown-label {
-    display: block;
-    text-align: center;
-    font-size:11px;
-    text-transform: uppercase;
-    font-weight: 900;
-  }
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.countdown.countdown-full {
+  display: block;
+}
+
+.countdown-stacked .countdown-days {
+  font-size: 200%;
+  display: table;
+}
+.countdown-stacked .countdown-days .countdown-value {
+  font-weight: 900;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 250%;
+  padding-right: 5px;
+  line-height: 100%;
+}
+.countdown-stacked .countdown-days .countdown-label {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+.countdown-stacked .countdown-bottom {
+  display: table;
+  border-top:1px solid #e7e7e7;
+  padding-top: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+.countdown-stacked .countdown-hours,
+.countdown-stacked .countdown-minutes,
+.countdown-stacked .countdown-seconds {
+  display: table-cell;
+  font-size: 150%;
+}
+.countdown-stacked .countdown-hours {
+  padding-right: 10px;
+}
+.countdown-stacked.countdown-days-hours-minutes .countdown-hours {
+  padding-right: 10px;
+}
+.countdown-stacked.countdown-days-hours-minutes .countdown-minutes {
+  padding-left: 10px;
+}
+.countdown-stacked.countdown-days-hours-minutes-seconds .countdown-minutes {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.countdown-stacked .countdown-seconds {
+  padding-left: 10px;
+}
+
+.countdown-stacked .countdown-hours span.countdown-value,
+.countdown-stacked .countdown-minutes span.countdown-value,
+.countdown-stacked .countdown-seconds span.countdown-value {
+  font-weight: 900;
+  display: block;
+  text-align: center;
+}
+.countdown-stacked .countdown-hours span.countdown-label,
+.countdown-stacked .countdown-minutes span.countdown-label,
+.countdown-stacked .countdown-seconds span.countdown-label {
+  display: block;
+  text-align: center;
+  font-size:11px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.countdown-inline {
+  font-size: 150%;
+  line-height: 100%;
+}
+@media screen and (min-width: 640px) {
   .countdown-inline {
-    font-size: 150%;
-    line-height: 100%;
+    font-size: 200%;
   }
-  @media screen and (min-width: 640px) {
-    .countdown-inline {
-      font-size: 200%;
-    }
-  }
+}
+.countdown-inline .countdown-days,
+.countdown-inline .countdown-bottom,
+.countdown-inline .countdown-hours,
+.countdown-inline .countdown-minutes,
+.countdown-inline .countdown-seconds {
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+@media screen and (min-width: 640px) {
   .countdown-inline .countdown-days,
   .countdown-inline .countdown-bottom,
   .countdown-inline .countdown-hours,
   .countdown-inline .countdown-minutes,
   .countdown-inline .countdown-seconds {
-    display: block;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    display: inline-block;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
-  @media screen and (min-width: 640px) {
-    .countdown-inline .countdown-days,
-    .countdown-inline .countdown-bottom,
-    .countdown-inline .countdown-hours,
-    .countdown-inline .countdown-minutes,
-    .countdown-inline .countdown-seconds {
-      display: inline-block;
-      padding-top: 0px;
-      padding-bottom: 0px;
-    }
-    .countdown-inline .countdown-hours,
-    .countdown-inline .countdown-minutes,
-    .countdown-inline .countdown-seconds {
-      margin-left: 10px;
-    }
+  .countdown-inline .countdown-hours,
+  .countdown-inline .countdown-minutes,
+  .countdown-inline .countdown-seconds {
+    margin-left: 10px;
   }
-  
-  .countdown-inline .countdown-days .countdown-value,
-  .countdown-inline .countdown-hours .countdown-value,
-  .countdown-inline .countdown-minutes .countdown-value,
-  .countdown-inline .countdown-seconds .countdown-value {
-    font-weight: 900;
-  }
-  .countdown-inline .countdown-days .countdown-label,
-  .countdown-inline .countdown-hours .countdown-label,
-  .countdown-inline .countdown-minutes .countdown-label,
-  .countdown-inline .countdown-seconds .countdown-label {
-    font-weight: 300;
-    padding-left: 5px;
-  }
-  
-  .countdown-solid {
-    background-color:#000;
-    color:#fff;
-    padding:20px;
-  }
-  .countdown-solid .countdown-value {
-    color:#cfb87c;
-  }
-  
-  .countdown-solid.countdown-stacked .countdown-bottom {
-    border-top:1px solid #444;
-  }
-  
-  .countdown-left {
-    float: left;
-    margin: 0 20px 20px 0;
-  }
-  .countdown-right {
-    float: right;
-    margin: 0 0 20px 20px;
-  }
-  .countdown.countdown-inline.countdown-full,
-  .countdown.countdown-stacked.countdown-full {
-    text-align: center;
-  }
-  .countdown.countdown-stacked.countdown-full .countdown-days,
-  .countdown.countdown-stacked.countdown-full .countdown-bottom {
-    width:auto;
-    margin-left: auto;
-    margin-right: auto;
-  }
+}
+
+.countdown-inline .countdown-days .countdown-value,
+.countdown-inline .countdown-hours .countdown-value,
+.countdown-inline .countdown-minutes .countdown-value,
+.countdown-inline .countdown-seconds .countdown-value {
+  font-weight: 900;
+}
+.countdown-inline .countdown-days .countdown-label,
+.countdown-inline .countdown-hours .countdown-label,
+.countdown-inline .countdown-minutes .countdown-label,
+.countdown-inline .countdown-seconds .countdown-label {
+  font-weight: 300;
+  padding-left: 5px;
+}
+
+.countdown-solid {
+  background-color:#000;
+  color:#fff;
+  padding:20px;
+}
+.countdown-solid .countdown-value {
+  color:#cfb87c;
+}
+
+.countdown-solid.countdown-stacked .countdown-bottom {
+  border-top:1px solid #444;
+}
+
+.countdown-left {
+  float: left;
+  margin: 0 20px 20px 0;
+}
+.countdown-right {
+  float: right;
+  margin: 0 0 20px 20px;
+}
+.countdown.countdown-inline.countdown-full,
+.countdown.countdown-stacked.countdown-full {
+  text-align: center;
+}
+.countdown.countdown-stacked.countdown-full .countdown-days,
+.countdown.countdown-stacked.countdown-full .countdown-bottom {
+  width:auto;
+  margin-left: auto;
+  margin-right: auto;
+}

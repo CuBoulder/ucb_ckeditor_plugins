@@ -1,31 +1,31 @@
 .ck .cu-callout.ck-editor__nested-editable.ck-editor__nested-editable_focused, .ck .cu-callout.ck-editor__nested-editable:focus {
-	color: var(--ck-color-text);
+  color: var(--ck-color-text);
 }
 
 .ck .ck.ck-callout-form {
-	display: grid;
-	grid-template-rows: auto auto auto;
-	grid-template-columns: repeat(4, 0.2fr);
-	grid-column-gap: 5px;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: repeat(4, 0.2fr);
+  grid-column-gap: 5px;
     grid-row-gap: var(--ck-spacing-standard);
     padding: var(--ck-spacing-large);
 }
   
 .ck-callout-form .ck-labeled-field-view {
-	grid-row: 2;
-	grid-column: auto
+  grid-row: 2;
+  grid-column: auto
 }
   
 .ck-callout-form .ck-dropdown {
-	grid-row: 1;
+  grid-row: 1;
 }
 
 .ck-callout-form .ck-dropdown:nth-of-type(1) > .ck-dropdown__callout{
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
   
 .ck-callout-form .ck-callout {
-	grid-row: 2;
-	grid-column: auto;
+  grid-row: 2;
+  grid-column: auto;
 }

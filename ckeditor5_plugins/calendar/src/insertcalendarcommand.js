@@ -9,55 +9,55 @@ import { Command } from 'ckeditor5/src/core';
 import { googleCalendarURLToQueryString } from './calendarutils';
 
 export default class InsertCalendarCommand extends Command {
-	/**
-	 * Creates a new InsertCalendarCommand.
-	 * 
-	 * @param {Editor} editor 
-	 *   The editor.
-	 */
-	constructor(editor) {
-		super(editor);
-		this.set('existingCalendarSelected', false);
-	}
+  /**
+   * Creates a new InsertCalendarCommand.
+   * 
+   * @param {Editor} editor 
+   *   The editor.
+   */
+  constructor(editor) {
+    super(editor);
+    this.set('existingCalendarSelected', false);
+  }
 
-	/**
-	 * @inheritdoc
-	 */
-	execute(options = { value: '' }) {
-		const value = options.value.trim(), model = this.editor.model;
+  /**
+   * @inheritdoc
+   */
+  execute(options = { value: '' }) {
+    const value = options.value.trim(), model = this.editor.model;
 
-		if (!value) return;
+    if (!value) return;
 
-		let calendarModel = 'googleCalendar';
-		let queryString = googleCalendarURLToQueryString(value); // Converts the user-supplied URL to a location for a Google Calendar.
-		if (!queryString) return;
+    let calendarModel = 'googleCalendar';
+    let queryString = googleCalendarURLToQueryString(value); // Converts the user-supplied URL to a location for a Google Calendar.
+    if (!queryString) return;
 
-		model.change((writer) => model.insertContent(writer.createElement(calendarModel, { calendarQueryString: queryString })));
-	}
+    model.change((writer) => model.insertContent(writer.createElement(calendarModel, { calendarQueryString: queryString })));
+  }
 
-	/**
-	 * @inheritdoc
-	 */
-	refresh() {
-		const { model } = this.editor;
-		const { selection } = model.document;
-		const selectedElement = selection.getSelectedElement();
+  /**
+   * @inheritdoc
+   */
+  refresh() {
+    const { model } = this.editor;
+    const { selection } = model.document;
+    const selectedElement = selection.getSelectedElement();
 
-		// Determine if the cursor (selection) is in a position where adding a
-		// calendar is permitted. This is based on the schema of the model(s)
-		// currently containing the cursor.
-		const googleCalendarAllowedIn = model.schema.findAllowedParent(
-			selection.getFirstPosition(),
-			'googleCalendar'
-		);
+    // Determine if the cursor (selection) is in a position where adding a
+    // calendar is permitted. This is based on the schema of the model(s)
+    // currently containing the cursor.
+    const googleCalendarAllowedIn = model.schema.findAllowedParent(
+      selection.getFirstPosition(),
+      'googleCalendar'
+    );
 
-		// If the cursor is not in a location where a calendar can be added, return
-		// null so the addition doesn't happen.
-		this.isEnabled = googleCalendarAllowedIn !== null;
+    // If the cursor is not in a location where a calendar can be added, return
+    // null so the addition doesn't happen.
+    this.isEnabled = googleCalendarAllowedIn !== null;
 
-		// Adds a helpful attribute to get an existing selected calendar element.
-		this.existingCalendarSelected = isCalendarElement(selectedElement) ? selectedElement : null;
-	}
+    // Adds a helpful attribute to get an existing selected calendar element.
+    this.existingCalendarSelected = isCalendarElement(selectedElement) ? selectedElement : null;
+  }
 }
 
 /**
@@ -66,5 +66,5 @@ export default class InsertCalendarCommand extends Command {
  *   Whether or not `element` is a calendar element.
  */
 function isCalendarElement(element) {
-	return element && element.name === 'googleCalendar';
+  return element && element.name === 'googleCalendar';
 }

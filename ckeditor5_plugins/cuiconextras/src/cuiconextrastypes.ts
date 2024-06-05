@@ -3,7 +3,7 @@
  */
 
 export type SelectableOption = {
-	label: string;
-	icon?: string;
-	className?: string;
+  label: string;
+  icon?: string;
+  className?: string;
 };
