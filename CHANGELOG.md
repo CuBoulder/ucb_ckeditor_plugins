@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Update countup.js
+  Updated countup to work properly with decimals, times, and other modifiers like monetary signs. Using the counterup-2 code which is a newer version of the currently used code on both D7 and D10
+  
+  - `ckeditor_plugins` => https://github.com/CuBoulder/ucb_ckeditor_plugins/pull/69
+  - `migration_shortcodes` => https://github.com/CuBoulder/ucb_migration_shortcodes/pull/26
+  
+  Resolves #66
+---
+
 - ### Fixes box plugin error on Drupal 10.3; Cleans up indentation for Drupal coding standards compliance
   This update:
   - [bug, plugin:box] Fixes box plugin error on Drupal 10.3. Resolves CuBoulder/ucb_ckeditor_plugins#67
