@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Fixes box widget toolbar
+  [Bug] Resolves CuBoulder/ucb_ckeditor_plugins#70
+---
+
 - ### Update countup.js
   Updated countup to work properly with decimals, times, and other modifiers like monetary signs. Using the counterup-2 code which is a newer version of the currently used code on both D7 and D10
   
