@@ -73,10 +73,8 @@ export default class BoxUI extends Plugin {
     widgetToolbarRepository.register('box', {
       items: ['boxTitle', 'boxAlignment', 'boxStyle', 'boxTheme'],
       getRelatedElement: (selection) => {
-        if (selection.focus) {
-          selection.focus.getAncestors()
-            .find((node) => node.is('element') && node.hasClass('ucb-box'))
-        }
+        return selection.focus ? selection.focus.getAncestors()
+          .find((node) => node.is('element') && node.hasClass('ucb-box')) : null;
       }
     });
   }
