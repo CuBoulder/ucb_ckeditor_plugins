@@ -21,7 +21,7 @@ export type ModelAttribute = 'iconCUColor' | 'iconCUBackgroundStyle';
 export type ModelAttributeDefiniton<T extends string = string, A extends ModelAttribute = ModelAttribute> = [T, A];
 
 // === Colors ===
-export type Color = 'none' | 'black' | 'white' | 'lightGray' | 'darkGray' | 'gold';
+export type Color = 'none' | 'black' | 'white' | 'lightGray' | 'gray' | 'darkGray' | 'gold';
 export type ColorAttributeDefinition = ModelAttributeDefiniton<Color, 'iconCUColor'>;
 export const colorOptions: { [key in Color]: SelectableOption; } = {
   none: {
@@ -38,6 +38,10 @@ export const colorOptions: { [key in Color]: SelectableOption; } = {
   lightGray: {
     label: 'Light Gray',
     className: 'ucb-icon-color-lightgray'
+  },
+  gray: {
+    label: 'Gray',
+    className: 'ucb-icon-color-gray'
   },
   darkGray: {
     label: 'Dark Gray',

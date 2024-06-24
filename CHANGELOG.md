@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds "gray" color supported by the shortcode to icons
+  Resolves CuBoulder/ucb_ckeditor_plugins#76
+---
+
 - ### Fixes box widget toolbar
   [Bug] Resolves CuBoulder/ucb_ckeditor_plugins#70
 ---
