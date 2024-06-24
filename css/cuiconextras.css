@@ -28,13 +28,13 @@
 
 .ucb-icon-color-lightgray {
   --ucb-icon-primary-color: #ccc;
-  --ucb-icon-secondary-color: #808080;
+  --ucb-icon-secondary-color: #000;
   color: var(--ucb-icon-primary-color);
 }
 
 .ucb-icon-color-gray {
   --ucb-icon-primary-color: #808080;
-  --ucb-icon-secondary-color: #FFF;
+  --ucb-icon-secondary-color: #000;
   color: var(--ucb-icon-primary-color);
 }
 
