@@ -1,21 +1,31 @@
+/**
+ * @file defines configuration for the callout plugin.
+ * 
+ * @typedef {Object} SelectableOption
+ * @property {string} label
+ * @property {string?} icon
+ * @property {string} className
+ */
+
 import { icons } from 'ckeditor5/src/core';
 
+/** @type {Object<string, SelectableOption>} */
 export const sizeOptions = {
-  xlarge: {
-    label: 'Extra Large',
-    icon: icons.large,
-    className: 'feature-layout-callout-xlarge'
+  medium: {
+    label: "Medium",
+    icon: icons.small,
+    className: "feature-layout-callout-medium",
   },
   large: {
-    label: 'Large',
+    label: "Large",
     icon: icons.regular,
-    className: 'feature-layout-callout-large'
+    className: "feature-layout-callout-large",
   },
-  medium: {
-    label: 'Medium',
-    icon: icons.small,
-    className: 'feature-layout-callout-medium'
+  xlarge: {
+    label: "Extra Large",
+    icon: icons.large,
+    className: "feature-layout-callout-xlarge",
   },
 };
 
-export const defaultSize = 'medium'
+export const defaultSize = 'large'

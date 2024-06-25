@@ -1,195 +1,144 @@
-import { Plugin } from "ckeditor5/src/core";
-import {
-  ButtonView,
-  ContextualBalloon,
-  clickOutsideHandler,
-} from "ckeditor5/src/ui";
-import FormView from "./calloutview";
-import icon from "../../../icons/callout.svg";
+/**
+ * @file registers the callout toolbar button and binds functionality to it.
+ * 
+ * @typedef { import('@ckeditor/ckeditor5-utils').Locale } Locale
+ * @typedef { import('@ckeditor/ckeditor5-core').Command } Command
+ * @typedef { import('@ckeditor/ckeditor5-ui/src/dropdown/dropdownview').default } DropdownView
+ * @typedef { import('@ckeditor/ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
+ * @typedef { import('./calloutconfig').SelectableOption } SelectableOption
+ */
+
+import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
+import { sizeOptions, defaultSize } from './calloutconfig';
+import { Plugin } from 'ckeditor5/src/core';
+import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
+import calloutIcon from '../../../icons/callout.svg';
 
 export default class CalloutUI extends Plugin {
+  /**
+   * @inheritdoc
+   */
   static get requires() {
-    return [ContextualBalloon];
-  }
-  static get pluginName() {
-    return "CalloutUI";
+    return [WidgetToolbarRepository];
   }
 
+  /**
+   * @inheritdoc
+   */
   init() {
-    const editor = this.editor;
-    const componentFactory = editor.ui.componentFactory;
-    const insertCalloutCommand = editor.commands.get("addCallout");
-    const viewDocument = editor.editing.view.document;
+    /** @type {EditorWithUI} */
+    const editor = this.editor,
+      commands = editor.commands,
+      componentFactory = editor.ui.componentFactory;
 
-    // Create the balloon and the form view.
-    this._balloon = this.editor.plugins.get(ContextualBalloon);
-    this.formView = this._createFormView(editor.locale);
-    this.buttonView = null;
+    // This will register the callout toolbar button.
+    componentFactory.add('callout', (locale) => {
+      const command = commands.get('insertCallout');
+      const buttonView = new ButtonView(locale);
 
-    // This will register the Callout button to the toolbar
-    componentFactory.add("callout", (locale) => {
-      const button = new ButtonView(locale);
-
-      button.label = "Callout";
-      button.icon = icon;
-      button.tooltip = true;
-      button.withText = false;
-      button.isToggleable = true;
-      // Show the UI on button click.
-      this.listenTo(button, "execute", () => {
-        this._showUI(insertCalloutCommand.existingCalloutSelected);
-      });
-
-      this.buttonView = button;
-
-      // Show the on/off in Toolbar if a button is already selected.
-      const upcalloutTextCalloutState = () => {
-        const calloutSelected =
-          insertCalloutCommand.existingCalloutSelected;
-        button.isOn = !!calloutSelected;
-      };
-
-      // Listen for changes in the cuCallout selection.
-      this.listenTo(
-        insertCalloutCommand,
-        "change:value",
-        upcalloutTextCalloutState
-      );
-      this.listenTo(
-        insertCalloutCommand,
-        "change:existingCalloutSelected",
-        upcalloutTextCalloutState
-      );
-
-      // Shows the UI on click of a button widget.
-      this.listenTo(viewDocument, "click", () => {
-        if (insertCalloutCommand.existingCalloutSelected)
-          this._showUI(insertCalloutCommand.existingCalloutSelected);
-      });
-
-      this.on("showUI", (eventInfo, newButton) => {
-        this._showUI(newButton);
+      // Create the toolbar button.
+      buttonView.set({
+        label: locale.t('Callout'),
+        icon: calloutIcon,
+        tooltip: true
       });
 
       // Bind the state of the button to the command.
-      button
-        .bind("isOn", "isEnabled")
-        .to(insertCalloutCommand, "value", "isEnabled");
+      buttonView.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
 
-      return button;
+      // Execute the command when the button is clicked (executed).
+      this.listenTo(buttonView, 'execute', () => editor.execute('insertCallout'));
+
+      return buttonView;
     });
+
+    // Makes size options avaliable to the widget toolbar.
+    componentFactory.add('calloutSize', locale =>
+      this._createDropdown(locale, 'Callout size', sizeOptions[defaultSize].icon, commands.get('modifyCalloutSize'), sizeOptions, defaultSize));
   }
 
-  _createFormView(locale) {
+  /**
+   * @inheritdoc
+   */
+  afterInit() {
     const editor = this.editor;
-    const componentFactory = editor.ui.componentFactory;
-    const formView = new FormView(locale, componentFactory);
-
-    // Execute the command after clicking the "Save" button.
-    this.listenTo(formView, "submit", () => {
-      // Grab values from the Form and title input fields.
-      const value = {
-        calloutText: formView.calloutTextInputView.fieldView.element.value,
-        size: formView.size,
-      };
-      editor.execute("addCallout", value);
-
-      // Hide the form view after submit.
-      this._hideUI();
-    });
-
-    // Hide the form view after clicking the "Cancel" button.
-    this.listenTo(formView, "cancel", () => {
-      this._hideUI();
-    });
-
-    // Close the panel on esc key press when the form has focus.
-    formView.keystrokes.set("Esc", (data, cancel) => {
-      this._hideUI();
-      cancel();
-    });
-
-    // Hide the form view when clicking outside the balloon.
-    clickOutsideHandler({
-      emitter: formView,
-      activator: () => this._balloon.visibleView === formView,
-      contextElements: [this._balloon.view.element],
-      callback: () => this._hideUI(),
-    });
-
-    return formView;
-  }
-
-  _showUI(selectedButton) {
-    this.buttonView.isOn = true;
-
-    // If there's an existing balloon open, close it!
-    if (this._balloon.visibleView) {
-      this._hideUI();
-    }
-    // Check the value of the command.
-    const commandValue = this.editor.commands.get("addCallout").value;
-
-    this._balloon.add({
-      view: this.formView,
-      position: this._getBalloonPositionData(),
-    });
-
-    if (selectedButton) {
-      const size = selectedButton.getAttribute("cuCalloutSize");
-      const calloutTextElement = selectedButton.getChild(0); // Get the first child element
-
-      // Check if the calloutTextElement exists and has data
-      if (calloutTextElement && calloutTextElement.data) {
-        const calloutText = calloutTextElement.data; // Extract the calloutText from the data
-        this.formView.size = size;
-
-        // Set the calloutText input field value
-        this.formView.calloutTextInputView.fieldView.value = calloutText;
-        this.formView.calloutTextInputView.fieldView.element.value = calloutText; // UpcalloutText the input field value
-        this.formView.calloutTextInputView.fieldView.set("value", calloutText); // UpcalloutText the input field value (alternative method)
+    const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
+    widgetToolbarRepository.register('callout', {
+      items: ['calloutSize'],
+      getRelatedElement: (selection) => {
+        return selection.focus ? selection.focus.getAncestors()
+          .find((node) => node.is('element') && node.hasClass('feature-layout-callout-content')) : null;
       }
-    }
-
-    // Disable the input when the selection is not collapsed.
-    // this.formView.calloutTextInputView.isEnabled = selection.getFirstRange().isCollapsed;
-
-    // Fill the form using the state (value) of the command.
-    if (commandValue) {
-      this.formView.calloutTextInputView.fieldView.value = commandValue.calloutText;
-      this.formView.sizeDropdown.fieldView.value = commandValue.size;
-    }
-    setTimeout(() => {
-      this.formView.calloutTextInputView.fieldView.focus();
-    }, 0);
-  }
-  _hideUI() {
-    // Case for if user is rapidly clicking add button to button group
-    if (!this._balloon.hasView(this.formView)) {
-      return; // If the formView isn't in the balloon, do nothing
-    }
-    // Clear the input field values and reset the form.
-    this.formView.element.reset();
-    this.buttonView.isOn = false;
-
-    this._balloon.remove(this.formView);
-
-    // Focus the editing view after inserting the tooltip so the user can start typing the content
-    // right away and keep the editor focused.
-    this.editor.editing.view.focus();
+    });
   }
 
-  _getBalloonPositionData() {
-    const view = this.editor.editing.view;
-    const viewDocument = view.document;
-    let target = null;
 
-    // Set a target position by converting view selection range to DOM
-    target = () =>
-      view.domConverter.viewRangeToDom(viewDocument.selection.getFirstRange());
+  /**
+   * Creates a dropdown with multiple buttons for executing a command.
+   * 
+   * @param {Locale} locale
+   *   The locale.
+   * @param {string} label
+   *   The dropdown's label.
+   * @param {string | null} icon
+   *   The dropdowns's icon (optional). If `null`, the dropdown will display as text.
+   * @param {Command} command
+   *   The command to execute when one of the buttons is pushed.
+   * @param {Object<string, SelectableOption>} options
+   *   The options for buttons in this dropdown view.
+   * @param {string} defaultValue
+   *   The default value of the command.
+   * @returns {DropdownView}
+   *   The dropdown.
+   */
+  _createDropdown(locale, label, icon, command, options, defaultValue) {
+    const dropdownView = createDropdown(locale);
+    addToolbarToDropdown(dropdownView, Object.entries(options).map(([optionValue, option]) => this._createButton(locale, option.label, option.icon, command, optionValue)));
+    dropdownView.buttonView.set({
+      label: locale.t(label),
+      icon,
+      tooltip: true,
+      withText: !icon
+    });
+    if (icon === options[defaultValue].icon) // If the icon for the dropdown is the same as the icon for the default option, it changes to reflect the current selection.
+      dropdownView.buttonView.bind('icon').to(command, 'value', value => options[value] ? options[value].icon : options[defaultValue].icon);
+    // Enable button if any of the buttons are enabled.
+    dropdownView.bind('isEnabled').to(command, 'isEnabled');
+    return dropdownView;
+  }
 
-    return {
-      target,
-    };
+  /**
+   * @param {Locale} locale
+   *   The locale.
+   * @param {string} label
+   *   The button's label.
+   * @param {string | null} icon
+   *   The button's icon (optional). If `null`, the button will display as text.
+   * @param {Command} command
+   *   The command to execute when the button is pushed.
+   * @param {string} value
+   *   The value to send to the command when the button is pushed.
+   * @returns {ButtonView}
+   *   A button with the specified parameters.
+   */
+  _createButton(locale, label, icon, command, value) {
+    const editor = this.editor, buttonView = new ButtonView();
+    buttonView.set({
+      label: locale.t(label),
+      icon,
+      tooltip: true, // Displays the tooltip on hover
+      isToggleable: true, // Allows the button with the command's current value to display as selected
+      withText: !icon // Displays the button as text if the icon is falsey
+    });
+    // Disables the button if the command is disabled
+    buttonView.bind('isEnabled').to(command);
+    // Allows the button with the command's current value to display as selected
+    buttonView.bind('isOn').to(command, 'value', commandValue => commandValue === value);
+    // Executes the command with the button's value on click
+    this.listenTo(buttonView, 'execute', () => {
+      command.execute({ value });
+      editor.editing.view.focus();
+    });
+    return buttonView;
   }
 }
