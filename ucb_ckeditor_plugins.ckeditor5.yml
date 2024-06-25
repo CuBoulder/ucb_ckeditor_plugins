@@ -338,7 +338,7 @@ ucb_ckeditor_plugins_callout:
       # Note that it necessary for elements to separately provide both the tag
       # <div> is used to make containers that are tagged with coutner which casues the number to increment until matching the input.
       - <div>
-      - <div class="feature-layout-callout feature-layout-callout-medium feature-layout-callout-large feature-layout-callout-xlarge">
+      - <div class="feature-layout-callout feature-layout-callout-medium feature-layout-callout-large feature-layout-callout-xlarge ucb-callout-content">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.
