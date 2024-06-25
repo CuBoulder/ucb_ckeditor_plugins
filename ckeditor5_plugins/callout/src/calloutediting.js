@@ -27,7 +27,7 @@ import { sizeOptions, defaultSize } from './calloutconfig';
  * </callout>
  *
  * Which is converted for the browser/user as this markup
- * <div class="feature-layout-callout-content feature-layout-callout-SIZE">
+ * <div class="feature-layout-callout feature-layout-callout-SIZE">
  *       <div class="ucb-callout-content"></div>
  * </div>
  *
@@ -96,14 +96,14 @@ export default class CalloutEditing extends Plugin {
     // Upcast Converters: determine how existing HTML is interpreted by the
     // editor. These trigger when an editor instance loads.
     //
-    // If <div class="feature-layout-callout-content"> is present in the existing markup
+    // If <div class="feature-layout-callout"> is present in the existing markup
     // processed by CKEditor, then CKEditor recognizes and loads it as a
     // <callout> model.
     conversion.for('upcast').elementToElement({
       model: 'callout',
       view: {
         name: 'div',
-        classes: 'feature-layout-callout-content'
+        classes: 'feature-layout-callout'
       }
     });
 
@@ -123,14 +123,14 @@ export default class CalloutEditing extends Plugin {
     // These trigger when content is saved.
     //
     // Instances of <callout> are saved as
-    // <div class="feature-layout-callout-content"></dive>.
+    // <div class="feature-layout-callout"></dive>.
     conversion.for('dataDowncast').elementToElement({
       model: 'callout',
       view: (modelElement, { writer: viewWriter }) => createCalloutView(viewWriter)
     });
 
     // Instances of <calloutContent> are saved as
-    // <div class="ucb-callout-content">{{inner content}}</div>.
+    // <div class="ucb-callout-content">{{content}}</div>.
     conversion.for('dataDowncast').elementToElement({
       model: 'calloutContent',
       view: {
@@ -203,6 +203,6 @@ function buildAttributeToAttributeDefinition(attributeName, attributeOptions) {
  *   The callout container element or widget.
  */
 function createCalloutView(viewWriter, widget = false) {
-  const div = viewWriter.createContainerElement('div', { class: 'feature-layout-callout-content' });
+  const div = viewWriter.createContainerElement('div', { class: 'feature-layout-callout' });
   return widget ? toWidget(div, viewWriter, { label: 'callout widget', hasSelectionHandle: true }) : div;
 }

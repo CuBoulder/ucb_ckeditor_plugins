@@ -71,7 +71,7 @@ ucb_ckeditor_plugins_invisible:
     # `elements: false`
     elements:
       - <span>
-      - <span class='sr-only'>
+      - <span class='visually-hidden'>
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.

@@ -67,7 +67,7 @@ export default class CalloutUI extends Plugin {
       items: ['calloutSize'],
       getRelatedElement: (selection) => {
         return selection.focus ? selection.focus.getAncestors()
-          .find((node) => node.is('element') && node.hasClass('feature-layout-callout-content')) : null;
+          .find((node) => node.is('element') && node.hasClass('feature-layout-callout')) : null;
       }
     });
   }

@@ -28,4 +28,4 @@ export const sizeOptions = {
   },
 };
 
-export const defaultSize = 'large'
+export const defaultSize = 'medium'

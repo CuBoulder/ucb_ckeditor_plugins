@@ -51,7 +51,7 @@ export default class InsertCalloutCommand extends Command {
  */
 function createCallout(writer) {
   // Create instances of the three elements registered with the editor in calloutediting.js.
-  const callout = writer.createElement('callout', { 'calloutSize': defaultSize });
+  const callout = writer.createElement('callout', { 'calloutSize': 'medium' });
   const calloutContent = writer.createElement('calloutContent');
 
   // Append the title and description elements to the callout, which matches
