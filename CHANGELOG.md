@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Issue/52
+  This is an update for the callout plugin. 
+  It reworks the plugin so that you can individually change parts of text within the callout, as well as add images and other options for the wysiwyg bar (risky).
+  Works very similarly to the box button.
+  
+  Resolves #52 
+---
+
 - ### Updates URL matching pattern for Google Calendar
   [change, plugin:calendar] Resolves CuBoulder/ucb_ckeditor_plugins#80
 ---

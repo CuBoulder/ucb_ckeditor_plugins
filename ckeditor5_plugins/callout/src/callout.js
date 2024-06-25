@@ -1,7 +1,3 @@
-import CalloutEditing from './calloutediting';
-import { Plugin } from 'ckeditor5/src/core';
-import CalloutUI from './calloutui.js';
-
 /**
  * @file This is what CKEditor refers to as a master (glue) plugin. Its role is
  * just to load the “editing” and “UI” components of this Plugin. Those
@@ -10,11 +6,19 @@ import CalloutUI from './calloutui.js';
  * I.e, this file's purpose is to integrate all the separate parts of the plugin
  * before it's made discoverable via index.js.
  */
+// cSpell:ignore calloutediting calloutui
 
-// The contents of CalloutUI and CalloutEditing could be included in this
+// The contents of CalloutUI and Callout editing could be included in this
 // file, but it is recommended to separate these concerns in different files.
+import CalloutEditing from './calloutediting';
+import CalloutUI from './calloutui';
+import { Plugin } from 'ckeditor5/src/core';
+
 export default class Callout extends Plugin {
+  // Note that CalloutEditing and CalloutUI also extend `Plugin`, but these
+  // are not seen as individual plugins by CKEditor 5. CKEditor 5 will only
+  // discover the plugins explicitly exported in index.js.
   static get requires() {
-    return [ CalloutEditing, CalloutUI ];
+    return [CalloutEditing, CalloutUI];
   }
 }
