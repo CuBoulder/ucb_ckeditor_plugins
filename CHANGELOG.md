@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Update ucb_ckeditor_plugins.ckeditor5.yml
+  Added `ucb-callout-content` to the list of allowed html classes
+  
+  Resolves #83 
+---
+
 - ### Issue/52
   This is an update for the callout plugin. 
   It reworks the plugin so that you can individually change parts of text within the callout, as well as add images and other options for the wysiwyg bar (risky).
