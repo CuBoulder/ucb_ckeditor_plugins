@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Invisible: switches class to 'visually-hidden'
+  ### Invisible Plugin
+  Switches depreciated 'sr-only' class to 'visually-hidden' class
+  
+  
+  Resolves https://github.com/CuBoulder/ucb_ckeditor_plugins/issues/78
+  Includes:
+  - ckeditor_plugins => https://github.com/CuBoulder/ucb_ckeditor_plugins/pull/79
+  - boulder_profile => https://github.com/CuBoulder/tiamat10-profile/pull/153
+---
+
 - ### Adds "gray" color supported by the shortcode to icons
   Resolves CuBoulder/ucb_ckeditor_plugins#76
 ---
