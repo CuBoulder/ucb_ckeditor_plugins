@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Updates URL matching pattern for Google Calendar
+  [change, plugin:calendar] Resolves CuBoulder/ucb_ckeditor_plugins#80
+---
+
 - ### Invisible: switches class to 'visually-hidden'
   ### Invisible Plugin
   Switches depreciated 'sr-only' class to 'visually-hidden' class
