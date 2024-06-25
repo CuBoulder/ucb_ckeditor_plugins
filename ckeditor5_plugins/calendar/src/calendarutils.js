@@ -28,7 +28,7 @@ export function googleCalendarURLToQueryString(url) {
   try {
     urlified = new URL(url);
   } catch (e) { return null; }
-  return urlified.hostname === 'calendar.google.com' && (urlified.pathname === '/calendar/embed' || urlified.pathname === '/calendar/embed/') ? (urlified.searchParams.toString() || '') || null : null;
+  return urlified.hostname.match(/(www|calendar)\.google\.com/) && urlified.pathname.match(/\/calendar\/embed\/?/) ? (urlified.searchParams.toString() || '') || null : null;
 }
 
 /**
