@@ -25,9 +25,8 @@ export default class ColumnEditing extends Plugin {
     });
 
     schema.register('ucb-column', {
-      isLimit: true,
       allowIn: 'ucb-row',
-      allowContentOf: '$block'
+      allowContentOf: '$root'
     });
 
     // schema.addChildCheck((context, childDefinition) => {
