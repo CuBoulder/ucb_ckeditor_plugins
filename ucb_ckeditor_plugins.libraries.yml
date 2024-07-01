@@ -41,6 +41,17 @@ button.editor:
       css/button.editor.css: {}
       css/button.css: {}
 
+column.admin: { css: { theme: { css/column.admin.css: {} } } }
+column.editor:
+  js:
+    js/build/column.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/column.editor.css: {}
+      css/column.css: {}
+
 calendar.admin: { css: { theme: { css/calendar.admin.css: {} } } }
 calendar.editor:
   js:

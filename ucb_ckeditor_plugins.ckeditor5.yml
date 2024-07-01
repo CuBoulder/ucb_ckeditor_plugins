@@ -344,3 +344,39 @@ ucb_ckeditor_plugins_callout:
     #   plugin to be active.
     # class: Optional PHP class that makes it possible for the plugin to provide
     #   dynamic values, or a configuration UI.
+
+ucb_ckeditor_plugins_column:
+  # Use the provider: property for this plugin to depend on another module.
+
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - column.Column
+    # *Additional configuration properties*
+    # config: data sent to the constructor of any CKEditor 5 plugin
+    #   editorPluginName:
+    #     editorPluginProperty: editorPluginValue
+
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Column
+    # The library loaded while using the editor.
+    library: ucb_ckeditor_plugins/column.editor
+    # The library loaded when configuring the text format using this plugin.
+    admin_library: ucb_ckeditor_plugins/column.admin
+    toolbar_items:
+      # This should match the name of the corresponding plugin exported in the
+      # plugin's index.js.
+      column:
+        label: Column
+    # If the plugin does not provide elements, set this as
+    # `elements: false`
+    elements:
+      - <div>
+      - <div class="row">
+      - <div class="col">
+    # *Additional configuration properties*
+    # conditions: for setting additional criteria that must be met for the
+    #   plugin to be active.
+    # class: Optional PHP class that makes it possible for the plugin to provide
+    #   dynamic values, or a configuration UI.
