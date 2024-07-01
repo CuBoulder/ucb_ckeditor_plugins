@@ -1,3 +1,8 @@
 .ucb-column-container{
   margin: 5px;
+  padding: 5px;
+}
+
+.ucb-column{
+  padding: 5px;
 }
