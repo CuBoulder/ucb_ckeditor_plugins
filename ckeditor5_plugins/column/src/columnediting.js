@@ -26,18 +26,12 @@ export default class ColumnEditing extends Plugin {
 
     schema.register('ucb-column', {
       allowIn: 'ucb-row',
-      allowContentOf: '$root'
+      allowContentOf: '$root' // Allow any content inside ucb-column
     });
-
-    // schema.addChildCheck((context, childDefinition) => {
-    //   if (context.endsWith('ucb-column') && childDefinition.name === 'ucb-row') {
-    //     return false;
-    //   }
-    // });
   }
 
   _defineConverters() {
-    const { conversion, editing } = this.editor;
+    const { conversion } = this.editor;
 
     conversion.for('upcast').elementToElement({
       model: 'ucb-row',
