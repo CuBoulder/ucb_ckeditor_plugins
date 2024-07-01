@@ -26,7 +26,7 @@ export default class ColumnEditing extends Plugin {
 
     schema.register('ucb-column', {
       allowIn: 'ucb-row',
-      allowContentOf: '$root' // Allow any content inside ucb-column
+      allowContentOf: '$root'
     });
   }
 
@@ -37,7 +37,7 @@ export default class ColumnEditing extends Plugin {
       model: 'ucb-row',
       view: {
         name: 'div',
-        classes: 'row'
+        classes: ['row', 'ucb-column-container']
       }
     });
 
@@ -45,22 +45,22 @@ export default class ColumnEditing extends Plugin {
       model: 'ucb-column',
       view: {
         name: 'div',
-        classes: 'col'
+        classes: ['col', 'ucb-column']
       }
     });
 
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-row',
       view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createContainerElement('div', { class: 'row' });
-        return toWidget(div, viewWriter, { label: 'row widget' });
+        const div = viewWriter.createContainerElement('div', { class: 'row ucb-column-container' });
+        return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true  });
       }
     });
 
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-column',
       view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createContainerElement('div', { class: 'col' });
+        const div = viewWriter.createEditableElement('div', { class: 'col ucb-column' });
         return toWidgetEditable(div, viewWriter);
       }
     });
@@ -68,17 +68,27 @@ export default class ColumnEditing extends Plugin {
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-row',
       view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createContainerElement('div', { class: 'row' });
-        return toWidget(div, viewWriter, { label: 'row widget' });
+        const div = viewWriter.createContainerElement('div', { class: 'row ucb-column-container' });
+        return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true });
       }
     });
 
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-column',
       view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createEditableElement('div', { class: 'col' });
+        const div = viewWriter.createEditableElement('div', { class: 'col ucb-column' });
         return toWidgetEditable(div, viewWriter);
       }
+    });
+
+    // Add the class for visual cue when ucb-row is selected
+    conversion.for('editingDowncast').add(dispatcher => {
+      dispatcher.on('insert:ucb-row', (evt, data, conversionApi) => {
+        const viewElement = conversionApi.mapper.toViewElement(data.item);
+        const writer = conversionApi.writer;
+
+        writer.addClass('ucb-row_selected', viewElement);
+      });
     });
   }
 
