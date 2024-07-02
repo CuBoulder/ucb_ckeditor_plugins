@@ -53,7 +53,7 @@ export default class ColumnEditing extends Plugin {
       model: 'ucb-row',
       view: (modelElement, { writer: viewWriter }) => {
         const div = viewWriter.createContainerElement('div', { class: 'row ucb-column-container' });
-        return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true  });
+        return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true });
       }
     });
 

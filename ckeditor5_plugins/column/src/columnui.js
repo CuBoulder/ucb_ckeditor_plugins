@@ -49,7 +49,7 @@ export default class ColumnUI extends Plugin {
       items: ['addColumn', 'removeColumn'],
       getRelatedElement: selection => {
         const selectedElement = selection.getSelectedElement();
-        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-row')) {
+        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-column-container')) {
           return selectedElement;
         }
         return null;
@@ -66,7 +66,7 @@ export default class ColumnUI extends Plugin {
       withText: !icon
     });
 
-    buttonView.bind('isEnabled').to(command);
+    buttonView.bind('isEnabled').to(command, 'isEnabled');
 
     this.listenTo(buttonView, 'execute', () => {
       command.execute();

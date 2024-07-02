@@ -17,8 +17,9 @@ export default class RemoveColumnCommand extends Command {
   refresh() {
     const model = this.editor.model;
     const selection = model.document.selection;
+    const row = selection.getFirstPosition().findAncestor('ucb-row');
     const column = selection.getFirstPosition().findAncestor('ucb-column');
 
-    this.isEnabled = !!column;
+    this.isEnabled = !!row && !!column;
   }
 }

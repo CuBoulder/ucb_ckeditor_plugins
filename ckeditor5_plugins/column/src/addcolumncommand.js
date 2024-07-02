@@ -10,6 +10,8 @@ export default class AddColumnCommand extends Command {
     if (row) {
       model.change(writer => {
         const column = writer.createElement('ucb-column');
+        const paragraph = writer.createElement('paragraph');
+        writer.append(paragraph, column);
         writer.append(column, row);
       });
     }
