@@ -32,13 +32,10 @@ export default class ColumnUI extends Plugin {
       return button;
     });
 
-    // Register addColumn button to the toolbar
     componentFactory.add('addColumn', locale =>
       this._createButton(locale, 'Add Column', icons.plus, commands.get('addColumn')));
-
-    // Register removeColumn button to the toolbar
     componentFactory.add('removeColumn', locale =>
-      this._createButton(locale, 'Remove Column', icons.minus, commands.get('removeColumn')));
+      this._createButton(locale, 'Remove Column', icons.eraser, commands.get('removeColumn')));
   }
 
   afterInit() {
@@ -46,13 +43,20 @@ export default class ColumnUI extends Plugin {
     const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 
     widgetToolbarRepository.register('ucb-row', {
-      items: ['addColumn', 'removeColumn'],
-      getRelatedElement: selection => {
+      items: ['addColumn'],
+      getRelatedElement: (selection) => {
         const selectedElement = selection.getSelectedElement();
-        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ucb-column-container')) {
+        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass("ucb-column-container"))
           return selectedElement;
-        }
         return null;
+      }
+    });
+
+    widgetToolbarRepository.register('ucb-column', {
+      items: ['removeColumn'],
+      getRelatedElement: (selection) => {
+        return selection.focus ? selection.focus.getAncestors()
+          .find((node) => node.is('element') && node.hasClass('ucb-column')) : null;
       }
     });
   }
