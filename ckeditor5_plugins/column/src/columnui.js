@@ -46,8 +46,15 @@ export default class ColumnUI extends Plugin {
       items: ['addColumn'],
       getRelatedElement: (selection) => {
         const selectedElement = selection.getSelectedElement();
-        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass("ucb-column-container"))
+        console.log(selectedElement)
+        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass("ucb-column-container")) {
+          // Check the number of columns --  4 would be 6 (4 columns, 2 UI elements) so >5 don't show the 'Add Button'
+          const columnCount = selectedElement.childCount;
+          if (columnCount > 5) {
+            return null;
+          }
           return selectedElement;
+        }
         return null;
       }
     });
@@ -55,8 +62,9 @@ export default class ColumnUI extends Plugin {
     widgetToolbarRepository.register('ucb-column', {
       items: ['removeColumn'],
       getRelatedElement: (selection) => {
-        return selection.focus ? selection.focus.getAncestors()
+        const columnElement = selection.focus ? selection.focus.getAncestors()
           .find((node) => node.is('element') && node.hasClass('ucb-column')) : null;
+        return columnElement;
       }
     });
   }

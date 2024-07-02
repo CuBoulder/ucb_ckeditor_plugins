@@ -22,6 +22,11 @@ export default class AddColumnCommand extends Command {
     const model = this.editor.model;
     const selection = model.document.selection;
     const row = getSelectedColumnRowWidget(selection)
-    this.isEnabled = !!row;
+    if (row) {
+      const columnCount = Array.from(row.getChildren()).filter(child => child.is('element', 'ucb-column')).length;
+      this.isEnabled = columnCount < 4;
+    } else {
+      this.isEnabled = false;
+    }
   }
 }
