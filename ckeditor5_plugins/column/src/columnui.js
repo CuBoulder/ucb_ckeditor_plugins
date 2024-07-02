@@ -46,7 +46,6 @@ export default class ColumnUI extends Plugin {
       items: ['addColumn'],
       getRelatedElement: (selection) => {
         const selectedElement = selection.getSelectedElement();
-        console.log(selectedElement)
         if (selectedElement && selectedElement.is('element') && selectedElement.hasClass("ucb-column-container")) {
           // Check the number of columns --  4 would be 6 (4 columns, 2 UI elements) so >5 don't show the 'Add Button'
           const columnCount = selectedElement.childCount;
