@@ -1,19 +1,23 @@
 import { Command } from 'ckeditor5/src/core';
-import { getSelectedColumnRowWidget } from './columnutils';
 
-export default class AddColumnCommand extends Command {
-  execute() {
+export default class AddColumnPositionCommand extends Command {
+  execute({ position }) {
     const editor = this.editor;
     const model = editor.model;
     const selection = model.document.selection;
-    const row = getSelectedColumnRowWidget(selection)
+    const selectedColumn = selection.getFirstPosition().findAncestor('ucb-column');
 
-    if (row) {
+    if (selectedColumn) {
       model.change(writer => {
-        const paragraph = writer.createElement('paragraph');
         const newColumn = writer.createElement('ucb-column');
+        const paragraph = writer.createElement('paragraph');
         writer.append(paragraph, newColumn);
-        writer.append(newColumn, row);
+
+        if (position === 'left') {
+          writer.insert(newColumn, selectedColumn, 'before');
+        } else if (position === 'right') {
+          writer.insert(newColumn, selectedColumn, 'after');
+        }
         writer.setSelection(paragraph, 'in');
       });
     }
@@ -22,8 +26,10 @@ export default class AddColumnCommand extends Command {
   refresh() {
     const model = this.editor.model;
     const selection = model.document.selection;
-    const row = getSelectedColumnRowWidget(selection)
-    if (row) {
+    const selectedColumn = selection.getFirstPosition().findAncestor('ucb-column');
+
+    if (selectedColumn) {
+      const row = selectedColumn.parent;
       const columnCount = Array.from(row.getChildren()).filter(child => child.is('element', 'ucb-column')).length;
       this.isEnabled = columnCount < 4;
     } else {

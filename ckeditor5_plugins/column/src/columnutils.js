@@ -22,7 +22,7 @@ export function getSelectedColumnRowWidget(selection) {
 /**
  * @param {Element} element
  * @returns {boolean}
- *   Whether the element is a box widget.
+ *   Whether the element is a column widget.
  */
 function isColumnRowWidget(element) {
   return element.name === 'ucb-row';

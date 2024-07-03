@@ -2,7 +2,10 @@ import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { ButtonView } from 'ckeditor5/src/ui';
 import icon from '../../../icons/table-columns-solid.svg';
+import leftIcon from '../../../icons/arrow-left-solid.svg';
+import rightIcon from '../../../icons/arrow-right-solid.svg';
 import { icons } from 'ckeditor5/src/core';
+import AddColumnPositionCommand from './addcolumnpositioncommand';
 
 export default class ColumnUI extends Plugin {
   static get requires() {
@@ -36,6 +39,12 @@ export default class ColumnUI extends Plugin {
       this._createButton(locale, 'Add Column', icons.plus, commands.get('addColumn')));
     componentFactory.add('removeColumn', locale =>
       this._createButton(locale, 'Remove Column', icons.eraser, commands.get('removeColumn')));
+    componentFactory.add('addColumnLeft', locale =>
+      this._createButton(locale, 'Add Column Left', leftIcon, commands.get('addColumnPosition'), 'left'));
+    componentFactory.add('addColumnRight', locale =>
+      this._createButton(locale, 'Add Column Right', rightIcon, commands.get('addColumnPosition'), 'right'));
+
+    editor.commands.add('addColumnPosition', new AddColumnPositionCommand(editor));
   }
 
   afterInit() {
@@ -59,7 +68,7 @@ export default class ColumnUI extends Plugin {
     });
 
     widgetToolbarRepository.register('ucb-column', {
-      items: ['removeColumn'],
+      items: ['addColumnLeft','removeColumn', 'addColumnRight'],
       getRelatedElement: (selection) => {
         const columnElement = selection.focus ? selection.focus.getAncestors()
           .find((node) => node.is('element') && node.hasClass('ucb-column')) : null;
@@ -68,7 +77,7 @@ export default class ColumnUI extends Plugin {
     });
   }
 
-  _createButton(locale, label, icon, command) {
+  _createButton(locale, label, icon, command, position) {
     const buttonView = new ButtonView(locale);
     buttonView.set({
       label,
@@ -77,12 +86,21 @@ export default class ColumnUI extends Plugin {
       withText: !icon
     });
 
-    buttonView.bind('isEnabled').to(command, 'isEnabled');
+    if (position) {
+      buttonView.bind('isEnabled').to(command, 'isEnabled');
 
-    this.listenTo(buttonView, 'execute', () => {
-      command.execute();
-      this.editor.editing.view.focus();
-    });
+      this.listenTo(buttonView, 'execute', () => {
+        this.editor.execute('addColumnPosition', { position });
+        this.editor.editing.view.focus();
+      });
+    } else {
+      buttonView.bind('isEnabled').to(command, 'isEnabled');
+
+      this.listenTo(buttonView, 'execute', () => {
+        command.execute();
+        this.editor.editing.view.focus();
+      });
+    }
 
     return buttonView;
   }

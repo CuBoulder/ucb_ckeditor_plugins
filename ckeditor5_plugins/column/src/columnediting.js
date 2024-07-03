@@ -80,7 +80,6 @@ export default class ColumnEditing extends Plugin {
         return toWidgetEditable(div, viewWriter);
       }
     });
-
     // Add the class for visual cue when ucb-row is selected
     conversion.for('editingDowncast').add(dispatcher => {
       dispatcher.on('insert:ucb-row', (evt, data, conversionApi) => {
