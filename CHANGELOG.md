@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### CKEditor5: Adds Column Plugin
+  Adds the new plugin 'Column' to the CKEditor5 toolbar. Allows for users to insert a row with evenly spaced columns (up to 4)
+  
+  
+  Includes:
+  - `ucb_ckeditor_plugins` => https://github.com/CuBoulder/ucb_ckeditor_plugins/pull/85
+  - `profile` => https://github.com/CuBoulder/tiamat10-profile/pull/156
+  
+  Resolves https://github.com/CuBoulder/ucb_ckeditor_plugins/issues/75
+---
+
 - ### Update ucb_ckeditor_plugins.ckeditor5.yml
   Added `ucb-callout-content` to the list of allowed html classes
   

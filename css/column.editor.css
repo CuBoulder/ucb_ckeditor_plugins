@@ -1,0 +1,27 @@
+.ucb-column-container{
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+.ucb-column-container.ck-widget_selected{
+  margin-top: 2em;
+}
+
+.ucb-column-container > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x)* .5);
+  padding-left: calc(var(--bs-gutter-x)* .5);
+  margin-top: var(--bs-gutter-y);
+}
+
+.ucb-column{
+  padding: 5px;
+  flex: 1 0 0%;
+}
+
+
