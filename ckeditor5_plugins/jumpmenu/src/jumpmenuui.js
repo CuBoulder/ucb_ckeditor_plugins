@@ -12,8 +12,9 @@ export default class JumpMenuUI extends Plugin {
     const editor = this.editor;
     const componentFactory = editor.ui.componentFactory;
 
+    // Register the insertJumpMenu button
     componentFactory.add('jumpmenu', locale => {
-      const command = editor.commands.get('insertJumpMenu');
+      const command = editor.commands.get('jumpmenu');
       const buttonView = new ButtonView(locale);
 
       buttonView.set({
@@ -25,7 +26,7 @@ export default class JumpMenuUI extends Plugin {
       buttonView.bind('isEnabled').to(command, 'isEnabled');
 
       buttonView.on('execute', () => {
-        editor.execute('insertJumpMenu');
+        editor.execute('jumpmenu');
         editor.editing.view.focus();
       });
 
@@ -51,6 +52,8 @@ export default class JumpMenuUI extends Plugin {
 
       return dropdownView;
     });
+
+    this._registerWidgetToolbar();
   }
 
   _createDropdownItems(locale) {
@@ -82,15 +85,20 @@ export default class JumpMenuUI extends Plugin {
     return itemDefinitions;
   }
 
-  afterInit() {
+  _registerWidgetToolbar() {
     const editor = this.editor;
     const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
 
-    widgetToolbarRepository.register('ucb-jump-menu', {
+    widgetToolbarRepository.register('ucbJumpMenu', {
       items: ['setHeaderTag'],
       getRelatedElement: (selection) => {
         const selectedElement = selection.getSelectedElement();
-        if (selectedElement && selectedElement.name === 'ucbJumpMenu') {
+        console.log('selection', selectedElement)
+        if(selectedElement){
+          console.log('selection name', selectedElement.name)
+        }
+        if (selectedElement && selectedElement.name === 'ucb-jump-menu') {
+          console.log('returning selected element');
           return selectedElement;
         }
         return null;

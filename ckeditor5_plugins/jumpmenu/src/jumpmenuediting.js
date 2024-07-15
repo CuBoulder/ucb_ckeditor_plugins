@@ -2,6 +2,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { toWidget } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertJumpMenuCommand from './insertjumpmenucommand';
+import ModifyJumpMenuCommand from './modifyjumpmenucommand';  // Import the new command
 
 export default class JumpMenuEditing extends Plugin {
   static get requires() {
@@ -59,7 +60,8 @@ export default class JumpMenuEditing extends Plugin {
 
   _defineCommands() {
     const editor = this.editor;
-    editor.commands.add('insertJumpMenu', new InsertJumpMenuCommand(editor));
+    editor.commands.add('jumpmenu', new InsertJumpMenuCommand(editor));
+    editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'headerTag', 'h2'));
   }
 }
 
