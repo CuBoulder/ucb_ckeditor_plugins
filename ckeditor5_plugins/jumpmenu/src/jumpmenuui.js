@@ -1,33 +1,19 @@
-/**
- * @file registers the jump menu toolbar button and binds functionality to it.
- *
- * @typedef { import('@ckeditor/ckeditor5-utils').Locale } Locale
- * @typedef { import('@ckeditor/ckeditor5-core').Command } Command
- * @typedef { import('@ckeditor/ckeditor5-core/src/editor/editorwithui').EditorWithUI } EditorWithUI
- * @typedef { import('@ckeditor/ckeditor5-engine').Element } Element
- */
-
 import { Plugin } from 'ckeditor5/src/core';
+import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { ButtonView, createDropdown, Model } from 'ckeditor5/src/ui';
 import jumpMenuIcon from '../../../icons/anchor-solid.svg';
 
 export default class JumpMenuUI extends Plugin {
-  /**
-   * @inheritdoc
-   */
   static get requires() {
-    return [createDropdown];
+    return [WidgetToolbarRepository];
   }
 
-  /**
-   * @inheritdoc
-   */
   init() {
     const editor = this.editor;
     const componentFactory = editor.ui.componentFactory;
 
-    // Register the insert jump menu button.
     componentFactory.add('insertJumpMenu', locale => {
+      const command = editor.commands.get('insertJumpMenu');
       const buttonView = new ButtonView(locale);
 
       buttonView.set({
@@ -35,6 +21,8 @@ export default class JumpMenuUI extends Plugin {
         icon: jumpMenuIcon,
         tooltip: true
       });
+
+      buttonView.bind('isEnabled').to(command, 'isEnabled');
 
       buttonView.on('execute', () => {
         editor.execute('insertJumpMenu');
@@ -44,70 +32,69 @@ export default class JumpMenuUI extends Plugin {
       return buttonView;
     });
 
-    // Register the dropdown for header tags.
-    componentFactory.add('changeHeaderTag', locale => {
+    // Register the dropdown for setting header tags
+    componentFactory.add('setHeaderTag', locale => {
       const dropdownView = createDropdown(locale);
       const buttons = this._createDropdownItems(locale);
 
       dropdownView.buttonView.set({
-        label: 'Header Tag',
+        label: 'Set Header Tag',
         tooltip: true,
         withText: true
       });
 
-      dropdownView.buttonView.bind('isEnabled').to(
-        editor.commands.get('changeHeaderTag')
-      );
-
       dropdownView.panelView.children.add(...buttons);
 
       dropdownView.on('execute', evt => {
-        editor.execute('changeHeaderTag', { value: evt.source.commandParam });
+        editor.execute('modifyJumpMenuHeaderTag', { value: evt.source.commandParam });
       });
 
       return dropdownView;
     });
   }
 
-  /**
-   * Create the dropdown items for the header tags.
-   *
-   * @param {Locale} locale
-   * @returns {Array}
-   */
   _createDropdownItems(locale) {
     const editor = this.editor;
     const options = ['h2', 'h3', 'h4', 'h5'];
-    const itemDefinitions = new Array();
+    const itemDefinitions = options.map(option => {
+      const button = new ButtonView(locale);
 
-    for (const option of options) {
-      const definition = {
-        type: 'button',
-        model: new Model({
-          commandParam: option,
-          label: option.toUpperCase(),
-          withText: true
-        })
-      };
+      button.set({
+        label: option.toUpperCase(),
+        withText: true
+      });
 
-      definition.model.bind('isOn').to(
-        editor.commands.get('changeHeaderTag'),
+      button.commandParam = option;
+
+      button.bind('isOn').to(
+        editor.commands.get('modifyJumpMenuHeaderTag'),
         'value',
         value => value === option
       );
 
-      itemDefinitions.push(definition);
-    }
-
-    return itemDefinitions.map(def => {
-      const buttonView = new ButtonView(locale);
-      buttonView.bind(...Object.keys(def.model._boundAttributes)).to(def.model);
-
-      buttonView.on('execute', evt => {
-        editor.execute('changeHeaderTag', { value: evt.source.commandParam });
+      button.on('execute', () => {
+        editor.execute('modifyJumpMenuHeaderTag', { value: option });
       });
 
-      return buttonView;
+      return button;
+    });
+
+    return itemDefinitions;
+  }
+
+  afterInit() {
+    const editor = this.editor;
+    const widgetToolbarRepository = editor.plugins.get(WidgetToolbarRepository);
+
+    widgetToolbarRepository.register('ucb-jump-menu', {
+      items: ['setHeaderTag'],
+      getRelatedElement: (selection) => {
+        const selectedElement = selection.getSelectedElement();
+        if (selectedElement && selectedElement.name === 'ucbJumpMenu') {
+          return selectedElement;
+        }
+        return null;
+      }
     });
   }
 }

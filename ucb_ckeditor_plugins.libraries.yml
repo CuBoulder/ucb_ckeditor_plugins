@@ -4,6 +4,7 @@ ckeditor-plugin-styles:
   js:
     js/countup.js: {}
     js/countdown.js: {}
+    js/jumpmenu.js: {}
   css:
     theme:
       css/box.css: {}
