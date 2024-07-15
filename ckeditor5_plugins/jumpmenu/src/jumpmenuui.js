@@ -12,7 +12,7 @@ export default class JumpMenuUI extends Plugin {
     const editor = this.editor;
     const componentFactory = editor.ui.componentFactory;
 
-    componentFactory.add('insertJumpMenu', locale => {
+    componentFactory.add('jumpmenu', locale => {
       const command = editor.commands.get('insertJumpMenu');
       const buttonView = new ButtonView(locale);
 
