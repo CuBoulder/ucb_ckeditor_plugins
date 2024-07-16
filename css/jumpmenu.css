@@ -1,0 +1,20 @@
+.ucb-jump-menu-outer-container{
+  border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  background-color: #EEEEEE;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.ucb-jump-menu-title{
+  font-weight: bold;
+  background-color: #424242;
+  color: #fff;
+  padding: 10px;
+}
+
+.ucb-jump-menu-links{
+  padding: 0 10px 10px 10px;
+}

@@ -17,6 +17,7 @@ ckeditor-plugin-styles:
       css/countup.css: {}
       css/countdown.css: {}
       css/callout.css: {}
+      css/jumpmenu.css: {}
 
 # === Admin / editing interface libraries ===
 
