@@ -10,19 +10,24 @@ class JumpMenuElement extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['headertag'];
+    return ['headertag', 'title'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'headertag') {
+    if (name === 'headertag' || name === 'title') {
       this.build();
     }
   }
 
   build() {
     this.innerHTML = `
-      <div class="container">
-        <p>I'm the jump menu and my targeted tag is ${this.getAttribute('headertag')}</p>
+      <div class="ucb-jump-menu-outer-container">
+        <div class="ucb-jump-menu-title">
+          <span class="ucb-jump-menu-label">${this.getAttribute('title')}</span>
+        </div>
+        <div class="ucb-jump-menu-links">
+          <p>My header tag is a ${this.getAttribute('headerTag')}
+        </div>
       </div>
     `;
   }
