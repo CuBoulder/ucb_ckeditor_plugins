@@ -4,7 +4,6 @@ export default class InsertJumpMenuCommand extends Command {
   constructor(editor) {
     super(editor);
     this.set('isEnabled', true);
-    this.set('existingJumpMenuSelected', false);
   }
 
   execute(options = { headerTag: 'h2', title: '' }) {
@@ -13,8 +12,10 @@ export default class InsertJumpMenuCommand extends Command {
     const model = this.editor.model;
 
     model.change(writer => {
+      const jumpMenuContainer = writer.createElement('ucbJumpMenuContainer');
       const jumpMenuElement = writer.createElement('ucbJumpMenu', { headerTag, title });
-      model.insertContent(jumpMenuElement, model.document.selection);
+      writer.append(jumpMenuElement, jumpMenuContainer);
+      model.insertContent(jumpMenuContainer, model.document.selection);
     });
   }
 
@@ -23,13 +24,8 @@ export default class InsertJumpMenuCommand extends Command {
     const { selection } = model.document;
     const selectedElement = selection.getSelectedElement();
 
-    const jumpMenuAllowedIn = model.schema.findAllowedParent(selection.getFirstPosition(), 'ucbJumpMenu');
+    const jumpMenuAllowedIn = model.schema.findAllowedParent(selection.getFirstPosition(), 'ucbJumpMenuContainer');
 
     this.isEnabled = jumpMenuAllowedIn !== null;
-    this.existingJumpMenuSelected = isJumpMenuElement(selectedElement) ? selectedElement : null;
   }
-}
-
-function isJumpMenuElement(element) {
-  return element && element.name === 'ucbJumpMenu';
 }

@@ -14,8 +14,11 @@ export default class ModifyJumpMenuCommand extends Command {
     const selectedElement = model.document.selection.getSelectedElement();
 
     model.change(writer => {
-      if (selectedElement && selectedElement.name === 'ucbJumpMenu') {
-        writer.setAttribute(this.attributeName, value, selectedElement);
+      if (selectedElement && selectedElement.name === 'ucbJumpMenuContainer') {
+        const jumpMenuElement = Array.from(selectedElement.getChildren()).find(child => child.name === 'ucbJumpMenu');
+        if (jumpMenuElement) {
+          writer.setAttribute(this.attributeName, value, jumpMenuElement);
+        }
       }
     });
 
@@ -26,12 +29,18 @@ export default class ModifyJumpMenuCommand extends Command {
     const model = this.editor.model;
     const selectedElement = model.document.selection.getSelectedElement();
 
-    if (selectedElement && selectedElement.name === 'ucbJumpMenu') {
-      this.value = selectedElement.getAttribute(this.attributeName) || this.defaultValue;
+    if (selectedElement && selectedElement.name === 'ucbJumpMenuContainer') {
+      const jumpMenuElement = Array.from(selectedElement.getChildren()).find(child => child.name === 'ucbJumpMenu');
+      if (jumpMenuElement) {
+        this.value = jumpMenuElement.getAttribute(this.attributeName) || this.defaultValue;
+        this.isEnabled = true;
+      } else {
+        this.value = this.defaultValue;
+        this.isEnabled = false;
+      }
     } else {
       this.value = this.defaultValue;
+      this.isEnabled = false;
     }
-
-    this.isEnabled = !!selectedElement && selectedElement.name === 'ucbJumpMenu';
   }
 }

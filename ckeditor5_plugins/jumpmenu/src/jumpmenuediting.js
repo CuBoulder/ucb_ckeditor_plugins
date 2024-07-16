@@ -1,6 +1,5 @@
 import { Plugin } from 'ckeditor5/src/core';
-import { toWidget } from 'ckeditor5/src/widget';
-import { Widget } from 'ckeditor5/src/widget';
+import { Widget, toWidget } from 'ckeditor5/src/widget';
 import InsertJumpMenuCommand from './insertjumpmenucommand';
 import ModifyJumpMenuCommand from './modifyjumpmenucommand';
 
@@ -18,16 +17,33 @@ export default class JumpMenuEditing extends Plugin {
   _defineSchema() {
     const schema = this.editor.model.schema;
 
-    schema.register('ucbJumpMenu', {
+    schema.register('ucbJumpMenuContainer', {
       isObject: true,
       allowWhere: '$block',
       allowAttributes: ['headerTag', 'title'],
-      allowChildren: false
+      allowChildren: 'ucbJumpMenu'
+    });
+
+    schema.register('ucbJumpMenu', {
+      allowIn: 'ucbJumpMenuContainer',
+      isLimit: true,
+      allowAttributes: ['headerTag', 'title']
     });
   }
 
   _defineConverters() {
     const conversion = this.editor.conversion;
+
+    // Upcast converters
+    conversion.for('upcast').elementToElement({
+      view: {
+        name: 'div',
+        classes: 'ucb-jump-menu-container'
+      },
+      model: (viewElement, { writer: modelWriter }) => {
+        return modelWriter.createElement('ucbJumpMenuContainer');
+      }
+    });
 
     conversion.for('upcast').elementToElement({
       view: {
@@ -45,10 +61,27 @@ export default class JumpMenuEditing extends Plugin {
       }
     });
 
+    // Downcast converters for data
+    conversion.for('dataDowncast').elementToElement({
+      model: 'ucbJumpMenuContainer',
+      view: (modelElement, { writer: viewWriter }) => {
+        return viewWriter.createContainerElement('div', { class: 'ucb-jump-menu-container' });
+      }
+    });
+
     conversion.for('dataDowncast').elementToElement({
       model: 'ucbJumpMenu',
       view: (modelElement, { writer: viewWriter }) => {
         return createJumpMenuView(modelElement, viewWriter);
+      }
+    });
+
+    // Downcast converters for editing
+    conversion.for('editingDowncast').elementToElement({
+      model: 'ucbJumpMenuContainer',
+      view: (modelElement, { writer: viewWriter }) => {
+        const div = viewWriter.createContainerElement('div', { class: 'ucb-jump-menu-container' });
+        return toWidget(div, viewWriter, { label: 'jump menu container', hasSelectionHandle: true });
       }
     });
 
@@ -68,13 +101,16 @@ export default class JumpMenuEditing extends Plugin {
   }
 }
 
-function createJumpMenuView(modelElement, downcastWriter, widget = false) {
+function createJumpMenuView(modelElement, viewWriter, widget = false) {
   const headerTag = modelElement.getAttribute('headerTag') || 'h2';
   const title = modelElement.getAttribute('title') || '';
-  const jumpMenuElement = downcastWriter.createContainerElement('ucb-jump-menu', { headertag: headerTag, title });
+  const jumpMenuElement = viewWriter.createContainerElement('ucb-jump-menu', {
+    headertag: headerTag,
+    title: title
+  });
 
   if (widget) {
-    return toWidget(jumpMenuElement, downcastWriter);
+    return toWidget(jumpMenuElement, viewWriter);
   }
 
   return jumpMenuElement;
