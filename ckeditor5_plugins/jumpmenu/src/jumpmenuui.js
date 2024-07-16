@@ -1,7 +1,7 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { ButtonView, createDropdown, addToolbarToDropdown, LabeledFieldView, createLabeledInputText } from 'ckeditor5/src/ui';
-import jumpMenuIcon from '../../../icons/anchor-solid.svg';
+import jumpMenuIcon from '../../../icons/compass-solid.svg';
 
 export default class JumpMenuUI extends Plugin {
   static get requires() {
