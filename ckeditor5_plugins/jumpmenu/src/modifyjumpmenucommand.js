@@ -5,30 +5,33 @@ export default class ModifyJumpMenuCommand extends Command {
     super(editor);
     this.attributeName = attributeName;
     this.defaultValue = defaultValue;
+    this.set('value', this.defaultValue);
+  }
+
+  execute(options = {}) {
+    const { value } = options;
+    const model = this.editor.model;
+    const selectedElement = model.document.selection.getSelectedElement();
+
+    model.change(writer => {
+      if (selectedElement && selectedElement.name === 'ucbJumpMenu') {
+        writer.setAttribute(this.attributeName, value, selectedElement);
+      }
+    });
+
+    this.value = value;
   }
 
   refresh() {
     const model = this.editor.model;
-    const selection = model.document.selection;
-    const selectedElement = selection.getSelectedElement();
+    const selectedElement = model.document.selection.getSelectedElement();
 
-    this.isEnabled = selectedElement && selectedElement.is('element', 'ucbJumpMenu');
-    if (this.isEnabled) {
-      this.value = selectedElement.getAttribute(this.attributeName);
+    if (selectedElement && selectedElement.name === 'ucbJumpMenu') {
+      this.value = selectedElement.getAttribute(this.attributeName) || this.defaultValue;
     } else {
       this.value = this.defaultValue;
     }
-  }
 
-  execute(options = { value: '' }) {
-    const model = this.editor.model;
-    const selection = model.document.selection;
-    const selectedElement = selection.getSelectedElement();
-
-    if (selectedElement && selectedElement.is('element', 'ucbJumpMenu')) {
-      model.change(writer => {
-        writer.setAttribute(this.attributeName, options.value || this.defaultValue, selectedElement);
-      });
-    }
+    this.isEnabled = !!selectedElement && selectedElement.name === 'ucbJumpMenu';
   }
 }

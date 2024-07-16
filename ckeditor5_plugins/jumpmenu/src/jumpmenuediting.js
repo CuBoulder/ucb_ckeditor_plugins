@@ -2,7 +2,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { toWidget } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertJumpMenuCommand from './insertjumpmenucommand';
-import ModifyJumpMenuCommand from './modifyjumpmenucommand';  // Import the new command
+import ModifyJumpMenuCommand from './modifyjumpmenucommand';
 
 export default class JumpMenuEditing extends Plugin {
   static get requires() {
@@ -21,7 +21,7 @@ export default class JumpMenuEditing extends Plugin {
     schema.register('ucbJumpMenu', {
       isObject: true,
       allowWhere: '$block',
-      allowAttributes: ['headerTag'],
+      allowAttributes: ['headerTag', 'title'],
       allowChildren: false
     });
   }
@@ -33,12 +33,14 @@ export default class JumpMenuEditing extends Plugin {
       view: {
         name: 'ucb-jump-menu',
         attributes: {
-          headertag: true
+          headertag: true,
+          title: true
         }
       },
       model: (viewElement, { writer: modelWriter }) => {
         return modelWriter.createElement('ucbJumpMenu', {
-          headerTag: viewElement.getAttribute('headertag')
+          headerTag: viewElement.getAttribute('headertag'),
+          title: viewElement.getAttribute('title')
         });
       }
     });
@@ -62,12 +64,14 @@ export default class JumpMenuEditing extends Plugin {
     const editor = this.editor;
     editor.commands.add('jumpmenu', new InsertJumpMenuCommand(editor));
     editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'headerTag', 'h2'));
+    editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'title', ''));
   }
 }
 
 function createJumpMenuView(modelElement, downcastWriter, widget = false) {
   const headerTag = modelElement.getAttribute('headerTag') || 'h2';
-  const jumpMenuElement = downcastWriter.createContainerElement('ucb-jump-menu', { headertag: headerTag });
+  const title = modelElement.getAttribute('title') || '';
+  const jumpMenuElement = downcastWriter.createContainerElement('ucb-jump-menu', { headertag: headerTag, title });
 
   if (widget) {
     return toWidget(jumpMenuElement, downcastWriter);
