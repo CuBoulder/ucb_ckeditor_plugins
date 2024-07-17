@@ -12,6 +12,7 @@ export default class JumpMenuEditing extends Plugin {
     this._defineSchema();
     this._defineConverters();
     this._defineCommands();
+    this._addChangeDataListener();
   }
 
   _defineSchema() {
@@ -98,6 +99,15 @@ export default class JumpMenuEditing extends Plugin {
     editor.commands.add('jumpmenu', new InsertJumpMenuCommand(editor));
     editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'headerTag', 'h2'));
     editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'title', ''));
+  }
+
+  _addChangeDataListener() {
+    const editor = this.editor;
+    editor.model.document.on('change:data', () => {
+      document.querySelectorAll('ucb-jump-menu').forEach(element => {
+        element.build();
+      });
+    });
   }
 }
 

@@ -4,15 +4,21 @@ class JumpMenuElement extends HTMLElement {
     this._headerTag = this.getAttribute('headerTag');
     this._title = this.sanitize(this.getAttribute('title'));
   }
-// Hot reload, re-run build
+
+  // Hot reload, re-run build
   connectedCallback() {
+    this.setAttribute('headerTag', this._headerTag);
     this.build();
+    // Force attributeChangedCallback to run after initial build, this just gets us a reload in the editor to show our headers
+    this.setAttribute('data-initialized', 'true');
   }
-// Hot reload
+
+  // Hot reload
   static get observedAttributes() {
     return ['headertag', 'title'];
   }
-// Hot reload
+
+  // Hot reload
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'headertag') {
       this._headerTag = newValue;
@@ -22,7 +28,8 @@ class JumpMenuElement extends HTMLElement {
     }
     this.build();
   }
-// This just sanitizes the title input to prevent any malicious code
+
+  // This just sanitizes the title input to prevent any malicious code
   sanitize(input) {
     const element = document.createElement('div');
     element.innerText = input;
