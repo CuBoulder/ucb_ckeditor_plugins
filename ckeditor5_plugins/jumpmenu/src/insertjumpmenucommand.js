@@ -6,7 +6,7 @@ export default class InsertJumpMenuCommand extends Command {
     this.set('isEnabled', true);
   }
 
-  execute(options = { headerTag: 'h2', title: '' }) {
+  execute(options = { headerTag: 'h2', title: 'On this page:' }) {
     const headerTag = options.headerTag.trim();
     const title = options.title.trim();
     const model = this.editor.model;
