@@ -1,5 +1,3 @@
-console.log("JumpMenu script loaded");
-
 class JumpMenuElement extends HTMLElement {
   constructor() {
     super();
