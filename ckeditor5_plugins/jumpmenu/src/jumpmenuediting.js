@@ -101,6 +101,7 @@ export default class JumpMenuEditing extends Plugin {
     editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'title', ''));
   }
 
+  // This allows us to force a reload in editior, otherwise the <li> items dont display
   _addChangeDataListener() {
     const editor = this.editor;
     editor.model.document.on('change:data', () => {
