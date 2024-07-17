@@ -36,6 +36,7 @@
 .ucb-jump-menu-links li a{
   padding-left: 5px;
   color: #0277bd !important;
+  text-decoration: none;
 }
 
 .ucb-jump-menu-links li::before{
@@ -43,4 +44,8 @@
   font-family: "Font Awesome 6 Free - Solid" !important;
   font-weight: 900 !important;
   color: #858585;
+}
+
+.ck.ck-editor__main .ucb-jump-menu-links li::before{
+  content:''
 }
