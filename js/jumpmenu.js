@@ -39,7 +39,7 @@ class JumpMenuElement extends HTMLElement {
   // Create the links on our headers
   createJumps(headers) {
     return headers.map(header => {
-      const textContent = header.textContent.trim(); // Trim leading and trailing spaces
+      const textContent = header.textContent.trim();
       const id = header.textContent.replace(/\s+/g, '').toLowerCase();
       header.setAttribute('id', id);
       return `<li><a href="#${id}">${textContent}</a></li>`;
