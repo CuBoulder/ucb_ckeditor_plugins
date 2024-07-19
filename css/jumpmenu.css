@@ -49,3 +49,7 @@
 .ck.ck-editor__main .ucb-jump-menu-links li::before{
   content:''
 }
+
+.ucb-jump-menu{
+  display: none;
+}

@@ -4,6 +4,7 @@ class JumpMenuElement extends HTMLElement {
     this._headerTag = this.getAttribute('headerTag');
     this._title = this.sanitize(this.getAttribute('title'));
     this._initialized = false;
+    this._maxRetries = 1; // Maximum number of retries for ensuring build
   }
 
   connectedCallback() {
@@ -50,9 +51,8 @@ class JumpMenuElement extends HTMLElement {
 
   collectHeaders() {
     let container;
-
-    if (this.closest('.ck .ck-editor__main')) {
-      container = this.closest('.ck .ck-editor__main');
+    if (this.closest('.ck-editor__main')) {
+      container = this.closest('.ck-editor__main');
     } else {
       container = this.closest('#block-boulder-base-content');
     }
@@ -63,14 +63,14 @@ class JumpMenuElement extends HTMLElement {
   }
 
   _initialBuild() {
-    const note = this.closest('.ck .ck-editor__main') ? '<p><em>Note: Additional headers may be found upon save. If no matching headers found, Jump Menu will be hidden.</em></p>' : '';
+    const note = this.closest('.ck-editor__main') ? '<p><em>Note: Additional headers may be found upon save. If no matching headers found, Jump Menu will be hidden.</em></p>' : '';
 
     this.innerHTML = `
-      <div class="ucb-jump-menu-outer-container">
-        <div class="ucb-jump-menu-title">
+      <div style="display:none;" class="ucb-jump-menu-outer-container">
+        <div style="display:none;" class="ucb-jump-menu-title">
           <span class="ucb-jump-menu-label">${this._title}</span>
         </div>
-        <div class="ucb-jump-menu-links">
+        <div style="display:none;" class="ucb-jump-menu-links">
           ${note}
           <ul></ul>
         </div>
@@ -83,11 +83,20 @@ class JumpMenuElement extends HTMLElement {
     const jumpLinks = this.createJumps(headers);
 
     const ul = this.querySelector('.ucb-jump-menu-links ul');
-    if (jumpLinks === '') {
+    const isEditor = this.closest('.ck-editor__main') !== null;
+
+    if (!isEditor && headers.length === 0) {
       this.style.display = 'none';
     } else {
       this.style.display = 'block';
       ul.innerHTML = jumpLinks;
+      const outerContainer = this.querySelector('.ucb-jump-menu-outer-container');
+      const titleContainer = this.querySelector('.ucb-jump-menu-title');
+      const linksContainer = this.querySelector('.ucb-jump-menu-links');
+
+      outerContainer.style.display = 'block';
+      titleContainer.style.display = 'block';
+      linksContainer.style.display = 'block';
     }
   }
 
@@ -97,21 +106,23 @@ class JumpMenuElement extends HTMLElement {
         editor.on('instanceReady', () => {
           this.build();
         });
-        editor.on('change:data', () => this.build());
+        editor.on('change:data', () => {
+          this.build();
+        });
       });
     }
   }
 
-  // Sometimes headers are not available and will load empty only if in CKEditor5 window. Can't figure out if this is because this is a web component, a DOM order thing, etc.
-  // This helps ensure that there are headers and will try to build the <li> jump menu items AFTER it loads the initial container for our jump menu.
   async _ensureBuild() {
     await this._domReady();
+    let retries = 0;
 
     const checkAndBuild = () => {
       const headers = this.collectHeaders();
-      if (headers.length > 0) {
+      if (headers.length > 0 || retries >= this._maxRetries) {
         this.build();
       } else {
+        retries++;
         requestAnimationFrame(checkAndBuild); // Check again on the next frame
       }
     };
