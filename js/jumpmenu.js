@@ -43,7 +43,7 @@ class JumpMenuElement extends HTMLElement {
   createJumps(headers) {
     return headers.map(header => {
       const textContent = header.textContent.trim();
-      const id = textContent.replace(/\s+/g, '').toLowerCase();
+      const id = textContent.replace(/\s+/g, '-').toLowerCase();
       header.setAttribute('id', id);
       return `<li><a href="#${id}">${textContent}</a></li>`;
     }).join('');
@@ -59,8 +59,33 @@ class JumpMenuElement extends HTMLElement {
 
     if (!container) return [];
 
-    return Array.from(container.querySelectorAll(this._headerTag));
+    const headers = Array.from(container.querySelectorAll(this._headerTag));
+
+    const isVisible = (element) => {
+      const style = window.getComputedStyle(element);
+      return style.display !== 'none' && !element.classList.contains('visually-hidden') && !element.classList.contains('ucb-invisible');
+    };
+
+    return headers.filter(header => {
+      let parent = header.parentElement;
+      while (parent && parent !== container) {
+        if (!isVisible(parent)) {
+          return false;
+        }
+        parent = parent.parentElement;
+      }
+      if (!isVisible(header)) {
+        return false;
+      }
+      const firstChild = header.firstElementChild;
+      if (firstChild && !isVisible(firstChild)) {
+        return false;
+      }
+      return true;
+    });
   }
+
+
 
   _initialBuild() {
     const note = this.closest('.ck-editor__main') ? '<p><em>Note: Additional headers may be found upon save. If no matching headers found, Jump Menu will be hidden.</em></p>' : '';
