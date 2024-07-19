@@ -35,7 +35,6 @@ export default class JumpMenuEditing extends Plugin {
   _defineConverters() {
     const conversion = this.editor.conversion;
 
-    // Upcast converters
     conversion.for('upcast').elementToElement({
       view: {
         name: 'div',
@@ -62,7 +61,6 @@ export default class JumpMenuEditing extends Plugin {
       }
     });
 
-    // Downcast converters for data
     conversion.for('dataDowncast').elementToElement({
       model: 'ucbJumpMenuContainer',
       view: (modelElement, { writer: viewWriter }) => {
@@ -77,7 +75,6 @@ export default class JumpMenuEditing extends Plugin {
       }
     });
 
-    // Downcast converters for editing
     conversion.for('editingDowncast').elementToElement({
       model: 'ucbJumpMenuContainer',
       view: (modelElement, { writer: viewWriter }) => {
@@ -101,12 +98,13 @@ export default class JumpMenuEditing extends Plugin {
     editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'title', ''));
   }
 
-  // This allows us to force a reload in editior, otherwise the <li> items dont display
   _addChangeDataListener() {
     const editor = this.editor;
     editor.model.document.on('change:data', () => {
       document.querySelectorAll('ucb-jump-menu').forEach(element => {
-        element.build();
+        if (element instanceof HTMLElement && typeof element.build === 'function') {
+          element.build();
+        }
       });
     });
   }
