@@ -5,6 +5,11 @@ class JumpMenuElement extends HTMLElement {
     this._title = this.sanitize(this.getAttribute('data-title'));
     this._initialized = false;
     this._maxRetries = 1; // Maximum number of retries for ensuring build
+
+    // Only attach shadow root if within #layout-builder
+    if (this.closest('#layout-builder')) {
+      this.attachShadow({ mode: 'open' });
+    }
   }
 
   connectedCallback() {
@@ -85,17 +90,74 @@ class JumpMenuElement extends HTMLElement {
     });
   }
 
-
-
   _initialBuild() {
     const note = this.closest('.ck-editor__main') ? '<p><em>Note: Additional headers may be found upon save. If no matching headers found, Jump Menu will be hidden.</em></p>' : '';
+// Shadow root needed to dodge jquery in Layout builder
+    const container = this.shadowRoot || this;
+    container.innerHTML = `
+      <style>
+      .ucb-jump-menu-outer-container{
+  border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  background-color: #EEEEEE;
+  display: block;
+  margin-bottom: 20px;
+}
 
-    this.innerHTML = `
-      <div style="display:none;" class="ucb-jump-menu-outer-container">
-        <div style="display:none;" class="ucb-jump-menu-title">
+.ucb-jump-menu-title{
+  font-weight: bold;
+  background-color: #424242;
+  color: #fff;
+  padding: 10px;
+}
+
+.ucb-jump-menu-links{
+  padding: 0 10px 10px 10px;
+}
+
+.ucb-jump-menu-links ul{
+  margin: 0;
+  padding: 0;
+  list-style: none !important;
+  list-style-image: none !important;
+}
+
+.ucb-jump-menu-links li{
+  margin: 10px 0;
+  padding: 0;
+  list-style: none !important;
+  list-style-image: none !important;
+}
+
+.ucb-jump-menu-links li a{
+  padding-left: 5px;
+  color: #0277bd !important;
+  text-decoration: none;
+}
+
+.ucb-jump-menu-links li::before{
+  content: "\f063";
+  font-family: "Font Awesome 6 Free - Solid" !important;
+  font-weight: 900 !important;
+  color: #858585;
+}
+
+.ck.ck-editor__main .ucb-jump-menu-links li::before{
+  content:''
+}
+
+.ucb-jump-menu{
+  display: none;
+}
+
+      </style>
+      <div class="ucb-jump-menu-outer-container">
+        <div class="ucb-jump-menu-title">
           <span class="ucb-jump-menu-label">${this._title}</span>
         </div>
-        <div style="display:none;" class="ucb-jump-menu-links">
+        <div class="ucb-jump-menu-links">
           ${note}
           <ul></ul>
         </div>
@@ -107,7 +169,8 @@ class JumpMenuElement extends HTMLElement {
     const headers = this.collectHeaders();
     const jumpLinks = this.createJumps(headers);
 
-    const ul = this.querySelector('.ucb-jump-menu-links ul');
+    const container = this.shadowRoot || this;
+    const ul = container.querySelector('.ucb-jump-menu-links ul');
     const isEditor = this.closest('.ck-editor__main') !== null;
 
     if (!isEditor && headers.length === 0) {
@@ -115,9 +178,9 @@ class JumpMenuElement extends HTMLElement {
     } else {
       this.style.display = 'block';
       ul.innerHTML = jumpLinks;
-      const outerContainer = this.querySelector('.ucb-jump-menu-outer-container');
-      const titleContainer = this.querySelector('.ucb-jump-menu-title');
-      const linksContainer = this.querySelector('.ucb-jump-menu-links');
+      const outerContainer = container.querySelector('.ucb-jump-menu-outer-container');
+      const titleContainer = container.querySelector('.ucb-jump-menu-title');
+      const linksContainer = container.querySelector('.ucb-jump-menu-links');
 
       outerContainer.style.display = 'block';
       titleContainer.style.display = 'block';
