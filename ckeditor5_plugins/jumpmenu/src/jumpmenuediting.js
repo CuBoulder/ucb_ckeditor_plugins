@@ -12,7 +12,6 @@ export default class JumpMenuEditing extends Plugin {
     this._defineSchema();
     this._defineConverters();
     this._defineCommands();
-    this._addChangeDataListener();
   }
 
   _defineSchema() {
@@ -89,6 +88,9 @@ export default class JumpMenuEditing extends Plugin {
         return createJumpMenuView(modelElement, viewWriter, true);
       }
     });
+
+    conversion.attributeToAttribute({ model: 'headerTag', view: 'headertag' });
+    conversion.attributeToAttribute({ model: 'data-title', view: 'data-title' });
   }
 
   _defineCommands() {
@@ -96,17 +98,6 @@ export default class JumpMenuEditing extends Plugin {
     editor.commands.add('jumpmenu', new InsertJumpMenuCommand(editor));
     editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'headerTag', 'h2'));
     editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'data-title', ''));
-  }
-
-  _addChangeDataListener() {
-    const editor = this.editor;
-    editor.model.document.on('change:data', () => {
-      document.querySelectorAll('ucb-jump-menu').forEach(element => {
-        if (element instanceof HTMLElement && typeof element.build === 'function') {
-          element.build();
-        }
-      });
-    });
   }
 }
 
@@ -119,7 +110,7 @@ function createJumpMenuView(modelElement, viewWriter, widget = false) {
   });
 
   if (widget) {
-    return jumpMenuElement;
+    return toWidget(jumpMenuElement, viewWriter, { label: 'jump menu' });
   }
 
   return jumpMenuElement;
