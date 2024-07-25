@@ -18,7 +18,6 @@ export default class ModifyJumpMenuCommand extends Command {
         const jumpMenuElement = Array.from(selectedElement.getChildren()).find(child => child.name === 'ucbJumpMenu');
         if (jumpMenuElement) {
           writer.setAttribute(this.attributeName, value, jumpMenuElement);
-          // Explicitly trigger attribute change handling for custom element
           const viewElement = this.editor.editing.mapper.toViewElement(jumpMenuElement);
           viewElement._setAttribute(this.attributeName, value);
         }

@@ -21,14 +21,14 @@ export default class JumpMenuEditing extends Plugin {
     schema.register('ucbJumpMenuContainer', {
       isObject: true,
       allowWhere: '$block',
-      allowAttributes: ['headerTag', 'title'],
+      allowAttributes: ['headerTag', 'data-title'],
       allowChildren: 'ucbJumpMenu'
     });
 
     schema.register('ucbJumpMenu', {
       allowIn: 'ucbJumpMenuContainer',
       isLimit: true,
-      allowAttributes: ['headerTag', 'title']
+      allowAttributes: ['headerTag', 'data-title']
     });
   }
 
@@ -50,13 +50,13 @@ export default class JumpMenuEditing extends Plugin {
         name: 'ucb-jump-menu',
         attributes: {
           headertag: true,
-          title: true
+          'data-title': true
         }
       },
       model: (viewElement, { writer: modelWriter }) => {
         return modelWriter.createElement('ucbJumpMenu', {
           headerTag: viewElement.getAttribute('headertag'),
-          title: viewElement.getAttribute('title')
+          'data-title': viewElement.getAttribute('data-title')
         });
       }
     });
@@ -95,7 +95,7 @@ export default class JumpMenuEditing extends Plugin {
     const editor = this.editor;
     editor.commands.add('jumpmenu', new InsertJumpMenuCommand(editor));
     editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'headerTag', 'h2'));
-    editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'title', ''));
+    editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'data-title', ''));
   }
 
   _addChangeDataListener() {
@@ -112,10 +112,10 @@ export default class JumpMenuEditing extends Plugin {
 
 function createJumpMenuView(modelElement, viewWriter, widget = false) {
   const headerTag = modelElement.getAttribute('headerTag') || 'h2';
-  const title = modelElement.getAttribute('title') || '';
+  const title = modelElement.getAttribute('data-title') || '';
   const jumpMenuElement = viewWriter.createContainerElement('ucb-jump-menu', {
     headertag: headerTag,
-    title: title
+    'data-title': title
   });
 
   if (widget) {

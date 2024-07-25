@@ -2,7 +2,7 @@ class JumpMenuElement extends HTMLElement {
   constructor() {
     super();
     this._headerTag = this.getAttribute('headerTag');
-    this._title = this.sanitize(this.getAttribute('title'));
+    this._title = this.sanitize(this.getAttribute('data-title'));
     this._initialized = false;
     this._maxRetries = 1; // Maximum number of retries for ensuring build
   }
@@ -20,14 +20,14 @@ class JumpMenuElement extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['headertag', 'title'];
+    return ['headertag', 'data-title'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'headertag') {
       this._headerTag = newValue;
     }
-    if (name === 'title') {
+    if (name === 'data-title') {
       this._title = this.sanitize(newValue);
     }
     this._initialBuild();

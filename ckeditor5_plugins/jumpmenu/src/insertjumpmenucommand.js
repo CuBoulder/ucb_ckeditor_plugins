@@ -13,7 +13,7 @@ export default class InsertJumpMenuCommand extends Command {
 
     model.change(writer => {
       const jumpMenuContainer = writer.createElement('ucbJumpMenuContainer');
-      const jumpMenuElement = writer.createElement('ucbJumpMenu', { headerTag, title });
+      const jumpMenuElement = writer.createElement('ucbJumpMenu', { headerTag, 'data-title': title });
       writer.append(jumpMenuElement, jumpMenuContainer);
       model.insertContent(jumpMenuContainer, model.document.selection);
     });
