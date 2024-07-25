@@ -97,72 +97,72 @@ class JumpMenuElement extends HTMLElement {
     container.innerHTML = `
       <style>
       .ucb-jump-menu-outer-container{
-  border-radius: 3px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
-  background-clip: padding-box;
-  background-color: #EEEEEE;
-  display: block;
-  margin-bottom: 20px;
-}
+        border-radius: 3px;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        background-color: #EEEEEE;
+        display: block;
+        margin-bottom: 20px;
+      }
 
-.ucb-jump-menu-title{
-  font-weight: bold;
-  background-color: #424242;
-  color: #fff;
-  padding: 10px;
-}
+      .ucb-jump-menu-title{
+        font-weight: bold;
+        background-color: #424242;
+        color: #fff;
+        padding: 10px;
+      }
 
-.ucb-jump-menu-links{
-  padding: 0 10px 10px 10px;
-}
+      .ucb-jump-menu-links{
+        padding: 0 10px 10px 10px;
+      }
 
-.ucb-jump-menu-links ul{
-  margin: 0;
-  padding: 0;
-  list-style: none !important;
-  list-style-image: none !important;
-}
+      .ucb-jump-menu-links ul{
+        margin: 0;
+        padding: 0;
+        list-style: none !important;
+        list-style-image: none !important;
+      }
 
-.ucb-jump-menu-links li{
-  margin: 10px 0;
-  padding: 0;
-  list-style: none !important;
-  list-style-image: none !important;
-}
+      .ucb-jump-menu-links li{
+        margin: 10px 0;
+        padding: 0;
+        list-style: none !important;
+        list-style-image: none !important;
+      }
 
-.ucb-jump-menu-links li a{
-  padding-left: 5px;
-  color: #0277bd !important;
-  text-decoration: none;
-}
+      .ucb-jump-menu-links li a{
+        padding-left: 5px;
+        color: #0277bd !important;
+        text-decoration: none;
+      }
 
-.ucb-jump-menu-links li::before{
-  content: "\f063";
-  font-family: "Font Awesome 6 Free - Solid" !important;
-  font-weight: 900 !important;
-  color: #858585;
-}
+      .ucb-jump-menu-links li::before{
+        content: "\f063";
+        font-family: "Font Awesome 6 Free - Solid" !important;
+        font-weight: 900 !important;
+        color: #858585;
+      }
 
-.ck.ck-editor__main .ucb-jump-menu-links li::before{
-  content:''
-}
+      .ck.ck-editor__main .ucb-jump-menu-links li::before{
+        content:''
+      }
 
-.ucb-jump-menu{
-  display: none;
-}
+      .ucb-jump-menu{
+        display: none;
+      }
 
-      </style>
-      <div class="ucb-jump-menu-outer-container">
-        <div class="ucb-jump-menu-title">
-          <span class="ucb-jump-menu-label">${this._title}</span>
-        </div>
-        <div class="ucb-jump-menu-links">
-          ${note}
-          <ul></ul>
-        </div>
-      </div>
-    `;
+            </style>
+            <div class="ucb-jump-menu-outer-container">
+              <div class="ucb-jump-menu-title">
+                <span class="ucb-jump-menu-label">${this._title}</span>
+              </div>
+              <div class="ucb-jump-menu-links">
+                ${note}
+                <ul></ul>
+              </div>
+            </div>
+          `;
   }
 
   async build() {
