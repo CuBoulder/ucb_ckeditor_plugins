@@ -1,5 +1,5 @@
 import { Plugin } from 'ckeditor5/src/core';
-import { Widget, toWidget } from 'ckeditor5/src/widget';
+import { Widget, toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import InsertJumpMenuCommand from './insertjumpmenucommand';
 import ModifyJumpMenuCommand from './modifyjumpmenucommand';
 
@@ -119,7 +119,7 @@ function createJumpMenuView(modelElement, viewWriter, widget = false) {
   });
 
   if (widget) {
-    return toWidget(jumpMenuElement, viewWriter);
+    return jumpMenuElement;
   }
 
   return jumpMenuElement;
