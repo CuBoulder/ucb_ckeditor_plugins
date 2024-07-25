@@ -190,20 +190,7 @@ class JumpMenuElement extends HTMLElement {
       outerContainer.style.display = 'block';
       titleContainer.style.display = 'block';
       linksContainer.style.display = 'block';
-
-      // Prevent event propagation on links
-      this._addLinkEventListeners(ul);
     }
-  }
-
-  _addLinkEventListeners(ul) {
-    ul.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', (event) => {
-        event.stopPropagation();
-        // Allow the link to function as a normal link
-        window.location.href = link.href;
-      });
-    });
   }
 
   _initializeEditorListener() {
