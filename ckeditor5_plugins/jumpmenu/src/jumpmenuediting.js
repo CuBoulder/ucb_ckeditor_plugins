@@ -108,7 +108,7 @@ function getTitle(modelElement) {
  *   The sanitized value.
  */
 function sanitize(value) {
-  return value.replace('&', '&amp;').replace('"', '&quot;');
+  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
 /**
