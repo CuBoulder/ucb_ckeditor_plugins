@@ -82,9 +82,9 @@ export default class JumpMenuEditing extends Plugin {
 function createJumpMenuWidgetView(modelElement, viewWriter) {
   const widgetElement = viewWriter.createContainerElement('div', { class: 'ckeditor5-jumpmenu__widget' }, [
     viewWriter.createRawElement('div', {}, domElement => {
-      const jumpMenuHeaderTag = getHeaderTag(modelElement);
+      const headerTag = getHeaderTag(modelElement);
       const title = getTitle(modelElement);
-      domElement.innerHTML = `<ucb-jump-menu headertag="${jumpMenuHeaderTag}" data-title="${title}"></ucb-jump-menu>`;
+      domElement.innerHTML = `<ucb-jump-menu headertag="${sanitize(headerTag)}" data-title="${sanitize(title)}"></ucb-jump-menu>`;
     })
   ]);
 
@@ -97,6 +97,18 @@ function getHeaderTag(modelElement) {
 
 function getTitle(modelElement) {
   return modelElement.getAttribute('jumpMenuTitle') || '';
+}
+
+/**
+ * Sanitizes an HTML attribute's value.
+ *
+ * @param { string } value
+ *   The attribute value.
+ * @returns
+ *   The sanitized value.
+ */
+function sanitize(value) {
+  return value.replace('&', '&amp;').replace('"', '&quot;');
 }
 
 /**
