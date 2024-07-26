@@ -4,6 +4,7 @@ ckeditor-plugin-styles:
   js:
     js/countup.js: {}
     js/countdown.js: {}
+    js/jumpmenu.js: {}
   css:
     theme:
       css/box.css: {}
@@ -16,6 +17,7 @@ ckeditor-plugin-styles:
       css/countup.css: {}
       css/countdown.css: {}
       css/callout.css: {}
+      css/jumpmenu.css: {}
 
 # === Admin / editing interface libraries ===
 
@@ -149,3 +151,19 @@ callout.editor:
     theme:
       css/callout.editor.css: {}
       css/callout.css: {}
+
+jumpmenu.admin:
+  css:
+    theme:
+      css/jumpmenu.admin.css: {}
+
+jumpmenu.editor:
+  js:
+    js/build/jumpmenu.js: { preprocess: false, minified: true }
+    js/jumpmenu.js: {}
+  dependencies:
+    - core/ckeditor5
+  css:
+    theme:
+      css/jumpmenu.editor.css: {}
+      css/jumpmenu.css: {}

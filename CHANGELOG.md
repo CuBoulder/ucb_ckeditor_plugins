@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds Jump Menu plugin to Ckeditor5
+  ### Jump Menu Button
+  Adds a 'Jump Menu' CKEditor 5 plugin to the Editor toolbar. On insertion, this insets a Jump Menu web component that allows automatic jump menu creation and link creation to any specified header tags on the page. You may also customize the title of your Jump Menu.
+  
+  Includes:
+  - `profile` =>  https://github.com/CuBoulder/tiamat10-profile/pull/168
+  - `ucb_ckeditor_plugins` => https://github.com/CuBoulder/ucb_ckeditor_plugins/pull/87
+  
+  Resolves #74 
+  
+---
+
 - ### CKEditor5: Adds Column Plugin
   Adds the new plugin 'Column' to the CKEditor5 toolbar. Allows for users to insert a row with evenly spaced columns (up to 4)
   
