@@ -105,11 +105,8 @@ export default class JumpMenuUI extends Plugin {
       items: ['setHeaderTag', 'setTitle'],
       getRelatedElement: (selection) => {
         const selectedElement = selection.getSelectedElement();
-        if (selectedElement && selectedElement.is('element') && selectedElement.name === 'div') {
-          const hasJumpMenu = Array.from(selectedElement.getChildren()).some(child => child.name === 'ucb-jump-menu');
-          if (hasJumpMenu) {
-            return selectedElement;
-          }
+        if (selectedElement && selectedElement.is('element') && selectedElement.hasClass('ckeditor5-jumpmenu__widget')) {
+          return selectedElement;
         }
         return null;
       }

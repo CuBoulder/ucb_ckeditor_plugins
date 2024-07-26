@@ -12,10 +12,8 @@ export default class InsertJumpMenuCommand extends Command {
     const model = this.editor.model;
 
     model.change(writer => {
-      const jumpMenuContainer = writer.createElement('ucbJumpMenuContainer');
       const jumpMenuElement = writer.createElement('ucbJumpMenu', { headerTag, 'data-title': title });
-      writer.append(jumpMenuElement, jumpMenuContainer);
-      model.insertContent(jumpMenuContainer, model.document.selection);
+      model.insertContent(jumpMenuElement, model.document.selection);
     });
   }
 
@@ -24,8 +22,11 @@ export default class InsertJumpMenuCommand extends Command {
     const { selection } = model.document;
     const selectedElement = selection.getSelectedElement();
 
-    const jumpMenuAllowedIn = model.schema.findAllowedParent(selection.getFirstPosition(), 'ucbJumpMenuContainer');
+    const allowedIn = model.schema.findAllowedParent(
+      selection.getFirstPosition(),
+      'ucbJumpMenu'
+    );
 
-    this.isEnabled = jumpMenuAllowedIn !== null;
+    this.isEnabled = allowedIn !== null;
   }
 }
