@@ -6,13 +6,13 @@ export default class InsertJumpMenuCommand extends Command {
     this.set('isEnabled', true);
   }
 
-  execute(options = { headerTag: 'h2', title: 'On this page:' }) {
-    const headerTag = options.headerTag.trim();
-    const title = options.title.trim();
+  execute(options = { jumpMenuHeaderTag: 'h2', jumpMenuTitle: 'On this page:' }) {
+    const headerTag = options.jumpMenuHeaderTag.trim();
+    const title = options.jumpMenuTitle.trim();
     const model = this.editor.model;
 
     model.change(writer => {
-      const jumpMenuElement = writer.createElement('ucbJumpMenu', { headerTag, 'data-title': title });
+      const jumpMenuElement = writer.createElement('ucbJumpMenu', { jumpMenuHeaderTag: headerTag, jumpMenuTitle: title });
       model.insertContent(jumpMenuElement, model.document.selection);
     });
   }

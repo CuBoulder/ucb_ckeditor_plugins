@@ -27,94 +27,89 @@ export default class JumpMenuEditing extends Plugin {
     schema.register('ucbJumpMenu', {
       isObject: true,
       allowWhere: '$block',
-      allowAttributes: ['headerTag', 'data-title']
+      allowAttributes: ['jumpMenuHeaderTag', 'jumpMenuTitle']
     });
   }
 
   _defineConverters() {
     const conversion = this.editor.conversion;
 
-    conversion.for('upcast').elementToElement({
-      view: {
-        name: 'ucb-jump-menu',
-        attributes: {
-          headertag: true,
-          'data-title': true
-        }
-      },
-      model: (viewElement, { writer: modelWriter }) => {
-        return modelWriter.createElement('ucbJumpMenu', {
-          headerTag: viewElement.getAttribute('headertag'),
-          'data-title': viewElement.getAttribute('data-title')
-        });
-      }
+    conversion.for('upcast').attributeToAttribute({
+      model: 'jumpMenuHeaderTag',
+      view: 'headertag'
+    });
+    conversion.for('dataDowncast').attributeToAttribute({
+      model: 'jumpMenuHeaderTag',
+      view: 'headertag'
     });
 
-    conversion.attributeToAttribute({ model: 'headerTag', view: 'headertag' });
-    conversion.attributeToAttribute({ model: 'data-title', view: 'data-title' });
+    conversion.for('upcast').attributeToAttribute({
+      model: 'jumpMenuTitle',
+      view: 'data-title'
+    });
+    conversion.for('dataDowncast').attributeToAttribute({
+      model: 'jumpMenuTitle',
+      view: 'data-title'
+    });
 
+    conversion.for('upcast').elementToElement({
+      model: 'ucbJumpMenu',
+      view: 'ucb-jump-menu'
+    });
     conversion.for('dataDowncast').elementToElement({
       model: 'ucbJumpMenu',
-      view: (modelElement, { writer: viewWriter }) => createJumpMenuView(modelElement, viewWriter)
+      view: 'ucb-jump-menu'
     });
-
     conversion.for('editingDowncast').elementToElement({
       model: 'ucbJumpMenu',
       view: (modelElement, { writer: viewWriter }) => createJumpMenuWidgetView(modelElement, viewWriter)
+    });
+
+    conversion.for('editingDowncast').add(dispatcher => {
+      dispatcher.on('attribute:jumpMenuHeaderTag', (_evt, data, conversionApi) => attributeChange(data, conversionApi));
+      dispatcher.on('attribute:jumpMenuTitle', (_evt, data, conversionApi) => attributeChange(data, conversionApi));
     });
   }
 
   _defineCommands() {
     const editor = this.editor;
     editor.commands.add('jumpmenu', new InsertJumpMenuCommand(editor));
-    editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'headerTag', 'h2'));
-    editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'data-title', ''));
+    editor.commands.add('modifyJumpMenuHeaderTag', new ModifyJumpMenuCommand(editor, 'jumpMenuHeaderTag', 'h2'));
+    editor.commands.add('modifyJumpMenuTitle', new ModifyJumpMenuCommand(editor, 'jumpMenuTitle', ''));
   }
 }
 
-function createJumpMenuView(modelElement, viewWriter) {
-  const headerTag = getHeaderTag(modelElement);
-  const title = getTitle(modelElement);
-  return viewWriter.createContainerElement('ucb-jump-menu', {
-    headertag: headerTag,
-    'data-title': title
-  });
-}
-
 function createJumpMenuWidgetView(modelElement, viewWriter) {
-  const widgetElement = viewWriter.createContainerElement('span', { class: 'ckeditor5-jumpmenu__widget' });
-
-  const rawElement = viewWriter.createRawElement('span', {}, domElement => {
-    updateJumpMenuView(domElement, modelElement);
-  });
-
-  viewWriter.insert(viewWriter.createPositionAt(widgetElement, 0), rawElement);
+  const widgetElement = viewWriter.createContainerElement('div', { class: 'ckeditor5-jumpmenu__widget' }, [
+    viewWriter.createRawElement('div', {}, domElement => {
+      const jumpMenuHeaderTag = getHeaderTag(modelElement);
+      const title = getTitle(modelElement);
+      domElement.innerHTML = `<ucb-jump-menu headertag="${jumpMenuHeaderTag}" data-title="${title}"></ucb-jump-menu>`;
+    })
+  ]);
 
   return toWidget(widgetElement, viewWriter, { label: 'jump menu widget' });
 }
 
-function updateJumpMenuView(domElement, modelElement) {
-  const headerTag = getHeaderTag(modelElement);
-  const title = getTitle(modelElement);
-
-  const ucbJumpMenuElement = domElement.querySelector('ucb-jump-menu');
-
-  if (ucbJumpMenuElement) {
-    ucbJumpMenuElement.setAttribute('headertag', headerTag);
-    ucbJumpMenuElement.setAttribute('data-title', title);
-  } else {
-    domElement.innerHTML = `<ucb-jump-menu headertag="${headerTag}" data-title="${title}"></ucb-jump-menu>`;
-  }
-
-  if (domElement.build) {
-    domElement.build();
-  }
-}
-
 function getHeaderTag(modelElement) {
-  return modelElement.getAttribute('headerTag') || 'h2';
+  return modelElement.getAttribute('jumpMenuHeaderTag') || 'h2';
 }
 
 function getTitle(modelElement) {
-  return modelElement.getAttribute('data-title') || '';
+  return modelElement.getAttribute('jumpMenuTitle') || '';
+}
+
+/**
+ * Responds to a changed Jump Menu attribute.
+ *
+ * @param { object } data
+ *   Additional information about the change.
+ * @param { import('@ckeditor/ckeditor5-engine').DowncastConversionApi } conversionApi
+ *   The conversion instance used to manipulate the data during conversion.
+ */
+function attributeChange(data, conversionApi) {
+  if (data.attributeOldValue && !conversionApi.consumable.consume(data.item, 'insert')) {
+    conversionApi.writer.remove(conversionApi.mapper.toViewRange(data.range));
+    conversionApi.convertItem(data.item);
+  }
 }
