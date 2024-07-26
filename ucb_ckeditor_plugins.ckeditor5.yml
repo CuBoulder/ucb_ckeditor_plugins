@@ -405,7 +405,4 @@ ucb_ckeditor_plugins_jumpmenu:
         label: Jump Menu
     elements:
       - <ucb-jump-menu>
-      - <ucb-jump-menu headertag data-initialized data-title>
-      - <div class="ucb-jump-menu-container">
-
-
+      - <ucb-jump-menu headertag data-title>
