@@ -31,7 +31,7 @@ export default class ColumnEditing extends Plugin {
   }
 
   _defineConverters() {
-    const { conversion } = this.editor;
+    const { conversion, editing } = this.editor;
 
     conversion.for('upcast').elementToElement({
       model: 'ucb-row',
@@ -51,35 +51,24 @@ export default class ColumnEditing extends Plugin {
 
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-row',
-      view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createContainerElement('div', { class: 'row ucb-column-container' });
-        return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true });
-      }
+      view: (modelElement, { writer: viewWriter }) => createRowView(viewWriter)
     });
 
     conversion.for('dataDowncast').elementToElement({
       model: 'ucb-column',
-      view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createEditableElement('div', { class: 'col ucb-column' });
-        return toWidgetEditable(div, viewWriter);
-      }
+      view: (modelElement, { writer: viewWriter }) => createColumnView(viewWriter)
     });
 
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-row',
-      view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createContainerElement('div', { class: 'row ucb-column-container' });
-        return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true });
-      }
+      view: (modelElement, { writer: viewWriter }) => createRowView(viewWriter, true)
     });
 
     conversion.for('editingDowncast').elementToElement({
       model: 'ucb-column',
-      view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createEditableElement('div', { class: 'col ucb-column' });
-        return toWidgetEditable(div, viewWriter);
-      }
+      view: (modelElement, { writer: viewWriter }) => createColumnView(viewWriter, true)
     });
+
     // Add the class for visual cue when ucb-row is selected
     conversion.for('editingDowncast').add(dispatcher => {
       dispatcher.on('insert:ucb-row', (evt, data, conversionApi) => {
@@ -97,4 +86,34 @@ export default class ColumnEditing extends Plugin {
     commands.add('addColumn', new AddColumnCommand(this.editor));
     commands.add('removeColumn', new RemoveColumnCommand(this.editor));
   }
+}
+
+/**
+ * Creates the view element for a row.
+ *
+ * @param {DowncastWriter} viewWriter The downcast writer.
+ * @param {boolean} [widget=false] Whether to create a widget.
+ * @returns {ContainerElement} The view element.
+ */
+function createRowView(viewWriter, widget = false) {
+  const div = viewWriter.createContainerElement('div', { class: 'row ucb-column-container' });
+  if (widget) {
+    return toWidget(div, viewWriter, { label: 'row widget', hasSelectionHandle: true });
+  }
+  return div;
+}
+
+/**
+ * Creates the view element for a column.
+ *
+ * @param {DowncastWriter} viewWriter The downcast writer.
+ * @param {boolean} [widget=false] Whether to create a widget.
+ * @returns {ContainerElement} The view element.
+ */
+function createColumnView(viewWriter, widget = false) {
+  const div = viewWriter.createEditableElement('div', { class: 'col ucb-column' });
+  if (widget) {
+    return toWidgetEditable(div, viewWriter);
+  }
+  return div;
 }
