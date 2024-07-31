@@ -28,6 +28,14 @@ export default class ColumnEditing extends Plugin {
       allowIn: 'ucb-row',
       allowContentOf: '$root'
     });
+
+    schema.addChildCheck((context, childDefinition) => {
+      if (context.endsWith('boxTitle') || context.endsWith('bootstrapAccordionHeader')) {
+        if (childDefinition.name === 'ucb-row' || childDefinition.name === 'ucb-column') {
+          return false;
+        }
+      }
+    });
   }
 
   _defineConverters() {

@@ -24,6 +24,14 @@ export default class InsertRowWithColumnsCommand extends Command {
   }
 
   refresh() {
-    this.isEnabled = true;
+    const { model } = this.editor;
+    const { selection } = model.document;
+
+    const allowedIn = model.schema.findAllowedParent(
+      selection.getFirstPosition(),
+      'ucb-row'
+    );
+
+    this.isEnabled = allowedIn !== null;
   }
 }
