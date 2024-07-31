@@ -9,6 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Column Adjustments
+  ### Adjustments to the Column Plugin
+  - Columns are now responsive with the following breakpoints:
+      2 columns
+      Desktop: 2
+      Tablet: 2
+      Mobile: 1
+      
+      3 columns
+      Desktop: 3
+      Tablet: 3
+      Mobile: 1
+      
+      4 columns
+      Desktop: 4
+      Tablet: 2
+      Mobile 1
+  
+  - Removes stray CKeditor5 editor classes appearing on page
+  - Column button inactive when editor is within Box title and Accordion Title
+  - Sets minimum 2 columns per row, previously a user could delete all columns from a row and be left with an empty row
+  
+  Resolves #90 
+  Resolves #88 
+---
+
 - ### Adds Jump Menu plugin to Ckeditor5
   ### Jump Menu Button
   Adds a 'Jump Menu' CKEditor 5 plugin to the Editor toolbar. On insertion, this insets a Jump Menu web component that allows automatic jump menu creation and link creation to any specified header tags on the page. You may also customize the title of your Jump Menu.

@@ -1,0 +1,45 @@
+.ucb-column-container:not(.ck-widget) {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ucb-column-container:not(.ck-widget) > div.col {
+  box-sizing: border-box;
+  flex: 0 0 100%; /* Default to mobile view */
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  /* Specific case for exactly 3 columns for tablet */
+  .ucb-column-container:not(.ck-widget):has(> div.col:nth-of-type(3)) > div.col {
+    flex: 0 0 33.33%;
+  }
+
+  /* Specific case for exactly 4 columns (2x2) for tablet */
+  .ucb-column-container:not(.ck-widget):has(> div.col:nth-of-type(4)) > div.col {
+    flex: 0 0 50%;
+  }
+
+  /* Default to 2 columns for tablet */
+  .ucb-column-container:not(.ck-widget) > div.col {
+    flex: 0 0 50%;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 992px) {
+  /* Specific case for exactly 3 columns for desktop */
+  .ucb-column-container:not(.ck-widget):has(> div.col:nth-of-type(3)) > div.col {
+    flex: 0 0 33.33%;
+  }
+
+  /* Specific case for exactly 4 columns for desktop */
+  .ucb-column-container:not(.ck-widget):has(> div.col:nth-of-type(4)) > div.col {
+    flex: 0 0 25%;
+  }
+
+  /* Default to 2 columns for desktop */
+  .ucb-column-container:not(.ck-widget) > div.col {
+    flex: 0 0 50%;
+  }
+}
