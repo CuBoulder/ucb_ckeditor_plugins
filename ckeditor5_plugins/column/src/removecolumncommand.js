@@ -22,7 +22,7 @@ export default class RemoveColumnCommand extends Command {
     if (column) {
       const row = column.parent;
       const columnCount = Array.from(row.getChildren()).filter(child => child.is('element', 'ucb-column')).length;
-      this.isEnabled = columnCount > 1;
+      this.isEnabled = columnCount > 2;
     } else {
       this.isEnabled = false;
     }
