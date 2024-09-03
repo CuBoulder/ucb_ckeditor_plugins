@@ -4,5 +4,11 @@
  */
 #}
 <div class="{{ attributes.class }}">
-  <iframe src="https://www.google.com/maps/embed?pb={{ mapLocation }}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+  <iframe{{
+    create_attribute({
+      src: googleMyMapsParams ? 'https://www.google.com/maps/d/embed' ~ googleMyMapsParams : 'https://www.google.com/maps/embed?pb=' ~ mapLocation,
+      loading: 'lazy',
+      referrerpolicy: 'no-referrer'
+    })
+  }}></iframe>
 </div>
