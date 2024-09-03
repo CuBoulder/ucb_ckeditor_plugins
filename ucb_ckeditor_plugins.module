@@ -36,6 +36,7 @@ function ucb_ckeditor_plugins_theme() {
     'ucb_google_map_embed' => [
       'variables' => [
         'attributes' => [],
+        'googleMyMapsParams' => '',
         'mapLocation' => '',
       ],
     ],

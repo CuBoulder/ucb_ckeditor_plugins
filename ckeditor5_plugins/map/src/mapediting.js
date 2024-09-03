@@ -91,7 +91,12 @@ export default class MapEditing extends Plugin {
 
     // Specifies the location attribute for campus maps.
     conversion.attributeToAttribute({
-      model: 'mapLocation',
+      model: {
+        key: 'mapLocation',
+        // Fixes a bug which caused the `&` character in the query string to
+        // become `&amp;`.
+        value: viewElement => viewElement.getAttribute('data-map-location').replace(/&amp;/g, '&')
+      },
       view: 'data-map-location'
     });
 

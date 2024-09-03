@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Adds support for Google My Maps
+  [new, plugin:map] Previously, custom maps created with Google My Maps were not supported. This update adds support and resolves CuBoulder/ucb_ckeditor_plugins#92
+---
+
 - ### Column Adjustments
   ### Adjustments to the Column Plugin
   - Columns are now responsive with the following breakpoints:

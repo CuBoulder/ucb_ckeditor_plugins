@@ -55,7 +55,13 @@ class MapEmbed extends EmbedFilterBase {
             // Map is a Google map.
             $build['#theme'] = 'ucb_google_map_embed';
             if (isset($build['#attributes']['data-map-location'])) {
-              $build['#mapLocation'] = rawurlencode($build['#attributes']['data-map-location']);
+              $mapLocation = $build['#attributes']['data-map-location'];
+              if ($mapLocation[0] === '?') {
+                $build['#googleMyMapsParams'] = $mapLocation;
+              }
+              else {
+                $build['#mapLocation'] = rawurlencode($mapLocation);
+              }
             }
           }
           else {
