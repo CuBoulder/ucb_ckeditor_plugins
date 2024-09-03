@@ -56,7 +56,7 @@ class MapEmbed extends EmbedFilterBase {
             $build['#theme'] = 'ucb_google_map_embed';
             if (isset($build['#attributes']['data-map-location'])) {
               $mapLocation = $build['#attributes']['data-map-location'];
-              if ($mapLocation[0] == '?') {
+              if ($mapLocation[0] === '?') {
                 $build['#googleMyMapsParams'] = $mapLocation;
               }
               else {
