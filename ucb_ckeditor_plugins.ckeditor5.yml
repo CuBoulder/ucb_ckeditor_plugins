@@ -12,6 +12,7 @@ ucb_ckeditor_plugins_box:
   ckeditor5:
     plugins:
       - box.Box
+      - box.BoxGeneralHtmlSupport
     # *Additional configuration properties*
     # config: data sent to the constructor of any CKEditor 5 plugin
     #   editorPluginName:
@@ -36,7 +37,7 @@ ucb_ckeditor_plugins_box:
       # (f.e. `<div>`) and the attribute being added to the tag
       # (f.e. `<div class>`).
       - <div>
-      - <div class>
+      - <div class="ucb-box ucb-box-inner ucb-box-title ucb-box-content ucb-ucb-box-title-left ucb-box-title-center ucb-box-title-right ucb-box-title-hidden ucb-box-alignment-left ucb-box-alignment-none ucb-box-alignment-right ucb-box-style-fill ucb-box-style-outline ucb-box-style-none ucb-box-theme-black ucb-box-theme-darkgray ucb-box-theme-lightgray ucb-box-theme-white">
     # *Additional configuration properties*
     # conditions: for setting additional criteria that must be met for the
     #   plugin to be active.
