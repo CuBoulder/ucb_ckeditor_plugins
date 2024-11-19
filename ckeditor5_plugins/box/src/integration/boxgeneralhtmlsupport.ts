@@ -40,7 +40,7 @@ export default class BoxGeneralHtmlSupport extends Plugin implements PluginInter
         (_evt, data, conversionApi) => {
           const viewElement = data.viewItem;
           // Checks if the `div` element is actually a box.
-          if (!viewElement.getAttribute('class')?.match(/ucb\-box/)) {
+          if (!viewElement.getAttribute('class')?.match(/ucb\-box(\-inner|\-title|\-content)?/)) {
             return;
           }
           const preserveElementAttributes = (viewElement: ViewElement, attributeName: string) => {
@@ -56,12 +56,12 @@ export default class BoxGeneralHtmlSupport extends Plugin implements PluginInter
     });
 
     conversion.for('dataDowncast').add(dispatcher => {
-      dispatcher.on<DowncastAttributeEvent<ModelElement>>('attribute:htmlAttributes:box',
+      dispatcher.on<DowncastAttributeEvent<ModelElement>>('attribute:htmlAttributes',
         (evt, data, conversionApi) => {
-          if (!conversionApi.consumable.consume(data.item, evt.name)) {
+          const modelElement = data.item;
+          if (!['box', 'boxInner', 'boxTitle', 'boxContent'].includes(modelElement.name) || !conversionApi.consumable.consume(modelElement, evt.name)) {
             return;
           }
-          const modelElement = data.item;
           const viewElement = conversionApi.mapper.toViewElement(modelElement);
           if (viewElement?.is('element', 'div')) {
             setViewAttributes(conversionApi.writer, data.attributeNewValue!, viewElement);
