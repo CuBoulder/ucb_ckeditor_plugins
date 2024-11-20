@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Fixes box widget not retaining allowed style classes
+  This update:
+  
+  - Adds the `BoxGeneralHtmlSupport` plugin (for integration with `GeneralHtmlSupport`).
+  - Corrects the allowed HTML for the box plugin.
+  - Removes `package-lock.json` and updates dependencies in `package.json`.
+  
+  [bug, serverity:minor, plugin:box] Resolves CuBoulder/ucb_ckeditor_plugins#96
+---
+
 - ### Updates linter workflow
   Updates the linter workflow to use the new parent workflow in action-collection.
   

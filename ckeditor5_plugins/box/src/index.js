@@ -8,5 +8,7 @@
 // cSpell:ignore box
 
 import Box from './box';
+import BoxGeneralHtmlSupport from './integration/boxgeneralhtmlsupport';
 
-export default { Box }; // Only these plugins will be built when running `b box` or `w box`.
+// Only these plugins will be built when running `b box` or `w box`.
+export default { Box, BoxGeneralHtmlSupport };
