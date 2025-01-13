@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Update jumpmenu.js for column refactor
+  Updated the scripts to exclude auxiliary-columns headers from the search/build. 
+  Auxiliary columns are determined by which columns are the smallest in a row. 
+  This shouldn't affect how the build works on other pages outside of the basic page.
+  
+  Sister PR: https://github.com/CuBoulder/ucb_bootstrap_layouts/pull/64
+---
+
 - ### Fixes box widget not retaining allowed style classes
   This update:
   
