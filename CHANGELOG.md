@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### D11 version bump
+  D11 version bump
+---
+
 - ### Add margin around buttons
   Resolves https://github.com/CuBoulder/ucb_ckeditor_plugins/issues/99.
   Adds some minor padding around each button to allow spacing between buttons.
