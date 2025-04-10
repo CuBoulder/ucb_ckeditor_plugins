@@ -1,0 +1,62 @@
+.ck .ckeditor5-bootstrap-accordion__widget {
+  --ckeditor5-bootstrap-accordion-collapsed-icon: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAgMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTS45NDEgNC41MjNhLjc1Ljc1IDAgMSAxIDEuMDYtMS4wNmwzLjAwNiAzLjAwNSAzLjAwNS0zLjAwNWEuNzUuNzUgMCAxIDEgMS4wNiAxLjA2bC0zLjU0OSAzLjU1YS43NS43NSAwIDAgMS0xLjE2OC0uMTM2TC45NDEgNC41MjN6Ij48L3BhdGg+PC9zdmc+");
+
+  border: 1px solid #b3b3b3;
+}
+
+.ck .ckeditor5-bootstrap-accordion-header {
+  padding: 0.5em;
+}
+
+.ck .ckeditor5-bootstrap-accordion-button {
+  display: block;
+  padding: 0;
+  font-weight: bold;
+}
+
+.ck .ckeditor5-bootstrap-accordion-button:not(.ck-placeholder)::before {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.3em;
+  content: "";
+  transition: rotate 0.5s;
+  background-color: currentColor;
+  -webkit-mask-image: var(--ckeditor5-bootstrap-accordion-collapsed-icon);
+  -moz-mask-image: var(--ckeditor5-bootstrap-accordion-collapsed-icon);
+  mask-image: var(--ckeditor5-bootstrap-accordion-collapsed-icon);
+}
+
+.ck
+  .ckeditor5-bootstrap-accordion-button:not(
+    .ck-placeholder,
+    .collapsed
+  )::before {
+  rotate: 180deg;
+}
+
+.ck .ckeditor5-bootstrap-accordion-body {
+  overflow: auto;
+  padding: 0.5em;
+}
+
+.ck .ck-editor__nested-editable.ckeditor5-bootstrap-accordion-button:focus,
+.ck
+  .ck-editor__nested-editable.ckeditor5-bootstrap-accordion-button.ck-editor__nested-editable_focused,
+.ck .ck-editor__nested-editable.ckeditor5-bootstrap-accordion-body:focus,
+.ck
+  .ck-editor__nested-editable.ckeditor5-bootstrap-accordion-body.ck-editor__nested-editable_focused {
+  background-color: transparent;
+}
+
+.ck .ckeditor5-bootstrap-accordion-item:not(:first-child) {
+  border-top: 1px solid #b3b3b3;
+}
+
+.ck .ckeditor5-bootstrap-accordion-item:hover {
+  background-color: rgb(108, 181, 249, 0.1);
+}
+
+.ck .ckeditor5-bootstrap-accordion-item:focus-within {
+  background-color: rgb(13, 101, 255, 0.1);
+}
