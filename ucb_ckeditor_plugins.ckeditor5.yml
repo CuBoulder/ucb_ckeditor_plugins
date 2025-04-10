@@ -407,3 +407,31 @@ ucb_ckeditor_plugins_jumpmenu:
     elements:
       - <ucb-jump-menu>
       - <ucb-jump-menu headertag data-title>
+
+ucb_ckeditor_plugins_bootstrapAccordion:
+  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+  ckeditor5:
+    plugins:
+      - bootstrapAccordion.BootstrapAccordion
+      - bootstrapAccordion.BootstrapAccordionClipboardPipeline
+      - bootstrapAccordion.BootstrapAccordionGeneralHtmlSupport
+    config:
+      bootstrapAccordion:
+        toolbarItems:
+          - bootstrapAccordionItem
+          - bootstrapAccordionOpenCollapse
+  # Configuration that will be used directly by Drupal.
+  drupal:
+    label: Bootstrap Accordion
+    library: ucb_ckeditor_plugins/bootstrapAccordion.editor
+    admin_library: ucb_ckeditor_plugins/bootstrapAccordion.admin
+    toolbar_items:
+      bootstrapAccordion:
+        label: Accordion
+    elements:
+      - <div>
+      - <div data-accordion-id class="accordion accordion-item accordion-header accordion-body accordion-flush accordion-items-stay-open collapse show">
+      - <a>
+      - <a href="#" class="accordion-button collapsed">
+    conditions:
+      filter: filter_bootstrap_accordion

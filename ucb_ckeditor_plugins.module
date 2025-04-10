@@ -48,3 +48,10 @@ function ucb_ckeditor_plugins_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_filter_info_alter().
+ */
+function ucb_ckeditor_plugins_filter_info_alter(&$info) {
+  $info['filter_bootstrap_accordion']['provider'] = 'ucb_ckeditor_plugins';
+}
