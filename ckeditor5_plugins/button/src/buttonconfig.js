@@ -1,19 +1,20 @@
-import { icons } from 'ckeditor5/src/core';
+import objectCenter from '../../../icons/object-center.svg';
+import objectFullWidth from '../../../icons/object-full-width.svg';
 
 export const sizeOptions = {
   large: {
     label: 'Large',
-    icon: icons.large,
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>',
     className: 'ucb-link-button-large'
   },
   regular: {
     label: 'Regular',
-    icon: icons.regular,
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>',
     className: 'ucb-link-button-regular'
   },
   small: {
     label: 'Small',
-    icon: icons.small,
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>',
     className: 'ucb-link-button-small'
   },
 };
@@ -48,12 +49,12 @@ export const defaultColor = 'blue';
 export const styleOptions = {
   default: {
     label: 'Default',
-    icon: icons.objectCenter,
+    icon: objectCenter,
     className: 'ucb-link-button-default'
   },
   full: {
     label: 'Full',
-    icon: icons.objectFullWidth,
+    icon: objectFullWidth,
     className: 'ucb-link-button-full'
   },
 };

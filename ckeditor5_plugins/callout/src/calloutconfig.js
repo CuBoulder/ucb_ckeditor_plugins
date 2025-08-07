@@ -7,23 +7,23 @@
  * @property {string} className
  */
 
-import { icons } from 'ckeditor5/src/core';
+
 
 /** @type {Object<string, SelectableOption>} */
 export const sizeOptions = {
   medium: {
     label: "Medium",
-    icon: icons.small,
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>',
     className: "feature-layout-callout-medium",
   },
   large: {
     label: "Large",
-    icon: icons.regular,
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>',
     className: "feature-layout-callout-large",
   },
   xlarge: {
     label: "Extra Large",
-    icon: icons.large,
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>',
     className: "feature-layout-callout-xlarge",
   },
 };

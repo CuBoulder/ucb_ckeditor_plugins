@@ -7,7 +7,8 @@ import {
   FocusCycler
 } from 'ckeditor5/src/ui';
 import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
-import { icons } from 'ckeditor5/src/core';
+import checkIcon from '../../../icons/check.svg';
+import cancelIcon from '../../../icons/cancel.svg';
 
 export default class FormView extends View {
   constructor( locale ) {
@@ -19,13 +20,13 @@ export default class FormView extends View {
     this.abbrInputView = this._createInput( 'Add Tooltip' );
     this.titleInputView = this._createInput( 'Add Text' );
 
-    this.saveButtonView = this._createButton( 'Save', icons.check, 'ck-button-save' );
+    this.saveButtonView = this._createButton( 'Save', checkIcon, 'ck-button-save' );
 
     // Submit type of the button will trigger the submit event on entire form when clicked 
     //(see submitHandler() in render() below).
     this.saveButtonView.type = 'submit';
 
-    this.cancelButtonView = this._createButton( 'Cancel', icons.cancel, 'ck-button-cancel' );
+    this.cancelButtonView = this._createButton( 'Cancel', cancelIcon, 'ck-button-cancel' );
 
     // Delegate ButtonView#execute to FormView#cancel.
     this.cancelButtonView.delegate( 'execute' ).to( this, 'cancel' );

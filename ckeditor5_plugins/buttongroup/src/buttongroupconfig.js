@@ -1,19 +1,21 @@
-import { icons } from 'ckeditor5/src/core';
+import objectSizeLarge from '../../../icons/object-size-large.svg';
+import objectSizeMedium from '../../../icons/object-size-medium.svg';
+import objectSizeSmall from '../../../icons/object-size-small.svg';
 
 export const sizeOptions = {
   large: {
     label: 'Large',
-    icon: icons.objectSizeLarge,
+    icon: objectSizeLarge,
     className: 'ucb-link-button-large'
   },
   regular: {
     label: 'Regular',
-    icon: icons.objectSizeMedium,
+    icon: objectSizeMedium,
     className: 'ucb-link-button-regular'
   },
   small: {
     label: 'Small',
-    icon: icons.objectSizeSmall,
+    icon: objectSizeSmall,
     className: 'ucb-link-button-small'
   },
 };

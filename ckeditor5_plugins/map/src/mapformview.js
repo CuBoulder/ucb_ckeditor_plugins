@@ -10,7 +10,8 @@
 
 import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
 import { addToolbarToDropdown, ButtonView, createDropdown, createLabeledInputText, FocusCycler, LabeledFieldView, submitHandler, View } from 'ckeditor5/src/ui';
-import { icons } from 'ckeditor5/src/core';
+import checkIcon from '../../../icons/check.svg';
+import cancelIcon from '../../../icons/cancel.svg';
 import { sizeOptions, sizeDefault } from './mapconfig';
 
 export default class MapFormView extends View {
@@ -33,8 +34,8 @@ export default class MapFormView extends View {
     this.set('size', sizeDefault);
 
     // Creates the save and cancel buttons.
-    this.saveButtonView = this._createActionButton(locale, 'Save', icons.check, 'ck-button-save');
-    this.cancelButtonView = this._createActionButton(locale, 'Cancel', icons.cancel, 'ck-button-cancel');
+    this.saveButtonView = this._createActionButton(locale, 'Save', checkIcon, 'ck-button-save');
+    this.cancelButtonView = this._createActionButton(locale, 'Cancel', cancelIcon, 'ck-button-cancel');
 
     this.saveButtonView.type = 'submit'; // Set the type to 'submit', which will trigger the submit event on entire form when clicked.
     this.cancelButtonView.delegate('execute').to(this, 'cancel'); // Delegate ButtonView#execute to MapFormView#cancel.

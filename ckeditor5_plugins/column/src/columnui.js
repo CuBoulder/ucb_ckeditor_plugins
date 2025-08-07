@@ -4,7 +4,8 @@ import { ButtonView } from 'ckeditor5/src/ui';
 import icon from '../../../icons/table-columns-solid.svg';
 import leftIcon from '../../../icons/arrow-left-solid.svg';
 import rightIcon from '../../../icons/arrow-right-solid.svg';
-import { icons } from 'ckeditor5/src/core';
+import plusIcon from '../../../icons/plus.svg';
+import eraserIcon from '../../../icons/eraser.svg';
 import AddColumnPositionCommand from './addcolumnpositioncommand';
 
 export default class ColumnUI extends Plugin {
@@ -36,9 +37,9 @@ export default class ColumnUI extends Plugin {
     });
 
     componentFactory.add('addColumn', locale =>
-      this._createButton(locale, 'Add Column', icons.plus, commands.get('addColumn')));
+      this._createButton(locale, 'Add Column', plusIcon, commands.get('addColumn')));
     componentFactory.add('removeColumn', locale =>
-      this._createButton(locale, 'Remove Column', icons.eraser, commands.get('removeColumn')));
+      this._createButton(locale, 'Remove Column', eraserIcon, commands.get('removeColumn')));
     componentFactory.add('addColumnLeft', locale =>
       this._createButton(locale, 'Add Column Left', leftIcon, commands.get('addColumnPosition'), 'left'));
     componentFactory.add('addColumnRight', locale =>
