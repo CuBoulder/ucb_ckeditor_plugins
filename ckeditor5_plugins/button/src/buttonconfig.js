@@ -1,19 +1,17 @@
-import { icons } from 'ckeditor5/src/core';
+import objectCenter from '../../../icons/object-center.svg';
+import objectFullWidth from '../../../icons/object-full-width.svg';
 
 export const sizeOptions = {
   large: {
     label: 'Large',
-    icon: icons.large,
     className: 'ucb-link-button-large'
   },
   regular: {
     label: 'Regular',
-    icon: icons.regular,
     className: 'ucb-link-button-regular'
   },
   small: {
     label: 'Small',
-    icon: icons.small,
     className: 'ucb-link-button-small'
   },
 };
@@ -48,12 +46,12 @@ export const defaultColor = 'blue';
 export const styleOptions = {
   default: {
     label: 'Default',
-    icon: icons.objectCenter,
+    icon: objectCenter,
     className: 'ucb-link-button-default'
   },
   full: {
     label: 'Full',
-    icon: icons.objectFullWidth,
+    icon: objectFullWidth,
     className: 'ucb-link-button-full'
   },
 };

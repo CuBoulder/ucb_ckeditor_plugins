@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### 10.5 Icon Fix
+  Needed to add the core ckeditor 5 icons to our plugin as ckeditor remove them in 10.5
+  
+  Sister PR: https://github.com/CuBoulder/ucb_ckeditor_icons/pull/1
+  
+  Resolves #103 
+---
+
 - ### D11 version bump
   D11 version bump
 ---

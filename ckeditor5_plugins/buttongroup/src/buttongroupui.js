@@ -4,7 +4,7 @@ import { WidgetToolbarRepository } from 'ckeditor5/src/widget';
 import { ButtonView, createDropdown, addToolbarToDropdown } from 'ckeditor5/src/ui';
 import {sizeOptions, defaultSize, colorOptions, defaultColor} from './buttongroupconfig'
 import icon from '../../../icons/arrows-turn-right-solid.svg';
-import { icons } from 'ckeditor5/src/core';
+import plusIcon from '../../../icons/plus.svg';
 
 
 
@@ -44,7 +44,7 @@ export default class ButtonGroupUI extends Plugin {
     componentFactory.add('buttonGroupColor', locale =>
       this._createDropdown(locale, 'Color', colorOptions[defaultColor].icon, commands.get('buttonGroupColor'), colorOptions, defaultColor));
     componentFactory.add('addNewButtonBG', locale =>
-      this._createButton(locale, 'Add Button', icons.plus, commands.get('addNewButtonBG'), null))
+      this._createButton(locale, 'Add Button', plusIcon, commands.get('addNewButtonBG'), null))
   }
 
     /**

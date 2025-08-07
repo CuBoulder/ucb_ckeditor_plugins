@@ -9,8 +9,9 @@ import {
   addToolbarToDropdown
 } from 'ckeditor5/src/ui';
 import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
-import { icons } from 'ckeditor5/src/core';
 import colorIcon from '../../../icons/paint.svg'
+import checkIcon from '../../../icons/check.svg'
+import cancelIcon from '../../../icons/cancel.svg'
 import { sizeOptions, colorOptions, defaultColor,defaultStyle,defaultSize} from './buttongroupconfig';
 
 export default class BGFormView extends View {
@@ -27,13 +28,13 @@ export default class BGFormView extends View {
     this.set('size', defaultSize)
     this.set('color', defaultColor)
 
-    this.saveButtonView = this._createButton( 'Save', icons.check, 'ck-button-save' );
+    this.saveButtonView = this._createButton( 'Save', checkIcon, 'ck-button-save' );
 
     // Submit type of the button will trigger the submit event on entire form when clicked 
     //(see submitHandler() in render() below).
     this.saveButtonView.type = 'submit';
 
-    this.cancelButtonView = this._createButton( 'Cancel', icons.cancel, 'ck-button-cancel' );
+    this.cancelButtonView = this._createButton( 'Cancel', cancelIcon, 'ck-button-cancel' );
 
     // Delegate ButtonView#execute to FormView#cancel.
     this.cancelButtonView.delegate( 'execute' ).to( this, 'cancel' );

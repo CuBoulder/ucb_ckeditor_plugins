@@ -7,7 +7,6 @@
  * @property {string} className
  */
 
-import { icons } from 'ckeditor5/src/core';
 import boxTitleLeft from '../../../icons/box-title-left.svg';
 import boxTitleCenter from '../../../icons/box-title-center.svg';
 import boxTitleRight from '../../../icons/box-title-right.svg';
@@ -15,6 +14,9 @@ import boxTitleHidden from '../../../icons/box-title-hidden.svg';
 import boxStyleFill from '../../../icons/box-style-fill.svg';
 import boxStyleOutline from '../../../icons/box-style-outline.svg';
 import boxStyleNone from '../../../icons/box-style-none.svg';
+import objectLeft from '../../../icons/object-left.svg';
+import objectFullWidth from '../../../icons/object-full-width.svg';
+import objectRight from '../../../icons/object-right.svg';
 
 /** @type {Object<string, SelectableOption>} */
 export const titleOptions = {
@@ -46,17 +48,17 @@ export const titleDefault = 'left';
 export const alignmentOptions = {
   left: {
     label: 'Float left',
-    icon: icons.objectLeft,
+    icon: objectLeft,
     className: 'ucb-box-alignment-left'
   },
   none: {
     label: 'Fill width',
-    icon: icons.objectFullWidth,
+    icon: objectFullWidth,
     className: 'ucb-box-alignment-none'
   },
   right: {
     label: 'Float right',
-    icon: icons.objectRight,
+    icon: objectRight,
     className: 'ucb-box-alignment-right'
   }
 };
