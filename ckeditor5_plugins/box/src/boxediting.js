@@ -10,7 +10,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertBoxCommand from './insertboxcommand';
-import { enablePlaceholder } from 'ckeditor5/src/engine';
+import { enableViewPlaceholder } from 'ckeditor5/src/engine';
 import ModifyBoxCommand from './modifyboxcommand';
 import ThemeBoxCommand from './themeboxcommand';
 import { titleOptions, titleDefault, alignmentOptions, alignmentDefault, styleOptions, styleDefault, themeOptions, themeDefault } from './boxconfig';
@@ -245,7 +245,7 @@ export default class BoxEditing extends Plugin {
         const div = viewWriter.createEditableElement('div', {
           class: 'ucb-box-title'
         });
-        enablePlaceholder({
+        enableViewPlaceholder({
           view: editing.view,
           element: div,
           text: 'Title'

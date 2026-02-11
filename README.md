@@ -16,3 +16,8 @@ This Drupal 9+ module contains a collection of CKEditor 5 plugins to add functio
   - If used you will need to remove the 'include' lines as they break Drupal pathing
 - [Plugin Post Update Hook](https://www.drupal.org/docs/drupal-apis/ckeditor-5-api/overview#post-update)
   - What we use to make sure that our plguins' tags are appended to the 'allowed_html' options of our wysiwyg editor format filter.
+- [CKEditor 5 Plugin Development - Build from Source](https://www.drupal.org/docs/core-modules-and-themes/core-modules/ckeditor-5-module/ckeditor-5-development)
+  - This is useful for getting better error messages when doing active plugin development.
+  - Following the docs, you'll also need to link `@ckeditor/ckeditor5-alignment` in addition to the packages in the tutorial
+
+

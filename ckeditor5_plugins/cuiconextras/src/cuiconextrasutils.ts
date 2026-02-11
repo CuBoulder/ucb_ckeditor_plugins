@@ -2,7 +2,7 @@
  * @file defines helper functions for the cuiconextras plugin.
  */
 
-import type { DocumentSelection, Element } from 'ckeditor5/src/engine';
+import type { ModelDocumentSelection, ModelElement } from 'ckeditor5/src/engine';
 
 /**
  * @param  selection 
@@ -10,7 +10,7 @@ import type { DocumentSelection, Element } from 'ckeditor5/src/engine';
  * @returns
  *   The selected icon widget, or null if there isn't one.
  */
-export function getSelectedIconWidget(selection: DocumentSelection): Element | null {
+export function getSelectedIconWidget(selection: ModelDocumentSelection): ModelElement | null {
   const selectedElement = selection.getSelectedElement();
 
   if (selectedElement && selectedElement.is('element') && isIconWidget(selectedElement))
@@ -24,6 +24,6 @@ export function getSelectedIconWidget(selection: DocumentSelection): Element | n
  * @returns
  *   Whether the element is a icon widget.
  */
-function isIconWidget(element: Element): boolean {
+function isIconWidget(element: ModelElement): boolean {
   return element.name === 'icon';
 }
