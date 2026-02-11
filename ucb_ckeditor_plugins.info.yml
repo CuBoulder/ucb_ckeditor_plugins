@@ -2,7 +2,7 @@ name: CU Boulder CKEditor 5 Plugin Collection
 type: module
 description: 'Provides a collection of plugins developed for CKEditor 5.'
 package: CU Boulder
-core_version_requirement: ^10 || ^11.3
+core_version_requirement: ^11.3
 dependencies:
   - drupal:ckeditor5
   - filter
