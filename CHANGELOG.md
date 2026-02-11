@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### 11.3.3 - Fix Box plugin, Update Dependencies & Rebuild Plugins, Hide CKeditor badge on WYSIWYG
+  In order to update to 11.3.3 we needed to fix the `Box` and `Accordion` plugins (https://github.com/CuBoulder/ucb_ckeditor_accordion/pull/4)
+  
+  This change does the following:
+  - Fixes import names causing the plugin from functioning -- such as DocumentSelection, DomEventData, Element, etc. and rename those to ModelDocumentSelection, ModelElement, ViewDocumentDomEventData which was required via https://github.com/ckeditor/ckeditor5/issues/18583. Resolves #106 
+  - Updates plugin dependencies and rebuilds plugins, resolves #73, resolves #72
+  - Hides the "Powered by CKEditor" badge on the WYSIWYG display, resolves #105 
+  - Adds Development info to README.md for plugin development and installing CKEditor5 from source
+---
+
 - ### 10.5 Icon Fix
   Needed to add the core ckeditor 5 icons to our plugin as ckeditor remove them in 10.5
   

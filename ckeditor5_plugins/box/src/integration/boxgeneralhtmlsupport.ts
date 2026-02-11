@@ -1,7 +1,7 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { setViewAttributes } from '@ckeditor/ckeditor5-html-support/src/utils';
 import type { PluginInterface } from '@ckeditor/ckeditor5-core/src/plugin';
-import type { DowncastAttributeEvent, Element as ModelElement, ViewElement, UpcastElementEvent } from 'ckeditor5/src/engine';
+import type { DowncastAttributeEvent, ModelElement, ViewElement, UpcastElementEvent } from 'ckeditor5/src/engine';
 
 /**
  * Integration with the external `GeneralHtmlSupport` plugin. Preserves allowed

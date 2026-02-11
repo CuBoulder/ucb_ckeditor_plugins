@@ -1,5 +1,5 @@
 import { Command } from 'ckeditor5/src/core';
-import findAttributeRange from '@ckeditor/ckeditor5-typing/src/utils/findattributerange';   
+import { findAttributeRange } from '@ckeditor/ckeditor5-typing/src/utils/findattributerange';
 import getRangeText from './tooltiputils.js';
 import { toMap } from 'ckeditor5/src/utils';
 

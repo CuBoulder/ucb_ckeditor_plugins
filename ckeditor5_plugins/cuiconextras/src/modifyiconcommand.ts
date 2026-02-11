@@ -6,7 +6,7 @@ import { Command } from 'ckeditor5/src/core';
 import { getSelectedIconWidget } from './cuiconextrasutils';
 import type { Editor } from 'ckeditor5/src/core';
 import type { ModelAttributeDefiniton } from './cuiconextrasconfig';
-import type { Element } from 'ckeditor5/src/engine';
+import type { ModelElement } from 'ckeditor5/src/engine';
 
 /**
  * Represents a command which is executed to modify attributes of the icon from the widget toolbar.
@@ -30,7 +30,7 @@ export default class ModifyIconCommand<T extends string, D extends ModelAttribut
   /**
    * The selected icon widget.
    */
-  public iconWidget: Element | null = null;
+  public iconWidget: ModelElement | null = null;
 
   /**
    * Constructs a new ModifyIconCommand.

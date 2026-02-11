@@ -10,3 +10,8 @@
 .ck .ucb-box .ck-editor__nested-editable:focus {
   background-color: transparent;
 }
+
+/* Remove the powered by CKEditor 5 logo */
+.ck .ck-powered-by {
+  display: none;
+}
