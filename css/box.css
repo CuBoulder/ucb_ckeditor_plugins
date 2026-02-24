@@ -142,3 +142,14 @@
 .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:hover, .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:active, .ucb-box.ucb-box-theme-darkgray.ucb-box-style-fill a:focus {
   color: var(--ucb-box-theme-color);
 }
+
+@media screen and (max-width: 768px) {
+  .ucb-box.ucb-box-alignment-left,
+  .ucb-box.ucb-box-alignment-right {
+    float: none;
+    clear: both;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
