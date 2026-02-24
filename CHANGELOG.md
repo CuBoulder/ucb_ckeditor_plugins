@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ### Update box.css
+  Simple CSS addition to stop float on boxes on mobile sizes.
+  
+  Resolves #108 
+---
+
 - ### 11.3.3 - Fix Box plugin, Update Dependencies & Rebuild Plugins, Hide CKeditor badge on WYSIWYG
   In order to update to 11.3.3 we needed to fix the `Box` and `Accordion` plugins (https://github.com/CuBoulder/ucb_ckeditor_accordion/pull/4)
   
